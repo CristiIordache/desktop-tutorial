@@ -1,0 +1,15 @@
+.continut {
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+}
+
+.continut li {
+    display: inline; 
+    margin-right: 10px; 
+}
+
+
+.title {
+    display: none; 
+}

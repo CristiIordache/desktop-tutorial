@@ -1,0 +1,57 @@
+*
+{
+    box-sizing: border-box;
+    }
+    body 
+    {font-family: 'Roboto', sans-serif;}
+
+    .h1
+
+    {font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgb(16, 16, 235);
+    width: 200px;
+    margin-inline: auto; }
+
+    .p1
+
+    {
+        width: 150px;
+        margin-inline: auto;
+    }
+
+    .p2
+
+    {
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        background-color: rgb(0, 255, 128);
+    }
+
+    .p3
+
+    { font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        background-color: azure;
+
+    }
+    p{width: 150px;
+        margin-inline: auto;}
+    .text
+    {
+        color: rgb(15, 15, 14);
+        text-decoration: overline underline o;
+        text-transform: lowercase uppercase capitalize;
+    text-align: center justify end ;
+    text-overflow: clip;
+    text-indent: 12px;
+    white-space: q;
+    text-shadow: 5px;
+    
+    }
+
+    .h2
+{
+    text-decoration-line: underline;
+ color:red;
+ text-shadow: 5px 2px 19px ;
+    text-transform: capitalize;
+}
+

@@ -1,0 +1,10 @@
+ul {
+    list-style-type: none; 
+    padding-left: 0; 
+}
+
+li {
+    margin-left: 20px; 
+    background: url('red.jfif') no-repeat left center;
+    padding-left: 30px; 
+    line-height: 30px; }
