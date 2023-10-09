@@ -1,0 +1,41 @@
+
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+} 
+
+
+
+
+div{
+    width: 150px;
+    height: 150px;
+}
+.div1
+{
+background-color: aqua;
+float: left;
+text-align: center;
+vertical-align: bottom;
+line-height: 100px;
+height: 100px; 
+}
+
+/* apesi spati si iti ofera toate detaliile pentru a face textul */
+
+
+p
+   {
+    text-align: center;
+    vertical-align: bottom;
+   }
+
+.div2
+{
+    background-color:red;
+    clear: left; */
+
+    /* float schimba directia  */
+
+}

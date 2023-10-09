@@ -1,0 +1,61 @@
+.centru-div {
+    width: 50%;
+    text-align: center;
+    border: 1px solid blue;
+    margin: 0 auto; 
+    padding: 10px; }
+    .navigare {
+        font-family: Arial, sans-serif;
+        padding: 10px;
+    }
+    
+    .navigare ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .navigare ul li {
+        display: inline;
+        margin-right: 20px;
+    }
+    
+    .navigare ul li:last-child {
+        margin-right: 0;
+    }
+    
+    /* Apply styles to the header */
+    header {
+        padding: 30px;
+        text-align: center;
+        background: rgb(122, 89, 156);
+    }
+    
+    header h1 {
+        font-size: 50px;
+    }
+    h2 {
+        color: rgb(122, 89, 156);
+    }
+    
+    /* Apply styles to all h5 tags */
+    h5 {
+        color: rgb(122, 165, 226);
+    }
+    
+    /* Apply styles to the footer */
+    footer {
+        display: block;
+        width: 100%;
+        float: left;
+        padding: 20px;
+        text-align: center;
+        background-color: #ddd;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
