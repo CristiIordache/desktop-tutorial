@@ -1,0 +1,76 @@
+/* /* .t1 {
+    color: red;
+}
+
+h2 {
+    color: green;
+}
+
+.mypara {
+    background-color: yellow;
+} */
+
+/* h1 {
+    border: 5px solid blue;
+    border-radius: 10px;
+}
+
+p {
+    border: 3px dotted green;
+} */
+
+/* .cod {
+    width: 300px;
+    height: 200px;
+    border: 2px solid green;
+}
+
+p {
+    width: 100%;
+    height: 50%;
+}
+
+ul {
+    background-color: red;
+    padding: 20px;
+}
+
+li {
+    background-color: #ee7969;
+    margin: 5px;
+} */
+
+/* table {  tabel 1
+    border-collapse: collapse;
+    width: 100%;
+    /* margin: 2px;
+    width: 5px; */
+/* } */
+
+/* th, td {
+    border: 1px solid black;
+    text-align: center;
+    height: 50px;
+}
+
+td:nth-child(1) {
+    background-color: red;
+}
+
+td:nth-child(2) {
+    background-color: blue;
+}
+
+td:nth-child(3) {
+    background-color: green;
+}
+
+td:nth-child(4) {
+    background-color: yellow;
+}
+
+
+/* td {
+    position: static si restul se pot alege ;
+    po
+} */  
