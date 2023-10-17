@@ -1,0 +1,54 @@
+body
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: larger;
+    background:rgb(151, 230, 151)
+    
+}
+
+.nav{
+    list-style-type: none;
+    margin: 10lh;
+    padding: 1%;
+    background-color: #f40808;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.nav li {
+    float: left;
+}
+.nav li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nav li a:hover {
+    background-color: #07f85f;
+}
+
+.p1
+{
+    color: rgb(132, 10, 233);
+    font-size: 18px;
+    font-family: "Arial", sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  letter-spacing: 2px;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+
+.img
+{
+
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh;
+
+}
