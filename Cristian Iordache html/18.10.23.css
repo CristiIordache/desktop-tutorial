@@ -1,0 +1,163 @@
+/* .animated-element {
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    position: relative;
+    animation: move 2s ease infinite;
+  }
+
+ 
+  @keyframes move {
+    0% {
+      left: 0;
+    }
+    50% {
+      left: 200px;
+      background-color: red;
+    }
+    100% {
+      left: 0;
+    }
+}
+.animal{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .animal {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 50px;
+    left: -100px;
+    animation: moveRight 5s linear infinite;
+  }
+
+  @keyframes moveRight {
+    0% {
+      left: -100px;
+    }
+    100% {
+      left: calc(100% + 100px);
+    }
+  }
+
+  @media  only screen and ( max-width:200px;)
+  {
+   img {width: 150px;}
+  }
+  
+ 
+div{
+    width: 100px;
+    height: 100px;
+
+}
+.b{
+    background-color: aqua;
+}
+.c{background-color: aquamarine;}
+.a{width: 100vw;
+background-color: bisque;
+height: 100vh;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: space-between;
+
+}
+
+
+ */
+
+ /* .a
+ {
+    display: flex;
+    justify-content: end;
+
+ }
+img
+{
+    border-radius: 30px;
+
+} */
+/* body {
+    font-family: Arial, sans-serif;
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+} */
+
+/* .text-container {
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 24px;
+    color: #fff;
+}
+
+#animated-text::after {
+    content: "";
+    display: inline-block;
+    animation: typing 4s steps(22) infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+ */
+
+ /* .main
+ {
+    width: 500px;
+    height: 100px;
+    display: flex;
+    border: 1px solid black;
+    flex-direction: row;
+ }
+.a{
+    background-color: rgb(0, 255, 110);
+    flex-grow: 2;
+    height: 200px;
+    order: 4;
+}
+.b{
+    background-color: rgb(255, 0, 0);
+    flex-grow: 1;
+    order: 3;
+}
+.c{
+    background-color: rgb(183, 255, 0);
+    flex-grow: 1;
+    order: 2;
+}
+.d{
+    background-color: rgb(255, 0, 221);
+    flex-grow: 1;
+    order: 1;
+} */
+
+.a1{
+width: 100vw;
+height: 100vh;
+background-image: linear-gradient( to left, green ,blue , grey
+, rgb(183, 255, 0));
+
+box-shadow: 30px 30px orange;
+
+transform: scaleX(20%);
+
+box-sizing: border-box 10px;
+
+transform: translate(50pz,200pz);
+
+}
