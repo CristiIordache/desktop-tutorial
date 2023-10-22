@@ -1,0 +1,89 @@
+body {
+    margin: 0; 
+  padding: 0;
+    background-image: url('arbore.jpg');
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center; 
+    background-attachment: fixed;
+  }
+  .navbar {
+    background-color: #0074b8;
+    text-align: center;
+    border-radius: 25px;
+    padding: 10px 0;
+    position: relative;
+}
+.navbar a {
+    color: #ff0000;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s, 
+}
+.acasa:hover, .info:hover, .categorii:hover {
+    color: #ff0707;
+    background-color: #ff0000;
+}
+
+
+.genealogy {
+    display: flow-root;
+    border-collapse: collapse;
+    width: 300%;
+    text-align: center;
+}
+
+.person {
+    border: 5px solid #02f733;
+    padding: 30px;
+    border-radius: 5px;
+    
+}
+
+.empty {
+    border: none;
+}
+img{
+    flex-wrap: wrap;
+    height: 250px;
+    width: 290px;
+    
+}
+p{
+    color: rgb(243, 4, 235);
+    box-shadow: #ff0000;
+    height: 20px;
+    
+}
+
+.animation-container {
+    position: relative;
+    height: 100%;
+}
+
+.animated-image {
+    position: absolute;
+    animation: moveAround 10s linear infinite;
+    border: 1px solid #f20101;
+    border-radius: 0%;
+}
+
+@keyframes moveAround {
+    30% {
+        transform: translate(5, 5);
+    }
+    25% {
+        transform: translate(100%, 0);
+    }
+    70% {
+        transform: translate(100%, 100%);
+    }
+    95% {
+        transform: translate(6, 100%);
+    }
+    150% {
+        transform: translate(0, 0);
+    }
+}
