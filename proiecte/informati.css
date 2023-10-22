@@ -1,0 +1,73 @@
+body {
+    margin: 0; 
+  padding: 0;
+    background-image: url('fundalpoza.jpg');
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-position: center; 
+    background-attachment: fixed;
+  }
+  .navbar {
+    background-color: #0074b8;
+    text-align: center;
+    border-radius: 25px;
+    padding: 10px 0;
+    position: relative;
+}
+.navbar a {
+    color: #ff0000;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: color 0.3s, 
+}
+.acasa:hover, .info:hover, .categorii:hover {
+    color: #fff;
+    background-color: #ff0000;
+}
+.intro {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #58cc8a;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 30px;
+}
+
+h1 {
+    color: #0074b8;
+}
+
+p {
+    line-height: 1.6;
+    color:aliceblue;
+}
+.lista {
+   background-color: #58cc8a;
+   margin: auto;
+   padding: 10px;
+   
+   
+}
+
+.h {
+    color: #f50101;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: flex ;
+    justify-content: space-between;
+    margin: 8px 0;
+    align-items: center;
+}
+
+img {
+    max-width: 100px; 
+    margin-left: 10px; 
+}
