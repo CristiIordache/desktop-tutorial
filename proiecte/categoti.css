@@ -87,3 +87,7 @@ p{
         transform: translate(0, 0);
     }
 }
+
+b{
+    display: inline, block ,inline-flex, inline-flexbox, inline-table ;
+}
