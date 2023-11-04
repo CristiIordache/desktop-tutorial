@@ -6,8 +6,6 @@ background-size: cover;
 font-family: 'Playpen Sans', cursive;
 margin: 0;
 padding: 0;
-/* height: 130vh;
-width: 100vw; */
 top: 0;
 left: 0;
 width: 100%;
@@ -60,17 +58,17 @@ a
 color: aliceblue;
 text-decoration: none;
 }
- .Home        { height: 50px; }
- .Home:hover  { border-bottom: 2px solid white;}
+.Home        { height: 50px; }
+.Home:hover  { border-bottom: 2px solid white;}
 
- .Destination        {height: 35px;}
- .Destination:hover  { border-bottom: 2px solid white;}
+.Destination        {height: 50px;}
+.Destination:hover  { border-bottom: 2px solid white;}
 
- .Crew         { height: 35px;}
- .Crew:hover   { border-bottom: 2px solid white;}
+.Crew         { height: 50px;}
+.Crew:hover   { border-bottom: 2px solid white;}
 
- .Technology        {height: 35px;}
- .Technology:hover  { border-bottom: 2px solid white;}
+.Technology        {height: 50px;}
+.Technology:hover  { border-bottom: 2px solid white;}
 
 
  .text1
@@ -160,8 +158,8 @@ font-size: 19px;
   border-radius:50%;
   background-color:rgba(0,0,0,0.1);
   transform:scale(0.7);
-  left: -220px;
-  margin-top: -240px;
+  left: 170%;
+  margin-top: -110%;
   
   }
 .planet{

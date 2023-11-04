@@ -59,13 +59,13 @@ text-decoration: none;
 .Home        { height: 50px; }
 .Home:hover  { border-bottom: 2px solid white;}
 
-.Destination        {height: 35px;}
+.Destination        {height: 50px;}
 .Destination:hover  { border-bottom: 2px solid white;}
 
-.Crew         { height: 35px;}
+.Crew         { height: 50px;}
 .Crew:hover   { border-bottom: 2px solid white;}
 
-.Technology        {height: 35px;}
+.Technology        {height: 50px;}
 .Technology:hover  { border-bottom: 2px solid white;}
 
  .text
@@ -98,19 +98,18 @@ font-size: 18px;
 text-decoration: dotted;
 }
 .img{
-  display: flex;
-  justify-content: flex-end; 
-  align-items: center; /
-  height: 100vh;
-   
+position: relative;
+margin-top: 18px;
+margin-left: 900px;
+
+    
 
 }
-.img{max-width: 100%;
-  max-height: 100%; }
 .butoane {
     display: flex;
     bottom: 20px;
-   margin-top: 10%;
+   margin-top: -8%;
+   margin-left: 190px;
     
   }
   

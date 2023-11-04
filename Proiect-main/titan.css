@@ -104,17 +104,17 @@ text-decoration: none;
         color: white; 
       }
           
-      .Moon        { height: 45px; }
-    .Moon:hover  { border-bottom: 2px solid white;}
-
-    .Mars       {height: 45px;}
-    .Mars:hover  { border-bottom: 2px solid white;}
-
-    .Europa        { height: 45px;}
-    .Europa:hover   { border-bottom: 2px solid white;}
-
-    .Titan        {height: 45px;}
-    .Titan:hover  { border-bottom: 2px solid white;}
+      .Home        { height: 50px; }
+      .Home:hover  { border-bottom: 2px solid white;}
+     
+      .Destination        {height: 50px;}
+      .Destination:hover  { border-bottom: 2px solid white;}
+     
+      .Crew         { height: 50px;}
+      .Crew:hover   { border-bottom: 2px solid white;}
+     
+      .Technology        {height: 50px;}
+      .Technology:hover  { border-bottom: 2px solid white;}
       
     .text2{
         margin-top: -4%;

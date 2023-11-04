@@ -55,17 +55,17 @@ a
 color: aliceblue;
 text-decoration: none;
 }
- .Home        { height: 50px; }
- .Home:hover  { border-bottom: 2px solid white;}
+.Home        { height: 50px; }
+.Home:hover  { border-bottom: 2px solid white;}
 
- .Destination        {height: 35px;}
- .Destination:hover  { border-bottom: 2px solid white;}
+.Destination        {height: 50px;}
+.Destination:hover  { border-bottom: 2px solid white;}
 
- .Crew         { height: 35px;}
- .Crew:hover   { border-bottom: 2px solid white;}
+.Crew         { height: 50px;}
+.Crew:hover   { border-bottom: 2px solid white;}
 
- .Technology        {height: 35px;}
- .Technology:hover  { border-bottom: 2px solid white;}
+.Technology        {height: 50px;}
+.Technology:hover  { border-bottom: 2px solid white;}
 
 
    

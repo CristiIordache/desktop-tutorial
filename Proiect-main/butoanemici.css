@@ -1,0 +1,15 @@
+
+.white-button {
+    display: flex;
+    flex-direction: column;
+    margin-left: 340px;
+    margin-top: 30px; 
+
+  }
+.button1{
+    background-color: aliceblue;border: none;
+    border-radius: 5%;
+  width: 30px;
+  height: 5px;
+  margin: 12px;
+}

@@ -1,7 +1,7 @@
-/* *{ margin: 0;
-    padding: 0;} */
+
+    @import url(butoanemici.css);
     
-         body
+    body
     { 
     background-image: url(background-home-desktop.jpg);
     background-repeat: no-repeat;
@@ -62,13 +62,13 @@
      .Home        { height: 50px; }
      .Home:hover  { border-bottom: 2px solid white;}
     
-     .Destination        {height: 35px;}
+     .Destination        {height: 50px;}
      .Destination:hover  { border-bottom: 2px solid white;}
     
-     .Crew         { height: 35px;}
+     .Crew         { height: 50px;}
      .Crew:hover   { border-bottom: 2px solid white;}
     
-     .Technology        {height: 35px;}
+     .Technology        {height: 50px;}
      .Technology:hover  { border-bottom: 2px solid white;}
      .text
      {
@@ -124,7 +124,75 @@
     box-shadow: rgba(0, 0, 0, 0.3)0 0 3px 50px;
     transition: box-shadow 0.6 ease-in-out;
     }
-
-
+    .white-button {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+       
+        margin-top: 0px; 
+        display: none;
+        max-width: 4px;
     
+      }
+    .button1{
+        background-color: aliceblue;border: none;
+        border-radius: 5%;
+      width: 30px;
+      height: 5px;
+      margin: 12px;
+    }
+    .logo {
+        max-width: 3px;
+        margin-top: -65px;
+    }
+   
+
+    @media  (max-width: 750px) {
+        .transparent{
+            display: none;
+        }
+        .nav {
+            /* padding-right: 5%; */
+            display: none;
+        }
+        .nav li {
+            /* margin-left: 20px; */
+            display: none;
+        }
+        .line{
+            display: none;
+        }
+        .text {
+            margin-left: 5%;
+            width: 90%;
+        }
+        .my-button {
+            width: 150px;
+            height: 150px;
+            margin-left: 0;
+            margin-top: 5%;
+        }
+        .white-button{
+            display: block;
+        }
+    }
+    /* @media screen and (mi-width: 768px) {
+       
+        .nav {
+            padding-right: 5%;
+        }
+        .nav li {
+            margin-left: 20px;
+        }
+        .text {
+            margin-left: 5%;
+            width: 90%;
+        }
+        .my-button {
+            width: 150px;
+            height: 150px;
+            margin-left: 0;
+            margin-top: 5%;
+        }
+    } */
     
