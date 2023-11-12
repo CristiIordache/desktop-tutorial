@@ -13,3 +13,9 @@
   height: 5px;
   margin: 12px;
 }
+@media  (min-width: 550px){
+  .white-button{
+    display: none;
+}
+}
+
