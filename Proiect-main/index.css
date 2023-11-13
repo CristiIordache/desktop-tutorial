@@ -18,7 +18,6 @@
         flex-direction: row;
         align-items: center;
         margin-top: 3%;
-        width: 1px;
     }
        .line
     {
@@ -61,17 +60,17 @@
     color: aliceblue;
     text-decoration: none;
     }
-     .Home        { height: 50px; }
-     .Home:hover  { border-bottom: 2px solid white;}
+    .Home        { height: 50px; }
+    .Home:hover  { border-bottom: 2px solid white;}
     
-     .Destination        {height: 50px;}
-     .Destination:hover  { border-bottom: 2px solid white;}
+    .Destination        {height: 50px;}
+    .Destination:hover  { border-bottom: 2px solid white;}
     
-     .Crew         { height: 50px;}
-     .Crew:hover   { border-bottom: 2px solid white;}
+    .Crew         { height: 50px;}
+    .Crew:hover   { border-bottom: 2px solid white;}
     
-     .Technology        {height: 50px;}
-     .Technology:hover  { border-bottom: 2px solid white;}
+    .Technology        {height: 50px;}
+    .Technology:hover  { border-bottom: 2px solid white;}
      .text
      {
     color: aliceblue;
@@ -117,7 +116,7 @@
     }
     .my-button p 
     { 
-    font-size: 160%;
+    font-size: 2rem;
     text-transform: uppercase;
     color: black;
     }
@@ -126,23 +125,7 @@
     box-shadow: rgba(0, 0, 0, 0.3)0 0 3px 50px;
     transition: box-shadow 0.6 ease-in-out;
     }
-    /* .white-button {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-       
-        margin-top: 0px; 
-        display: none;
-        max-width: 4px;
-    
-      }
-    .button1{
-        background-color: aliceblue;border: none;
-        border-radius: 5%;
-      width: 30px;
-      height: 5px;
-      margin: 12px;
-    } */
+   
     
 
     @media  (max-width: 550px) {
