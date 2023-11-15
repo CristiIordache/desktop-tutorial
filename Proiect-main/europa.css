@@ -161,7 +161,29 @@ text-decoration: none;
             text-transform: uppercase;
         }
 
-   
+        @media screen and (max-width: 768px) {
+            .line {
+                width: 90%;
+            }
+        
+            .transparent,
+            .nav {
+                width: 100%;
+                padding: 10px;
+            }
+        
+            .nav li {
+                margin-right: 10px;
+            }
+        
+            .line2 {
+                width: 90%;
+            }
+        
+            .avg {
+                flex-direction: column;
+            }
+        }
       
       
       
