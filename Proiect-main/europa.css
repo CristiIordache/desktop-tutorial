@@ -70,7 +70,7 @@ text-decoration: none;
 
 
    
-    /* .pick {
+    .pick {
         color: aliceblue;
     float: left;
     text-transform: uppercase;
@@ -160,10 +160,16 @@ text-decoration: none;
             font-weight: 400;
             letter-spacing: 2.362;
             text-transform: uppercase;
-        } */
+        }
 
 
-        /* @media screen and (max-width: 768px) {
+         @media screen and (max-width: 768px) {
+            
+            .mare {
+                display: flex;
+                flex-direction: column;
+            }
+            
             .line {
                 width: 90%;
             }
@@ -185,9 +191,19 @@ text-decoration: none;
             .avg {
                 flex-direction: column;
             }
-        } */
-        /* @media (max-width: 768px) {
-            .navbarcontainer {
+
+            .nav2{
+                flex-direction: row;
+                
+            }
+            .p{
+                font-size: 10px;
+            }
+        } 
+        @media (max-width: 768px) { 
+
+
+            /* .navbarcontainer {
                 flex-direction: column;
                 align-items: flex-start;
                 margin-top: 5%;
@@ -212,8 +228,8 @@ text-decoration: none;
             display: flex;
             align-items: end;
 
-           }
-        } */
+           } */
+        } 
       
       
       
