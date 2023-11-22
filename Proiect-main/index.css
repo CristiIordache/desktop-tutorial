@@ -6,6 +6,7 @@
     body
     { 
     background-image: url(background-home-desktop.jpg);
+    
     background-repeat: no-repeat;
     background-size: cover;
     font-family: 'Playpen Sans', cursive;
@@ -24,20 +25,21 @@
     align-items: start;
     color: aliceblue;
     text-transform: uppercase;
-    margin-left: 10%;
-    margin-top: 10%;
+    
     }
     
    .text1
     { 
     font-size: 18px;
     text-decoration: dotted;
-    
+    margin-top: 10%;
+    margin-left: 10%;
     }
     .text2
     {
     font-size: 120px;
-    
+    margin-top: 1px;
+    margin-left: 10%;
     }
      .paragraf
     {
@@ -45,21 +47,23 @@
     width: 37%;
     text-transform: none;
     font-size: 14px;
-    
-    
+    margin-top: 1px;
+    margin-left: 10%;
     }
+    
+    
     
     .my-button
     {
     display: flex;
     align-items: end;
-    margin-top: 17%;
+    margin-top: 10%;
     margin-right: 17%;
     background-color: aliceblue;
     color: black;
     width: 250px;
-    height: 250px;
-    border-radius: 80%;
+    height: 220px;
+    border-radius: 88%;
     justify-content: center;
     align-items: center;
     
@@ -79,7 +83,55 @@
    
     
 
-    @media  (max-width: 550px) {
+    @media  (max-width: 850px) {
+        .transparent{
+            display: block;
+            width: 40%;
+        }
+        .nav li{
+            margin-left:10px;
+        }
+        .nav a{
+            text-wrap: nowrap;
+        }
+        .Home{
+            font-size: 10px;
+        }
+        .Destination{font-size: 10px;
+
+        }
+        .Crew{font-size: 10px;
+
+        }
+        .Technology{font-size: 10px;
+
+        }
+        
+       
+
+        
+        .line{
+            display: none;
+        }
+        .text {
+            flex-direction: column;
+            margin-left: 5%;
+            width: 90%;
+            align-items: center
+        }
+        body{
+            background-image: url( background-home-tablet.jpg);
+            height: 100vh;
+        }
+        .continut{
+            align-items: center
+        }
+        .my-button{
+            margin-right: 0;
+        }
+    }
+   
+    @media  (max-width: 550px)  {
         .transparent{
             display: none;
         }
@@ -93,19 +145,19 @@
             display: none;
         }
         .text {
+            flex-direction: column;
             margin-left: 5%;
             width: 90%;
+            align-items: center
         }
-        /* .my-button {
-            width: 150px;
-            height: 150px;
-            margin-left: 0;
-            margin-top: 5%;
-        } */
-        /* .white-button{
-            display: block;
+        body{
+            background-image: url(background-home-mobile.jpg);
+            height: 100vh;
         }
-         */
+        .continut{
+            align-items: center
+        }
+        .my-button{
+            margin-right: 0;
+        }
     }
-   
-    
