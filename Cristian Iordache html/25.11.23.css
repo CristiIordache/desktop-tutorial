@@ -1,0 +1,172 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+body{
+    background-image:url(background-destination-mobile.jpg);
+    background-size: contain;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+
+}
+.buton1{
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+.numar {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 100%;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    padding: 15px;
+    margin: 5px;
+    
+
+  }
+  
+  .numar:hover {
+    background-color:rgb(157, 157, 230);
+  }
+.plan
+{
+    background-color: white;
+    margin: 10px;
+    border-radius: 10px;
+    min-height: 500px;
+    margin-top: 25px;
+    padding: 30px 20px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+}
+.titlu{
+    font-size:38px;
+}
+.paragraf{
+    font-size: 25px;
+}
+
+.mini1{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+.mini{
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    display: flex;
+    
+}
+.mini:hover{
+    background-color: rgb(126, 126, 210);
+}
+.mini img{
+    width: 50px;
+}
+.mini2{
+    display: flex;
+    flex-direction: column;
+}
+.buton-on-of{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    background-color: rgb(210, 216, 221);
+    margin-top: 15px;
+    justify-content: center;
+    justify-content: space-between;
+
+
+}
+.end-buton{
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    background-color: rgb(210, 216, 221);
+    justify-content:space-between;
+    height: 10%;
+    
+}
+.back{
+    border: none;
+    background: none;
+}
+.next{
+    
+    background-color: #629bca;
+    border-radius: 10px;
+    width: 90px;
+    height:40px;
+    margin-top: 20px;
+    
+
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color:rgb(88, 88, 194);
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: rgb(255, 255, 255);
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
