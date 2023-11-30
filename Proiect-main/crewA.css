@@ -16,6 +16,8 @@ background-size: cover;
 font-family: 'Playpen Sans', cursive;
 
 }
+
+
 .mare{
   display: flex;
   margin-top: 5%;
@@ -28,6 +30,7 @@ font-family: 'Playpen Sans', cursive;
   display: flex;
   flex-direction: column;
   width: 40%;
+  height: 10%;
   margin-left: 5%;
 }
 .text1{
@@ -77,6 +80,10 @@ text-transform: uppercase;
     display: flex;
     bottom: 20px;
    margin-top: 10%;
+   
+   
+  
+   
     
   }
   
@@ -105,9 +112,14 @@ text-transform: uppercase;
 .img1 img{
   height: 450px;
   width: 400px;
+  
 
 }
-
+@media  (max-width: 99999px){
+  .text5{
+    display: none;
+  }
+}
 
 @media  (max-width: 850px) {
   .transparent{
@@ -131,6 +143,9 @@ text-transform: uppercase;
   }
   .Technology{font-size: 10px;
 
+  }
+  .text5{
+    display: none;
   }
   .line{
       display: none;
@@ -185,6 +200,7 @@ text-transform: uppercase;
 .img1{
   display: flex;
  justify-content: center;
+ 
 
 }
 .img1 img {
@@ -223,54 +239,78 @@ text-transform: uppercase;
   }
   .mare{
     display: flex;
-  flex-direction: row; 
-    
+    flex-direction: column-reverse;
+    align-items: center
   }
   .continut{
-    width: 0;
-    height: 0;
-    
+    width: 100%;
+    display: flex;
   }
   .text1{
-    font-size: 12px;
-    position: fixed;
-    margin-left: 170px;
+    display: none;
   }
 
 .text2{
-  font-size: 13px;
-  position:relative;
-  margin-top: 250px;
-  margin-left: 250px;
- 
+  font-size: 18px;
+  display: flex;
+ justify-content: center;
+ order: 2;
+ margin-top: 3%;
  
 }
 .text3{
-  font-size: 15px;
-  margin-left: 250px;
+  font-size: 20px;
+  display: flex;
+ justify-content: center;
+ order: 3;
 }
+
+/* am micsorat dimensiune div  */
 .paragraf{
-  font-size: 10px;
-  margin-left: 150px;
-  width: 200px;
+  font-size: 15px;
+  display: flex;
+ justify-content: center;
+ width: 76%;
+ margin-left: 12%;
+ order: 4;
 }
 .butoane{
   display: flex;
  justify-content: center;
- position: relative;
- margin-left: 250px;
- margin-top: 30px;
+ order: 1;
 }
+
 .img1{
-  height: 100px;
+  display: flex;
+ justify-content: center;
+ flex-direction: column;
+ margin-left: 45%;
+ 
+ 
 
 }
+.text5{
+  color: #faf9f9;
+  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFF;
+font-family: Barlow Condensed;
+font-size: 110%;
+font-style: normal;
+line-height: normal;
+text-transform: uppercase;
+margin-right: 30%;
+
+  
+}
 .img1 img {
-  width: 200px;
-  height: 200px;
-  margin-top: 70px;
- 
- 
+  width: 300px;
+  height: 300px;
+  display: flex;
+ justify-content: center; 
+ margin-top: 10%;
 
 }
 
