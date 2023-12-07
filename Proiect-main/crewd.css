@@ -1,315 +1,281 @@
 @import "butoanemici.css";
 @import "nav.css";
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: 0;
 }
 
-
-body
-{ 
-background-image: url(background-crew-desktop.jpg);
-background-repeat: no-repeat;
-background-size: cover;
-font-family: 'Playpen Sans', cursive;
-
+body {
+  background-image: url(background-crew-desktop.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "Playpen Sans", cursive;
 }
 
-
-.mare{
+.mare {
   display: flex;
   margin-top: 5%;
   justify-content: space-between;
-
-
-  
 }
-.continut{
+.continut {
   display: flex;
   flex-direction: column;
   width: 40%;
   height: 10%;
   margin-left: 5%;
 }
-.text1{
-color: #FFF;
-font-family: Barlow Condensed;
-font-size: 28px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-letter-spacing: 4.725px;
-text-transform: uppercase;
-
+.text1 {
+  color: #fff;
+  font-family: Barlow Condensed;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 4.725px;
+  text-transform: uppercase;
 }
-.text2{
-  color: #FFF;
+.text2 {
+  color: #fff;
 
-font-family: Bellefair;
-font-size: 32px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-text-transform: uppercase;
-margin-top: 15%;
+  font-family: Bellefair;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
+  margin-top: 15%;
 }
-.text3
-{
-  color: #FFF;
+.text3 {
+  color: #fff;
 
-font-family: Bellefair;
-font-size: 56px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-text-transform: uppercase;
+  font-family: Bellefair;
+  font-size: 56px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: uppercase;
 }
 
-.paragraf
-{
-  color: #D0D6F9;
+.paragraf {
+  color: #d0d6f9;
   font-family: Barlow;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 32px; 
+  line-height: 32px;
 }
 .butoane {
-    display: flex;
-    bottom: 20px;
-   margin-top: 10%;
-   
-   
-  
-   
-    
-  }
-  
-  .buton {
-    width: 20px;
-    height: 20px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 50%; 
-    color: black;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin: 5px;
-  }
-  
-  .buton:hover {
-    background-color: #ccc;
-  }
-
-.img1{
-  
-  margin-right: 19%;
- 
-
+  display: flex;
+  bottom: 20px;
+  margin-top: 10%;
 }
-.img1 img{
+
+.buton {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5px;
+}
+
+.buton:hover {
+  background-color: #ccc;
+}
+
+.img1 {
+  margin-right: 19%;
+}
+.img1 img {
   height: 450px;
   width: 400px;
-  
-
 }
-@media  (max-width: 99999px){
-  .text5{
+@media (max-width: 99999px) {
+  .text5 {
     display: none;
   }
 }
 
-@media  (max-width: 850px) {
-  .transparent{
-      display: block;
-      width: 40%;
+@media (max-width: 850px) {
+  .transparent {
+    display: block;
+    width: 40%;
   }
-  .nav li{
-      margin-left:10px;
+  .nav li {
+    margin-left: 10px;
   }
-  .nav a{
-      text-wrap: nowrap;
+  .nav a {
+    text-wrap: nowrap;
   }
-  .Home{
-      font-size: 10px;
+  .Home {
+    font-size: 10px;
   }
-  .Destination{font-size: 10px;
-
+  .Destination {
+    font-size: 10px;
   }
-  .Crew{font-size: 10px;
-
+  .Crew {
+    font-size: 10px;
   }
-  .Technology{font-size: 10px;
-
+  .Technology {
+    font-size: 10px;
   }
-  .text5{
+  .text5 {
     display: none;
   }
-  .line{
-      display: none;
+  .line {
+    display: none;
   }
   .text {
-      flex-direction: column;
-      margin-left: 5%;
-      width: 90%;
-      align-items: center
+    flex-direction: column;
+    margin-left: 5%;
+    width: 90%;
+    align-items: center;
   }
-  body{
-      background-image: url( background-crew-tablet.jpg);
-      height: 100vh;
+  body {
+    background-image: url(background-crew-tablet.jpg);
+    height: 100vh;
   }
-  .mare{
+  .mare {
     display: flex;
     flex-direction: column;
-    align-items: center
+    align-items: center;
   }
-  .continut{
+  .continut {
     width: 100%;
   }
-  .text1{
+  .text1 {
     font-size: 17px;
     display: flex;
     justify-self: start;
     height: 1px;
   }
 
-.text2{
-  font-size: 18px;
-  display: flex;
- justify-content: center;
- 
-}
-.text3{
-  font-size: 20px;
-  display: flex;
- justify-content: center;
-}
-.paragraf{
-  font-size: 15px;
-  display: flex;
- justify-content: center;
- width: 50%;
- margin-left: 20%;
-}
-.butoane{
-  display: flex;
- justify-content: center;
-}
-.img1{
-  display: flex;
- justify-content: center;
- 
-
-}
-.img1 img {
-  width: 300px;
-  height: 300px;
-  display: flex;
- justify-content: center; 
-
+  .text2 {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+  }
+  .text3 {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .paragraf {
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin-left: 20%;
+  }
+  .butoane {
+    display: flex;
+    justify-content: center;
+  }
+  .img1 {
+    display: flex;
+    justify-content: center;
+  }
+  .img1 img {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+  }
 }
 
-
-}
-
-@media  (max-width: 550px)  {
-  .transparent{
-      display: none;
+@media (max-width: 550px) {
+  .transparent {
+    display: none;
   }
   .nav {
-      display: none;
+    display: none;
   }
   .nav li {
-      display: none;
+    display: none;
   }
-  .line{
-      display: none;
+  .line {
+    display: none;
   }
   .text {
-      flex-direction: column;
-      margin-left: 5%;
-      width: 90%;
-      align-items: center
+    flex-direction: column;
+    margin-left: 5%;
+    width: 90%;
+    align-items: center;
   }
-  body{
-      background-image: url(background-crew-mobile.jpg);
-      height: 100vh;
+  body {
+    background-image: url(background-crew-mobile.jpg);
+    height: 100vh;
   }
-  .mare{
+  .mare {
     display: flex;
     flex-direction: column-reverse;
-    align-items: center
+    align-items: center;
   }
-  .continut{
+  .continut {
     width: 100%;
     display: flex;
   }
-  .text1{
+  .text1 {
     display: none;
   }
 
-.text2{
-  font-size: 18px;
-  display: flex;
- justify-content: center;
- order: 2;
- margin-top: 3%;
- 
-}
-.text3{
-  font-size: 20px;
-  display: flex;
- justify-content: center;
- order: 3;
-}
-.paragraf{
-  font-size: 15px;
-  display: flex;
- justify-content: center;
- width: 75%;
- margin-left: 12%;
- order: 4;
-}
-.butoane{
-  display: flex;
- justify-content: center;
- order: 1;
-}
+  .text2 {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    order: 2;
+    margin-top: 3%;
+  }
+  .text3 {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    order: 3;
+  }
+  .paragraf {
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    width: 75%;
+    margin-left: 12%;
+    order: 4;
+  }
+  .butoane {
+    display: flex;
+    justify-content: center;
+    order: 1;
+  }
 
-.img1{
-  display: flex;
- justify-content: center;
- flex-direction: column;
- margin-left: 45%;
- 
- 
-
-}
-.text5{
-  color: #faf9f9;
-  display: block;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #FFF;
-font-family: Barlow Condensed;
-font-size: 110%;
-font-style: normal;
-line-height: normal;
-text-transform: uppercase;
-margin-right: 30%;
-
-  
-}
-.img1 img {
-  width: 300px;
-  height: 300px;
-  display: flex;
- justify-content: center; 
- margin-top: 10%;
-
-}
-
+  .img1 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 45%;
+  }
+  .text5 {
+    color: #faf9f9;
+    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-family: Barlow Condensed;
+    font-size: 110%;
+    font-style: normal;
+    line-height: normal;
+    text-transform: uppercase;
+    margin-right: 30%;
+  }
+  .img1 img {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10%;
+  }
 }

@@ -1,22 +1,19 @@
-
 .white-button {
-    display: flex;
-    flex-direction: column;
-    margin-left: 80%;
-    margin-top: 30px; 
-
-  }
-.button1{
-    background-color: aliceblue;border: none;
-    border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 80%;
+  margin-top: 30px;
+}
+.button1 {
+  background-color: aliceblue;
+  border: none;
+  border-radius: 5%;
   width: 30px;
   height: 5px;
   margin: 12px;
 }
-@media  (min-width: 550px){
-  .white-button{
+@media (min-width: 550px) {
+  .white-button {
     display: none;
+  }
 }
-}
-
-
