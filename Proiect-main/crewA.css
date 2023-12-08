@@ -188,7 +188,13 @@ body {
   }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 550px)
+
+{
+  .navbarcontainer{
+    display: flex;
+    justify-content: space-between;
+  }
   .transparent {
     display: none;
   }
@@ -238,7 +244,7 @@ body {
     order: 3;
   }
 
-  /* am micsorat dimensiune div  */
+  
   .paragraf {
     font-size: 15px;
     display: flex;
@@ -252,6 +258,7 @@ body {
     justify-content: center;
     order: 1;
   }
+  
 
   .img1 {
     display: flex;

@@ -6,6 +6,7 @@
     <title>Space</title>
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="butoanemici.css" />
+    <script src="butoane.js"defer></script>
 
     <style></style>
   </head>
@@ -22,13 +23,30 @@
           </g>
         </svg>
       </div>
-
       <div class="white-button">
-        <button class="button"></button>
-        <button class="button"></button>
-        <button class="button"></button>
+        <!-- Adaugă butoane și textul asociat într-un container -->
+        <div class="button-container">
+          <span class="buttonText" id="text0">00 Home</span>
+          <button class="button" onclick="toggleText(0)"><a href="index.html">00 Home</a></button>
+        </div>
+    
+        <div class="button-container">
+          <span class="buttonText" id="text1">01 Destination</span>
+          <button class="button" onclick="toggleText(1)"><a href="destination-moon.html">destination</a></a></button>
+        </div>
+    
+        <div class="button-container">
+          <span class="buttonText" id="text2">02 Crew</span>
+          <button class="button" onclick="toggleText(2)"><a href="crew-commander.html">02 Crew</a></button>
+        </div>
+        
+        <div class="button-container">
+          <span class="buttonText" id="text3">03 Technology</span>
+          <button class="button" onclick="toggleText(3)"><a href="technology-spaceport.html">Technology</a></button>
+        </div>
       </div>
-      <div class="line"><hr /></div>
+
+      
 
       <div class="transparent">
         <ul class="nav">

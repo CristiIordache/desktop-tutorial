@@ -1,16 +1,39 @@
 .white-button {
   display: flex;
   flex-direction: column;
-  margin-left: 80%;
+  
+  margin-left: 10px; /* Reduc marginile pentru a fi vizibil textul în stânga */
   margin-top: 30px;
+  
 }
-.button1 {
-  background-color: aliceblue;
-  border: none;
+.button-container {
+  display: flex;
+  justify-content: flex-end; /* Butonul este aliniat la dreapta */
+  align-items: center; /* Aliniază vertical elementele */
+   margin-top: 3px;
+}
+.button {
+  background-color: rgb(2, 2, 2);
+  border: 1 solid ;
   border-radius: 5%;
   width: 30px;
-  height: 5px;
-  margin: 12px;
+  height: 10px;
+  margin-left: 12px; /* Adaug un spațiu între buton și text */
+}
+.buttonText {
+  display: none; /* Textul inițial este ascuns */
+  font-size: 10px;
+  color:rgb(252, 1, 1);
+  
+}
+.button a{
+  font-size: 3px;
+  color: rgb(0, 0, 0);
+ display: flex;
+
+}
+.textVisible {
+  display: block; /* Se face vizibil textul când este necesar */
 }
 @media (min-width: 550px) {
   .white-button {

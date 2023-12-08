@@ -109,6 +109,10 @@ body {
 }
 
 @media (max-width: 550px) {
+  .navbarcontainer {
+    display: flex;
+    justify-content: space-between;
+  }
   .transparent {
     display: none;
   }
