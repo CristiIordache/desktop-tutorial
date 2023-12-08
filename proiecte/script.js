@@ -1,4 +1,0 @@
-mesaji()
-{
-    alert("Hello");
-}
