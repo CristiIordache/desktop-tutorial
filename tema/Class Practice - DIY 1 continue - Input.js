@@ -4,7 +4,7 @@ function reset() {
   }
   
   function enlarge() {
-    var currentWidth = parseInt(document.getElementById("details").style.width);
-    var newWidth = currentWidth + 10;
+    let currentWidth = parseInt(document.getElementById("details").style.width);
+    let newWidth = currentWidth + 10;
     document.getElementById("details").style.width = newWidth + "px";
   }
