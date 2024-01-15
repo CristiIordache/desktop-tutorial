@@ -186,16 +186,16 @@
 
 
 
-// function print() {
+function print() {
     
-//     var arr = [23, 22, 30, 11];
+    var arr = [23, 22, 30, 11];
 
     
-//     var result = arr[0] === arr[arr.length - 1] ? "yes" : "no";
+    var result = arr[0] === arr[arr.length - 1] ? "yes" : "no";
 
     
-//     console.log(result);
-// }
+    console.log(result);
+}
 
 
 // Do it Yourself 5
