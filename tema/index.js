@@ -1,9 +1,9 @@
 //Do it Yourself 1
 
-// function showMyName() {
-//   let fullName = "Cristia Iordache";
-//   console.log(fullName);
-// }
+function showMyName() {
+  let fullName = "Cristia Iordache";
+  console.log(fullName);
+}
 
 // document.getElementById("myButton").addEventListener("click", showMyName);
 
