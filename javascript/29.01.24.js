@@ -1,4 +1,29 @@
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // varianta 1
 
 // let car = new Object()
@@ -118,43 +143,43 @@
 
 
 
-function h() {
-    let tabel2 = document.querySelector(`#tabe12`)
-    if (!tabel2) {
+// function h() {
+//     let tabel2 = document.querySelector(`#tabe12`)
+//     if (!tabel2) {
         
     
-        let people = [{
-            name: 'Tiberiu'
-        },
-        {
-            name: 'Cristian'
-        },
-        {
-            name: 'George'
-        },
-        {
-            name: 'Marina'
-        },
-        {
-            name: 'Paula'
-        }]
+//         let people = [{
+//             name: 'Tiberiu'
+//         },
+//         {
+//             name: 'Cristian'
+//         },
+//         {
+//             name: 'George'
+//         },
+//         {
+//             name: 'Marina'
+//         },
+//         {
+//             name: 'Paula'
+//         }]
     
-        let tabel = document.createElement(`table`)
-        tabel2.id="h"
-        for (let i = 0; i < people.length; i++) {
-            let tr = document.createElement(`tr`)
-            let td = document.createElement(`td`)
+//         let tabel = document.createElement(`table`)
+//         tabel2.id="h"
+//         for (let i = 0; i < people.length; i++) {
+//             let tr = document.createElement(`tr`)
+//             let td = document.createElement(`td`)
 
-            td.innerText = people[i].name
-            tr.appendChild(td)
-            tabel.appendChild(tr)
+//             td.innerText = people[i].name
+//             tr.appendChild(td)
+//             tabel.appendChild(tr)
 
 
-        }
+//         }
  
-        document.body.appendChild(tabel)
- }  
-}
+//         document.body.appendChild(tabel)
+//  }  
+// }
 
 
 

@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higher Structure Example</title>
+    <style>
+        /* Styling pentru error handling */
+        .error {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <div class="title">Title</div>
+        <div class="controls">
+            <input type="text" id="listTitleInput" placeholder="Enter list title">
+            <button id="addToListButton">Add to List</button>
+        </div>
+    </header>
+    <main>
+        <!-- Aici vom adăuga elementele listei -->
+    </main>
+    <footer>
+        <!-- Footer content -->
+    </footer>
+
+    <script>
+        const listTitleInput = document.getElementById('listTitleInput');
+        const addToListButton = document.getElementById('addToListButton');
+        const mainElement = document.querySelector('main');
+
+        addToListButton.addEventListener('click', () => {
+            const title = listTitleInput.value.trim();
+
+            // Verificăm dacă input-ul nu este gol
+            if (title !== '') {
+                const listItem = document.createElement('div');
+                listItem.textContent = title;
+                mainElement.appendChild(listItem);
+
+                // Resetăm input-ul
+                listTitleInput.value = '';
+                // Ștergem stilul de eroare de la input
+                listTitleInput.classList.remove('error');
+            } else {
+                // Adăugăm stil de eroare la input
+                listTitleInput.classList.add('error');
+            }
+        });
+
+        // Handling pentru focus event pentru a șterge stilul de eroare
+        listTitleInput.addEventListener('focus', () => {
+            listTitleInput.classList.remove('error');
+        });
+    </script>
+</body>
+</html>

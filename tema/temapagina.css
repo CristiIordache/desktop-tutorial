@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: black;
+  color: white;
+  height: 100vh;
+}
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid blanchedalmond;
+  padding: 1rem 0rem;
+  height: 10%;
+}
+.header_logo {
+  width: 5rem;
+  height: 2rem;
+  background-image: url("back1.webp");
+}
+
+.main_section {
+  display: flex;
+  padding: 1rem 0rem;
+  height: 80%;
+}
+.list_container {
+  border: 2px solid red;
+  width: 10%;
+  height: 30%;
+}
+
+.footer_section {
+  display: flex;
+  height: 10%;
+}
