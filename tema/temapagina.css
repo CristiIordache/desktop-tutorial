@@ -19,6 +19,20 @@ body {
   width: 5rem;
   height: 2rem;
   background-image: url("back1.webp");
+  animation: flip 2s infinite;
+    transform: rotateY(180deg);
+
+}
+@keyframes flip {
+  10% {
+      transform: rotateY(10deg); 
+  }
+  50% {
+      transform: rotateY(180deg); 
+  }
+  100% {
+      transform: rotateY(30deg);
+  }
 }
 
 .main_section {
@@ -30,6 +44,9 @@ body {
   border: 2px solid red;
   width: 10%;
   height: 30%;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10px;
 }
 
 .footer_section {
