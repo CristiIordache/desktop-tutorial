@@ -1,0 +1,102 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontend Mentor | Interactive card details form</title>
+    <link rel="stylesheet" href="index.css" />
+    <script src="index.js" defer></script>
+    <style>
+      .attribution {
+        font-size: 11px;
+        text-align: center;
+      }
+      .attribution a {
+        color: hsl(228, 45%, 44%);
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <section></section>
+      <section></section>
+      <section></section>
+      <section></section>
+      <section>
+        <div class="cutout"></div>
+      </section>
+    </main>
+      
+    
+
+
+
+    <div class="div_continut">
+
+      
+      <div class="hed_poza_card">
+        <div class="fata_card">
+          <img src="bg-card-front.png" alt="">
+        </div>
+        <div class="spate_card">
+          <img src="bg-card-back.png" alt="">
+        </div>
+      </div>
+
+      <div class="form-container">
+        <form>
+          <label for="card-number"> Card Number </label><br />
+          <input
+            type="number"
+            id="card-number"
+            name="card-number"
+            placeholder="e.g. 1234 5678 9123 0000"
+          /><br />
+
+          <label for="cardholder-name">Cardholder Name</label><br />
+          <input
+            type="text"
+            id="cardholder-name"
+            name="cardholder-name"
+            placeholder="e.g. Jane Appleseed"
+          /><br />
+
+          <label for="exp-date">Exp. Date (MM/YY)</label><br />
+          <input
+            type="number"
+            id="exp-date"
+            name="exp-date"
+            placeholder="MM"
+          /><input
+            type="number"
+            id="exp-date"
+            name="exp-date"
+            placeholder="YY"
+          /><br />
+
+          <label for="cvc">CVC</label><br />
+          <input
+            type="number"
+            id="cvc"
+            name="cvc"
+            placeholder="e.g. 123"
+          /><br />
+
+          <button type="submit">Confirm</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="completed-state" style="display: none">
+      <p>Thank you! We've added your card details.</p>
+      <p>Continue</p>
+    </div>
+
+    <div class="attribution">
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by <a href="#">Your Name Here</a>.
+    </div>
+  </body>
+</html>

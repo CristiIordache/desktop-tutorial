@@ -1,0 +1,237 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url("bg-main-desktop.png");
+
+  background-repeat: no-repeat;
+}
+.div_continut {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  align-items: center;
+}
+.fata_card {
+  display: flex;
+  margin-top: 10%;
+}
+.spate_card {
+  display: flex;
+  margin-top: 10%;
+  margin-left: 30%;
+}
+
+.form-container{
+    font-size: xx-large;
+}
+input {
+    width: 200px; /* Lățimea dorită a câmpului de input */
+    height: 40px; /* Înălțimea dorită a câmpului de input */
+    /* Alte proprietăți de stilizare, dacă este necesar */
+  }
+  
+button[type="submit"] {
+    width: 150px; 
+    height: 50px; 
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+section {
+  background: #5e65c4;
+  height: 20vmin;
+  width: 13vmin;
+}
+section:nth-child(1) {
+  clip-path: polygon(
+    0 0,
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    100% 0,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    0 100%,
+    0 100%,
+    0 100%,
+    0 0
+  );
+  animation: h infinite ease forwards 2s;
+}
+@keyframes h {
+  100% {
+    clip-path: polygon(
+      0 0,
+      20% 0,
+      20% 40%,
+      80% 40%,
+      80% 0,
+      100% 0,
+      100% 100%,
+      80% 100%,
+      80% 50%,
+      20% 50%,
+      20% 100%,
+      0 100%,
+      0 0
+    );
+  }
+}
+
+section:nth-child(2) {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 0,
+    100% 0,
+    100% 50%,
+    100% 50%,
+    100% 50%,
+    100% 50%,
+    100% 100%,
+    100% 100%,
+    100% 100%,
+    0 100%,
+    0 0
+  );
+  animation: e infinite ease forwards 2s;
+}
+@keyframes e {
+  100% {
+    clip-path: polygon(
+      0 0,
+      90% 0,
+      90% 10%,
+      20% 7%,
+      20% 40%,
+      80% 40%,
+      75% 50%,
+      20% 50%,
+      20% 93%,
+      95% 90%,
+      100% 100%,
+      0 100%,
+      0 0
+    );
+  }
+}
+
+section:nth-child(3) {
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 100% 80%, 100% 100%, 0 100%);
+  animation: l1 infinite ease forwards 2s;
+}
+@keyframes l1 {
+  100% {
+    clip-path: polygon(0 0, 20% 0, 20% 93%, 95% 90%, 100% 100%, 0 100%);
+  }
+}
+
+section:nth-child(4) {
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 100% 80%, 100% 100%, 0 100%);
+  animation: l2 infinite ease forwards 2s;
+}
+@keyframes l2 {
+  100% {
+    clip-path: polygon(0 0, 20% 0, 20% 93%, 95% 90%, 100% 100%, 0 100%);
+  }
+}
+
+section:nth-child(5) {
+  display: grid;
+  place-items: center;
+  width: 16vmin;
+  margin-inline-start: -3vmin;
+  clip-path: inset(0 0 0 0 round 0 0);
+  animation: O infinite ease forwards 2s;
+}
+@keyframes O {
+  100% {
+    clip-path: inset(0 0 0 0 round 50% 50%);
+  }
+}
+
+.cutout {
+  width: 65%;
+  height: 90%;
+  background: #9ce5c7;
+  border-radius: 50%;
+  scale: 0;
+  animation: cutout infinite ease forwards 3s;
+}
+@keyframes cutout {
+  100% {
+    scale: 1;
+  }
+}
+
+
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  
+}

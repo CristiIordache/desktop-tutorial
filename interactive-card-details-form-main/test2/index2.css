@@ -1,0 +1,186 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .attribution {
+    font-size: 11px;
+    text-align: center;
+  }
+  .attribution a {
+    color: hsl(228, 45%, 44%);
+  }
+  /* imaginea de ecran */
+  .main_section {
+    background-image: url("./images/bg-main-desktop.png");
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+  }
+  
+  .form_container {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: 200px 400px;
+    grid-template-rows: 120px 120px 120px 150px;
+    grid-template-areas:
+      "name name"
+      "number number"
+      "expiration security"
+      "confirm confirm";
+    padding: 20px;
+  }
+  .form_container .field_container:first-of-type {
+    grid-area: name;
+  }
+  .form_container .field_container:nth-of-type(2) {
+    grid-area: number;
+  }
+  
+  .form_container .field_container:nth-of-type(3) {
+    grid-area: expiration;
+  }
+  
+  .form_container .field_container:nth-of-type(4) {
+    grid-area: security;
+  }
+  .form_container .field_container:nth-of-type(5) {
+    grid-area: confirm;
+  }
+  .field_label {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-family: "Space Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: 0.15rem;
+  }
+  
+  .field_input {
+    
+    width: 400px;
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #adb5bf;
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    color: #adb5bf;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 500;
+    outline: none; 
+  }
+  .error_container{
+    font-size: 16px;
+    color: red;
+    margin: 5px;
+  }
+  .expiration_date {
+    float: left;
+    width: 40%;
+    margin-right: 5px;
+  }
+  .expiration_year {
+    width: 40%;
+  }
+  .security_code {
+    width: 190px;
+  }
+  .field_button {
+    width: 400px;
+    height: 60px;
+    margin-top: 40px;
+    background-color: #220930;
+    border-radius: 10px;
+    border-color: #220930;
+    color: #d7c9de;
+    font-size: 20px;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 500;
+  }
+  
+  /* card front */
+  .card_front {
+    margin: -100px 0 50px 250px;
+    width: 450px;
+    height: 250px;
+    background-image: url("bg-card-front.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+  }
+  .card_back {
+    margin-left: 350px;
+    width: 450px;
+    height: 250px;
+    background-image: url("bg-card-back.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 50px;
+    font-size: 20px;
+    letter-spacing: 0.1rem;
+    color: white;
+  }
+  
+  /* js classes */
+  .card_front {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 30px;
+  }
+  .card_front_number {
+    font-size: 28px;
+    color: white;
+    letter-spacing: 0.4rem;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+  .card_front_details {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+  }
+  .card_front_details_content {
+    font-size: 20px;
+    color: white;
+    letter-spacing: 0.2rem;
+    font-weight: 500;
+  }
+  
+  /* Complete state classes*/
+  .complete_state_container{
+    margin-right: 20%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    
+  }
+  .complete_state_button{
+    width: 400px;
+    height: 60px;
+    margin-top: 40px;
+    background-color: #220930;
+    border-radius: 10px;
+    border-color: #220930;
+    color: #d7c9de;
+    font-size: 20px;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 500;
+  }
+  .complete_state_title{
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+  }
