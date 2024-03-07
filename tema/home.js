@@ -1,20 +1,16 @@
 let users = JSON.parse(localStorage.getItem("users"));
 window.onload = function () {
-  document.getElementById("username").innerText =
-    localStorage.getItem("loguser");
+  document.getElementById("username").innerText =localStorage.getItem("loguser");
 };
 let userEmail = users.email;
-let shifts =
-  JSON.parse(
-    localStorage.getItem(localStorage.getItem("loguser") + "_shifts")
-  ) || [];
+let shifts = JSON.parse( localStorage.getItem(localStorage.getItem("loguser") + "_shifts")) || [];
 let currentUser = JSON.parse(localStorage.getItem("users"));
-if (users) {
-  document.getElementById("username").innerText = users.username || users.email;
 
-  let userEmail = users.email;
+if (users) { document.getElementById("username").innerText = users.username || users.email;
+ let userEmail = users.email;
   let shifts = JSON.parse(localStorage.getItem(userEmail + "_shifts")) || [];
 }
+
 function showAddShiftForm() {
   document.getElementById("addShiftForm").style.display = "block";
   document.getElementById("shiftsTable").style.display = "none";
@@ -47,14 +43,27 @@ function saveShift() {
     }
   }
 }
-function displayShifts() {
-  let shiftTableBody = document.getElementById("shiftsTableBody");
-  shiftTableBody.innerHTML = "";
 
-  shifts.forEach(function (shift) {
+
+
+function deleteShift(index) {
+  shifts.splice(index, 1); // Șterge elementul din array
+  localStorage.setItem(localStorage.getItem("loguser") + "_shifts", JSON.stringify(shifts)); // Actualizează local storage
+  displayShifts(); // Reafișează schimburile actualizate
+}
+
+
+
+
+function displayShifts() {let shiftTableBody = document.getElementById("shiftsTableBody");
+shiftTableBody.innerHTML = "";
+
+shifts.forEach(function (shift, index) {
     let row = document.createElement("tr");
-    row.innerHTML =
-      "<td>" + shift.shiftPlace + "</td><td>" + shift.hoursWorked + "</td>";
+    row.innerHTML = `
+        <td>${shift.shiftPlace}</td>
+        <td>${shift.hoursWorked}</td>
+        <td><button onclick="deleteShift(${index})">Delete</button></td>`; // Buton de ștergere pentru fiecare rând
     shiftTableBody.appendChild(row);
   });
 }
@@ -68,4 +77,19 @@ function toggleSort() {
 }
 function logout() {
   window.location.href = "log.html";
+}
+function downloadLocalStorage() {
+  let data = JSON.stringify(localStorage);
+  let blob = new Blob([data], { type: 'text/plain' });
+  let url = URL.createObjectURL(blob);
+
+  let a = document.createElement('a');
+  a.href = url;
+  //pot sal descarci pentru vs cod ca nu ai baza de date online 
+  a.download = 'localStorage.json';
+  // a.download = 'localStorage.pdf';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

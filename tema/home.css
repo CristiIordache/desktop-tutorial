@@ -1,0 +1,75 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ed09f5;
+    margin: 0;
+    padding: 0;
+}
+
+#header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+#header h2 {
+    margin: 0;
+}
+
+#header button {
+    background-color: #0056b3;
+    color: #f10707;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#header button:hover {
+    background-color: #08d112;
+}
+
+#addShiftForm, #shiftsTable {
+    background-color: #09fb35;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#addShiftForm h3, #shiftsTable h3 {
+    margin-top: 0;
+}
+
+#addShiftForm input, #addShiftForm button, #shiftsTable button {
+    
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #d41515;
+    border-radius: 5px;
+}
+
+
+#shiftsTable button {
+    background-color: #00a2ff;
+    color: #f80000;
+}
+
+#shiftsTable button:hover {
+    background-color: #0080b3;
+}
+@media only screen and (max-width: 768px) {
+    #addShiftForm, #shiftsTable {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #addShiftForm, #shiftsTable {
+        width: 80%;
+    }
+}
