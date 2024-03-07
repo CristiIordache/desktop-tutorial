@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="home.js" defer></script>
+  </head>
+  <body>
+    <div id="header">
+      <h2>Welcome <span id="username"></span>!</h2>
+      <button onclick="showAddShiftForm()">Add Shift</button>
+      <button onclick="showShifts()">View Shifts</button>
+      <button onclick="logout()">Logout</button>
+    </div>
+
+    <div id="addShiftForm" style="display: none">
+      <h3>Add Shift</h3>
+      <input type="text" id="shiftPlace" placeholder="Shift Place" /><br />
+      <input type="number" id="hoursWorked" placeholder="Hours Worked" /><br />
+      <button onclick="saveShift()">Save Shift</button>
+    </div>
+
+    <div id="shiftsTable" style="display: none">
+      <h3>Your Shifts</h3>
+      <table id="shiftsTable">
+        <thead>
+          <tr>
+            <th>Shift Place</th>
+            <th>Hours Worked</th>
+          </tr>
+        </thead>
+        <tbody id="shiftsTableBody"></tbody>
+      </table>
+      <button onclick="toggleSort()">Sort by Hours</button>
+    </div>
+  </body>
+</html>
