@@ -62,6 +62,55 @@ body {
 #shiftsTable button:hover {
     background-color: #0080b3;
 }
+#loader {
+    width: 100%;
+    height: 20px;
+    background-color: #ccc;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+#loader::after {
+    content: 'Hello'; /* Adăugăm textul 'Hello' */
+    display: block;
+    width: 100px; /* Lungimea inițială a barei de încărcare */
+    height: 100%;
+    background-color: #007bff; /* Culoarea barei de încărcare */
+    position: absolute;
+    animation: loading 48s infinite; /* Durata și repetarea animației */
+    color: white; /* Culorea textului */
+    text-align: center; /* Așezarea textului în centru */
+    line-height: 20px; /* Înălțimea liniei pentru a centra textul vertical */
+}
+
+@keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(90rem);
+    }
+    100% {
+        transform: translateX(1%);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #loader {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    #loader {
+        width: 80%;
+    }
+}
+
+
+
+
 @media only screen and (max-width: 768px) {
     #addShiftForm, #shiftsTable {
         width: 70%;

@@ -26,7 +26,15 @@ document
     }
   });
 
+
 function validateEmail(email) {
   let re = /\S+@\S+\.\S+/;
   return re.test(email);
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  var messageElement = document.createElement("div");
+  messageElement.textContent = "Registrează-te aici";
+  messageElement.classList.add("custom-message");
+  document.body.appendChild(messageElement);
+});

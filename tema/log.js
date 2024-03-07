@@ -23,3 +23,9 @@ document
       document.getElementById("errorMessage").style.display = "block";
     }
   });
+  document.addEventListener("DOMContentLoaded", function () {
+    var messageElement = document.createElement("div");
+    messageElement.textContent = "Logeazate aici";
+    messageElement.classList.add("custom-message");
+    document.body.appendChild(messageElement);
+  });

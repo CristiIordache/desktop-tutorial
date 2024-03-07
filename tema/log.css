@@ -45,6 +45,49 @@ button[type="submit"]:hover {
   font-size: 14px;
   text-align: center;
 }
+
+#loader {
+  width: 100%; /* Face bara de încărcare să ocupe întreaga lățime a ecranului */
+  height: 20px;
+  background-color: #ccc;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+#loader::after {
+  content: '';
+  display: block;
+  width: 200%; /* Lungimea inițială a barei de încărcare - de două ori lățimea ecranului */
+  height: 100%;
+  background-color: #007bff; /* Culoarea barei de încărcare */
+  position: absolute;
+  animation: loading 2s infinite; /* Durata și repetarea animației */
+}
+
+@keyframes loading {
+  0% {
+      left: -100%; /* Începe din afara ecranului la stânga */
+  }
+  100% {
+      left: 100%; /* Se oprește la capătul ecranului la dreapta */
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #loader {
+      width: 70%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  #loader {
+      width: 80%;
+  }
+}
+
+
+
 @media only screen and (max-width: 950px) {
     form {
       width: 70%;
@@ -59,5 +102,19 @@ button[type="submit"]:hover {
   @media only screen and (max-width: 480px) {
     form {
       width: 90%;
+    }
+  }
+  @media only screen and (max-width: 750px) {
+    .custom-message {
+      margin-left: 10%; 
+      top: 10%; 
+      font-size: 14px; 
+    }
+  }
+  @media only screen and (max-width: 450px) {
+    .custom-message {
+     
+      top: 10%; 
+      font-size: 14px; 
     }
   }

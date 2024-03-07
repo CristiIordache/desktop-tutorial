@@ -39,6 +39,26 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #0056b3;
 }
+.custom-message {
+  margin-left: 33%;
+  color: #fff;
+  background-color: #007bff;
+  padding: 10px;
+  border-radius: 15px;
+  position: fixed;
+  top: 23%;
+  left: 20px;
+  animation: moveMessage 6s linear infinite alternate;
+}
+
+@keyframes moveMessage {
+  from {
+    transform: translateX(240%);
+  }
+  to {
+    transform: translateX(1%);
+  }
+}
 @media only screen and (max-width: 950px) {
     form {
       width: 70%;
@@ -53,5 +73,19 @@ button[type="submit"]:hover {
   @media only screen and (max-width: 480px) {
     form {
       width: 90%;
+    }
+  }
+  @media only screen and (max-width: 750px) {
+    .custom-message {
+      margin-left: 10%; 
+      top: 10%; 
+      font-size: 14px; 
+    }
+  }
+  @media only screen and (max-width: 450px) {
+    .custom-message {
+     
+      top: 10%; 
+      font-size: 14px; 
     }
   }
