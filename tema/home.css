@@ -72,16 +72,16 @@ body {
 }
 
 #loader::after {
-    content: 'Hello'; /* Adăugăm textul 'Hello' */
+    content: 'Hello'; 
     display: block;
-    width: 100px; /* Lungimea inițială a barei de încărcare */
+    width: 100px; 
     height: 100%;
-    background-color: #007bff; /* Culoarea barei de încărcare */
+    background-color: #007bff; 
     position: absolute;
-    animation: loading 48s infinite; /* Durata și repetarea animației */
-    color: white; /* Culorea textului */
-    text-align: center; /* Așezarea textului în centru */
-    line-height: 20px; /* Înălțimea liniei pentru a centra textul vertical */
+    animation: loading 48s infinite; 
+    color: white; 
+    text-align: center; 
+    line-height: 20px; 
 }
 
 @keyframes loading {

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- Given the following html page. Add to the page a function called
+    changeSecondItemToRed that change the color of the second item in the list
+    to red. -->
+    <h1>Change second to red</h1>
+    <button onclick="changeSecondItemToRed()">Change second to red</button>
+    <ul id="myFriends">
+      <li>hii</li>
+      <li>hii</li>
+      <li>haii</li>
+    </ul>
+
+    <script>
+      function changeSecondItemToRed() {
+        var listItems = document
+          .getElementById("myFriends")
+          .getElementsByTagName("li");
+        if (listItems.length >= 2) {
+          listItems[1].style.color = "red";
+        } 
+      }
+    </script>
+  </body>
+</html>

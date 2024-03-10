@@ -58,11 +58,11 @@ button[type="submit"]:hover {
 #loader::after {
   content: '';
   display: block;
-  width: 200%; /* Lungimea inițială a barei de încărcare - de două ori lățimea ecranului */
+  width: 200%; 
   height: 100%;
-  background-color: #007bff; /* Culoarea barei de încărcare */
+  background-color: #007bff; 
   position: absolute;
-  animation: loading 2s infinite; /* Durata și repetarea animației */
+  animation: loading 2s infinite; 
 }
 
 @keyframes loading {
