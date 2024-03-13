@@ -1,25 +1,51 @@
 let users = JSON.parse(localStorage.getItem("users"));
 window.onload = function () {
-  document.getElementById("username").innerText =localStorage.getItem("loguser");
+  document.getElementById("username").innerText =
+    localStorage.getItem("loguser");
 };
-let userEmail = users.email;
-let shifts = JSON.parse( localStorage.getItem(localStorage.getItem("loguser") + "_shifts")) || [];
-let currentUser = JSON.parse(localStorage.getItem("users"));
 
-if (users) { document.getElementById("username").innerText = users.username || users.email;
- let userEmail = users.email;
-  let shifts = JSON.parse(localStorage.getItem(userEmail + "_shifts")) || [];
+let shifts =
+  JSON.parse(
+    localStorage.getItem(localStorage.getItem("loguser") + "_shifts")
+  ) || [];
+
+if (users) {
+  document.getElementById("username").innerText = users.username || users.email;
 }
 
 function showAddShiftForm() {
   document.getElementById("addShiftForm").style.display = "block";
   document.getElementById("shiftsTable").style.display = "none";
+  showCities(); // Afiseaza orasele disponibile
 }
+
+function showCities() {
+  let citySelect = document.getElementById("selectcyty");
+  if (!citySelect) {
+    citySelect = document.createElement("select");
+    citySelect.id = "selectcyty";
+    let allOption = document.createElement("option");
+    allOption.value = "All";
+    allOption.text = "All";
+    citySelect.appendChild(allOption);
+
+    users.forEach(function(user) {
+      let option = document.createElement("option");
+      option.value = user.city;
+      option.text = user.city;
+      citySelect.appendChild(option);
+    });
+
+    document.getElementById("filter").appendChild(citySelect);
+  }
+}
+
 function showShifts() {
   document.getElementById("addShiftForm").style.display = "none";
   document.getElementById("shiftsTable").style.display = "block";
   displayShifts();
 }
+
 function saveShift() {
   if (users) {
     let shiftPlace = document.getElementById("shiftPlace").value;
@@ -44,29 +70,32 @@ function saveShift() {
   }
 }
 
-
-
 function deleteShift(index) {
-  shifts.splice(index, 1); // Șterge elementul din array
-  localStorage.setItem(localStorage.getItem("loguser") + "_shifts", JSON.stringify(shifts)); // Actualizează local storage
-  displayShifts(); // Reafișează schimburile actualizate
+  shifts.splice(index, 1);
+  localStorage.setItem(
+    localStorage.getItem("loguser") + "_shifts",
+    JSON.stringify(shifts)
+  );
+  displayShifts();
 }
 
+function displayShifts() {
+  let shiftTableBody = document.getElementById("shiftsTableBody");
+  shiftTableBody.innerHTML = "";
+  let selectedCity = document.getElementById("selectcyty").value;
 
-
-
-function displayShifts() {let shiftTableBody = document.getElementById("shiftsTableBody");
-shiftTableBody.innerHTML = "";
-
-shifts.forEach(function (shift, index) {
-    let row = document.createElement("tr");
-    row.innerHTML = `
+  shifts.forEach(function (shift, index) {
+    if (selectedCity === "All" || shift.shiftPlace === selectedCity) {
+      let row = document.createElement("tr");
+      row.innerHTML = `
         <td>${shift.shiftPlace}</td>
         <td>${shift.hoursWorked}</td>
-        <td><button onclick="deleteShift(${index})">Delete</button></td>`; // Buton de ștergere pentru fiecare rând
-    shiftTableBody.appendChild(row);
+        <td><button onclick="deleteShift(${index})">Delete</button></td>`;
+      shiftTableBody.appendChild(row);
+    }
   });
 }
+
 function toggleSort() {
   if (users) {
     shifts.sort(function (a, b) {
@@ -75,19 +104,19 @@ function toggleSort() {
     displayShifts();
   }
 }
+
 function logout() {
   window.location.href = "log.html";
 }
+
 function downloadLocalStorage() {
   let data = JSON.stringify(localStorage);
-  let blob = new Blob([data], { type: 'text/plain' });
+  let blob = new Blob([data], { type: "application/pdf" });
   let url = URL.createObjectURL(blob);
 
-  let a = document.createElement('a');
+  let a = document.createElement("a");
   a.href = url;
-  //pot sal descarci pentru vs cod ca nu ai baza de date online 
-  a.download = 'localStorage.json';
-  // a.download = 'localStorage.pdf';
+  a.download = "localStorage.pdf";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
