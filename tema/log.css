@@ -1,6 +1,8 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #0be1fd;
+  background-image: url('back3.webp');
+  background-size: cover;
+  background-position: center;
   margin: 0;
   padding: 0;
   display: flex;
@@ -8,13 +10,42 @@ body {
   align-items: center;
   height: 100vh;
 }
+#loginText {
+  color: #fff;
+  font-size: 24px;
+  opacity: 3; 
+  transition: opacity 1s ease;
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  animation: moveLeftRight 5s linear infinite alternate;
+}
+
+@keyframes moveLeftRight {
+  100% {
+    transform: translateX(100px);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+
+
+
+
+
+
+
 
 form {
-  background-color: #0af535;
+  background-color: rgba(255, 255, 255, 0.8); 
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 30%;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  width: 50%;
+  animation: fadeIn 1s ease;
 }
 
 input[type="email"],
@@ -23,98 +54,87 @@ button[type="submit"] {
   display: block;
   width: 90%;
   padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #4507ff;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 button[type="submit"] {
-  background-color: #e9d011;
-  color: #f10f0f;
+  background-color: #007bff;
+  color: #fff;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 button[type="submit"]:hover {
   background-color: #0056b3;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
 }
 
-#errorMessage {
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: center;
+.custom-message {
+  margin-left: 33%;
+  color: #fff;
+  background-color: #007bff;
+  padding: 10px;
+  border-radius: 15px;
+  position: fixed;
+  top: 10%;
+  left: 20px;
+  animation: moveMessage 6s linear infinite alternate;
 }
 
-#loader {
-  width: 100%; /* Face bara de încărcare să ocupe întreaga lățime a ecranului */
-  height: 20px;
-  background-color: #ccc;
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-#loader::after {
-  content: '';
-  display: block;
-  width: 200%; 
-  height: 100%;
-  background-color: #007bff; 
-  position: absolute;
-  animation: loading 2s infinite; 
-}
-
-@keyframes loading {
-  0% {
-      left: -100%; /* Începe din afara ecranului la stânga */
+@keyframes moveMessage {
+  from {
+    transform: translateX(240%);
   }
-  100% {
-      left: 100%; /* Se oprește la capătul ecranului la dreapta */
+  to {
+    transform: translateX(1%);
   }
 }
 
-@media only screen and (max-width: 768px) {
-  #loader {
-      width: 70%;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  form {
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  form {
+    width: 70%;
   }
 }
 
 @media only screen and (max-width: 480px) {
-  #loader {
-      width: 80%;
+  form {
+    width: 80%;
   }
 }
 
+@media only screen and (max-width: 750px) {
+  .custom-message {
+    margin-left: 10%;
+    top: 5%;
+    font-size: 14px;
+  }
+}
 
-
-@media only screen and (max-width: 950px) {
-    form {
-      width: 70%;
-    }
+@media only screen and (max-width: 450px) {
+  .custom-message {
+    top: 5%;
+    font-size: 14px;
   }
-@media only screen and (max-width: 760px) {
-    form {
-      width: 80%;
-    }
-  }
-  
-  @media only screen and (max-width: 480px) {
-    form {
-      width: 90%;
-    }
-  }
-  @media only screen and (max-width: 750px) {
-    .custom-message {
-      margin-left: 10%; 
-      top: 10%; 
-      font-size: 14px; 
-    }
-  }
-  @media only screen and (max-width: 450px) {
-    .custom-message {
-     
-      top: 10%; 
-      font-size: 14px; 
-    }
-  }
+}

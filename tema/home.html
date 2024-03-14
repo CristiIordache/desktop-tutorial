@@ -12,7 +12,7 @@
     <div id="header">
       <h2>Welcome <span id="username"></span>!</h2>
       <button onclick="showAddShiftForm()">Add Shift</button>
-      
+
       <button onclick="showShifts()">View Shifts</button>
       <button onclick="logout()">Logout</button>
       <button onclick="downloadLocalStorage()">Download LocalStorage</button>
@@ -26,7 +26,9 @@
     </div>
 
     <div id="shiftsTable" style="display: none">
-      <select id="shiftPlaceSelector">Select City</select>
+      <select id="shiftPlaceSelector">
+        Select City
+      </select>
       <h3>Your Shifts</h3>
       <table id="shiftsTable">
         <thead>
@@ -38,8 +40,11 @@
         <tbody id="shiftsTableBody"></tbody>
       </table>
       <button onclick="toggleSort()">Sort by Hours</button>
-
-      
     </div>
+
+    <button class="save">Save Shift</button>
+
+    <div id="currentDateTime"></div> <!-- Element pentru a afișa data și ora -->
+
   </body>
 </html>

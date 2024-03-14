@@ -182,3 +182,37 @@ function downloadLocalStorage() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  let saveButton = document.querySelector(".save");
+  
+  setTimeout(function() {
+    saveButton.classList.add("hide");
+  }, 7000);
+});
+
+
+function displayCurrentDateTime() {
+  const now = new Date();
+  const formattedDateTime = now.toLocaleString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    timeZone: 'Europe/Bucharest' // aici poti selecta zona globala 
+  });
+  const currentDateTimeElement = document.getElementById('currentDateTime');
+  if (currentDateTimeElement) {
+    currentDateTimeElement.textContent = 'Current Date and Time: ' + formattedDateTime;
+  }
+}
+
+// Apelă funcția pentru a afișa data și ora curentă imediat după încărcarea paginii
+displayCurrentDateTime();
+
+// Actualizează data și ora la fiecare secundă
+setInterval(displayCurrentDateTime, 1000);
