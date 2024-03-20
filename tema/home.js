@@ -49,14 +49,30 @@ function saveShift() {
     if (!isNaN(hoursWorked) && hoursWorked > 0 && hoursWorked <= 24) {
       let saveConfirmation = confirm("Do you want to save this shift?");
       if (saveConfirmation) {
-        shifts.push({ shiftPlace: shiftPlace, hoursWorked: hoursWorked });
+        let currentDate = new Date();
+        let currentDateTime = currentDate.toLocaleString(`en-us`, {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+          second: "numeric",
+          timeZone: "Europe/Bucharest",
+        });
+        shifts.push({
+          shiftPlace: shiftPlace,
+          hoursWorked: hoursWorked,
+          dateTime: currentDateTime,
+        });
         localStorage.setItem(
           localStorage.getItem("loguser") + "_shifts",
           JSON.stringify(shifts)
         );
         alert("Shift saved successfully.");
         showShifts();
-window.top.location=window.top.location
+
+        window.top.location = window.top.location;
         // addShiftPlace(shiftPlace);
       }
     } else {
@@ -68,14 +84,55 @@ window.top.location=window.top.location
 }
 
 // Funcția pentru ștergerea unei schimbări de program
+
 function deleteShift(index) {
-  shifts.splice(index, 1);
-  localStorage.setItem(
-    localStorage.getItem("loguser") + "_shifts",
-    JSON.stringify(shifts)
-  );
-  displayShifts();
+  deleteIndex = index;
+
+  Swal.fire({
+    title: "Do you want to delete this shift?",
+    showDenyButton: true,
+    confirmButtonText: `Da`,
+    denyButtonText: `Nu`,
+  }).then((result) => {
+    if (result.isConfirmed) {
+      shifts.splice(deleteIndex, 1);
+      localStorage.setItem(
+        localStorage.getItem("loguser") + "_shifts",
+        JSON.stringify(shifts)
+      );
+      displayShifts();
+      
+    }
+  });
 }
+
+// function deleteShift(index) {
+//   let confirmation = confirm("Do you want to delete this shift?");
+
+//   if (confirmation) {
+//     shifts.splice(index, 1);
+
+//     localStorage.setItem(
+//       localStorage.getItem("loguser") + "_shifts",
+//       JSON.stringify(shifts)
+//     );
+
+//     displayShifts();
+
+//     
+//   }
+// } 
+
+// function deleteShift(index) {
+//   shifts.splice(index, 1);
+//   localStorage.setItem(
+//     localStorage.getItem("loguser") + "_shifts",
+//     JSON.stringify(shifts)
+//   );
+
+//   displayShifts();
+// }
+
 let sortOrder = `asc`;
 function toggleSort() {
   // Toggle the sort order between 'asc' and 'desc'
@@ -158,6 +215,7 @@ function displayShifts(shiftsToDisplay) {
     row.innerHTML = `
       <td>${shift.shiftPlace}</td>
       <td>${shift.hoursWorked}</td>
+      <td>${shift.dateTime}</td>
       <td><button onclick="deleteShift(${index})">Delete</button></td>`;
     shiftTableBody.appendChild(row);
   });
@@ -183,31 +241,36 @@ function downloadLocalStorage() {
   URL.revokeObjectURL(url);
 }
 
-
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   let saveButton = document.querySelector(".save");
-  
-  setTimeout(function() {
+
+  // Ascunde butonul după 7 secunde
+  setTimeout(function () {
     saveButton.classList.add("hide");
   }, 7000);
-});
 
+  
+  document.addEventListener("click", function () {
+    saveButton.classList.add("hide");
+  });
+});
 
 function displayCurrentDateTime() {
   const now = new Date();
-  const formattedDateTime = now.toLocaleString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZone: 'Europe/Bucharest' // aici poti selecta zona globala 
+  const formattedDateTime = now.toLocaleString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    timeZone: "Europe/Bucharest", // aici poti selecta zona globala
   });
-  const currentDateTimeElement = document.getElementById('currentDateTime');
+  const currentDateTimeElement = document.getElementById("currentDateTime");
   if (currentDateTimeElement) {
-    currentDateTimeElement.textContent = 'Current Date and Time: ' + formattedDateTime;
+    currentDateTimeElement.textContent =
+      "Current Date and Time: " + formattedDateTime;
   }
 }
 
