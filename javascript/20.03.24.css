@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    font-size: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.box:hover {
+    background-color: lightgray;
+}
