@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="HomePage.js" defer></script>
+    <link rel="stylesheet" href="HomePage.css" />
+</head>
+<body>
+    <header>
+        <h1>Flat Management System</h1>
+        <nav>
+            <button id="addFlatBtn">Add New Flat</button>
+            <button id="viewFlatsBtn">View Flats</button>
+            <button id="viewProfileBtn">View Profile</button>
+            <button id="logoutBtn">Logout</button>
+        </nav>
+    </header>
+    
+    <div id="addFlatModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <!-- Form for adding new flat -->
+            <form id="addFlatForm">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required><br>
+    
+                <label for="streetName">Street Name:</label>
+                <input type="text" id="streetName" name="streetName" required><br>
+    
+                <label for="streetNumber">Street Number:</label>
+                <input type="text" id="streetNumber" name="streetNumber" required><br>
+    
+                <label for="areaSize">Area Size:</label>
+                <input type="number" id="areaSize" name="areaSize" required><br>
+    
+                <label for="hasAC">Has AC:</label>
+                <select id="hasAC" name="hasAC">
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select><br>
+    
+                <label for="yearBuilt">Year Built:</label>
+                <input type="number" id="yearBuilt" name="yearBuilt" required><br>
+    
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" required><br>
+    
+                <label for="monthlyRate">Monthly Rate:</label>
+                <input type="number" id="monthlyRate" name="monthlyRate" required><br>
+    
+                <label for="availableDate">Available Date:</label>
+                <input type="date" id="availableDate" name="availableDate" required><br>
+    
+                <button type="submit">Add Flat</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="viewFlatsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="flatList"></div>
+            <button id="hideFlatsBtn">Hide</button>
+            <button id="deleteFlatsBtn">Delete All</button>
+        </div>
+    </div>
+
+
+
+</body>
+</html>

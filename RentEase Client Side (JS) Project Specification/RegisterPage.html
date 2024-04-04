@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Register Page</title>
-        <script src="RegisterPage.js" defer></script>
+        <script src="RegisterPage.js" defer type="module"></script>
         <link rel="stylesheet" href="RegisterPage.css">
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
@@ -58,15 +58,15 @@
                 </div>
                 </form>
                 
-                <button type="submit" onclick="handleRegistration()">Register</button>
-
-                <button type="button" onclick="showRequirements()" class="space">Information Register</button>
+                <button id="registerButton">Register</button>
+                <button id="loginButton">Login</button>
+                <button id="infoRegisterButton">Information Register</button>
     
 </div>
             
             
             <div class="Help">
-        <button  onclick="showHelp()">Help</button>
+                <button id="helpButton">Help</button>
     </div>
         
 </div>
