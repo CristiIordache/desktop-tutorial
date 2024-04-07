@@ -1,7 +1,15 @@
-var a = document.getElementById("loginBtn");
-var b = document.getElementById("registerBtn");
-var x = document.getElementById("login");
-var y = document.getElementById("register");
+let a = document.getElementById("loginBtn");
+let b = document.getElementById("registerBtn");
+let x = document.getElementById("login");
+let y = document.getElementById("register");
+function myMenuFunction() {
+    let x = document.getElementById("navMenu");
+    if (x.className === "nav-menu") {
+      x.className += " responsive";
+    } else {
+      x.className = "nav-menu";
+    }
+  }
 function login() {
     x.style.left = "4px";
     y.style.right = "-520px";
@@ -17,4 +25,12 @@ function register() {
     b.className += " white-btn";
     x.style.opacity = 0;
     y.style.opacity = 1;
+}
+function redirectToFacebook() {
+    window.location.href = "https://www.facebook.com"; 
+}
+function servis() {
+    window.location.href = "servis.html"; 
+}function about() {
+    window.location.href = "About.html"; 
 }
