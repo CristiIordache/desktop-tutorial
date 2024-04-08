@@ -16,7 +16,7 @@ body {
   
   .container {
     width: 80%;
-    margin: auto;
+    /* margin: auto; */
   }
   
   #about {
@@ -36,3 +36,37 @@ body {
     padding: 10px 0;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Umbrire text */
   }
+  button {
+    background-color: #4CAF50; /* Culoarea de fundal */
+    border: none;
+    color: white; /* Culoarea textului */
+    padding: 15px 25px; /* Dimensiunile butonului */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px; /* Rotunjirea colțurilor */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Umbrire */
+    transition: all 0.3s ease-in-out; /* Efect de tranziție */
+}
+
+/* Stilizare butoane la hover */
+button:hover {
+    background-color: #45a049; /* Culoarea de fundal la hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Umbrire la hover */
+}
+  
+  @media only screen and (max-width: 786px) {
+    .container {
+        width: 90%; /* Redimensionează containerul pentru a se potrivi mai bine ecranului mic */
+    }
+}
+
+/* Stiluri pentru ecranele de dimensiuni mai mici (max-width: 540px) */
+@media only screen and (max-width: 540px) {
+    .container {
+        width: 95%; /* Redimensionează containerul pentru a se potrivi mai bine ecranului foarte mic */
+    }
+}

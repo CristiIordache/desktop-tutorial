@@ -12,6 +12,9 @@ body{
     background-attachment: fixed;
     overflow: hidden;
 }
+label {
+  color: #fff;
+}
 .wrapper{
     display: flex;
     justify-content: center;

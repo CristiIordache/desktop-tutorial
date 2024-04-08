@@ -1,54 +1,81 @@
-body{
-    background: url("1.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    overflow: hidden;
-  }
-  
-  header {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px 0;
-  }
-  
+body {
+  background: url("1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+}
+.input-field {
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  height: 50px;
+  width: 50%;
+  padding: 0 10px 0 45px;
+  border: none;
+  border-radius: 30px;
+  outline: none;
+  transition: 0.2s ease;
+}
+.input-field:hover,
+.input-field:focus {
+  background: rgba(255, 255, 255, 0.25);
+}
+@media only screen and (max-width: 786px) {
   .container {
-    width: 80%;
-    margin: auto;
+    width: 70%; /* Redimensionează containerul pentru a se potrivi mai bine ecranului mic */
   }
-  
-  .form-group {
-    margin-bottom: 20px;
+
+  .input-field {
+    width: 100%; /* Lățimea câmpurilor de intrare este setată la 100% pentru a se întinde pe întreaga lățime a ecranului mic */
   }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
+}
+
+/* Stiluri pentru ecranele de dimensiuni mai mici (max-width: 540px) */
+@media only screen and (max-width: 540px) {
+  .container {
+    width: 65%; /* Redimensionează containerul pentru a se potrivi mai bine ecranului foarte mic */
   }
-  
-  input[type="text"],
-  input[type="email"],
-  input[type="tel"],
-  textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+
+  .input-field {
+    font-size: 14px; /* Micșorează dimensiunea textului pentru ecranul foarte mic */
   }
-  
-  button {
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-  }
+}
