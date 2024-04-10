@@ -1,4 +1,213 @@
+/* Import the Poppins font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Reset global styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; /* Set the default font */
+}
+
+/* Styles for the entire body */
+body {
+    background: url("1.jpg"); /* Set background image */
+    background-size: cover; /* Ensure full coverage */
+    background-repeat: no-repeat; /* Prevent image from repeating */
+    background-attachment: fixed; /* Fix the background image */
+    overflow: hidden; /* Hide overflow to avoid scrolling */
+}
+
+/* Styles for labels */
+label {
+    color: #fff; /* Set text color to white */
+}
+
+/* Wrapper for centering */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 110vh; /* Set minimum wrapper height to 110 viewport heights */
+    background: rgba(39, 39, 39, 0.4); /* Semi-transparent background */
+}
+
+/* Styles for the navigation bar */
+.nav {
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    background: linear-gradient(rgba(39, 39, 39, 0.6), transparent); /* Apply gradient background */
+    z-index: 100; /* Ensure display above other elements */
+}
+
+/* Navigation logo */
+.nav-logo p {
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+/* Navigation menu */
+.nav-menu ul {
+    display: flex;
+}
+
+.nav-menu ul li {
+    list-style-type: none;
+}
+
+.nav-menu ul li .link {
+    text-decoration: none;
+    font-weight: 500;
+    color: #fff;
+    padding-bottom: 15px;
+    margin: 0 25px;
+}
+
+/* Styles for links in the menu */
+.link:hover, .active {
+    border-bottom: 2px solid #fff; /* Add underline effect on hover or when active */
+}
+
+/* Button for sign in and sign up */
+.nav-button .btn {
+    width: 130px;
+    height: 40px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.4); /* Semi-transparent background */
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s ease; /* Add transition effect */
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.3); /* Semi-transparent background on hover */
+}
+
+/* Styles for the registration button */
+#registerBtn {
+    margin-left: 15px;
+}
+
+/* Styles for white buttons */
+.btn.white-btn {
+    background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+}
+
+.btn.btn.white-btn:hover {
+    background: rgba(255, 255, 255, 0.5); /* Semi-transparent background on hover */
+}
+
+/* Styles for the navigation menu button */
+.nav-menu-btn {
+    display: none;
+}
+
+
+
+
+
+
+/* Media queries for responsive design */
+@media only screen and (max-width: 786px) {
+    .nav-button {
+        display: none; /* Hide navigation buttons */
+    }
+
+    .nav-menu.responsive {
+        top: 100px; /* Adjust menu position */
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: -800px; /* Move menu off-screen */
+        display: flex;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+        width: 100%;
+        height: 90vh; /* Set menu height to 90% of viewport height */
+        backdrop-filter: blur(20px); /* Apply backdrop blur effect */
+        transition: .3s; /* Add transition effect */
+    }
+
+    .nav-menu ul {
+        flex-direction: column;
+        text-align: center; /* Center align menu items */
+    }
+
+    .nav-menu-btn {
+        display: block; /* Show menu button */
+    }
+
+    .nav-menu-btn i {
+        font-size: 25px;
+        color: #fff; /* White icon color */
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+        border-radius: 50%;
+        cursor: pointer;
+        transition: .3s; /* Add transition effect */
+    }
+
+    .nav-menu-btn i:hover {
+        background: rgba(255, 255, 255, 0.15); /* Lighten background on hover */
+    }
+}
+
+@media only screen and (max-width: 540px) {
+    .wrapper {
+        min-height: 100vh; /* Adjust wrapper height for smaller screens */
+    }
+
+    .form-box {
+        width: 100%;
+        height: 500px; /* Set form box height for smaller screens */
+    }
+
+    .register-container, .login-container {
+        width: 100%;
+        padding: 0 20px; /* Adjust padding for smaller screens */
+    }
+
+    .register-container .two-forms {
+        flex-direction: column; /* Stack form fields vertically on smaller screens */
+        gap: 0; /* Remove gap between form fields */
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -87,11 +296,11 @@ body {
 
 .btn.btn.white-btn:hover {
     background: rgba(255, 255, 255, 0.5);
-}
+} */
 
-.nav-menu-btn {
-    display: none; /* Ascunde butonul de meniu pe ecranele mai mari */
-    cursor: pointer; /* Schimbă cursorul la interacțiunea cu butonul */
+/* .nav-menu-btn {
+    display: none; Ascunde butonul de meniu pe ecranele mai mari
+    cursor: pointer; Schimbă cursorul la interacțiunea cu butonul
 }
 
 .modal {
@@ -106,16 +315,16 @@ body {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Conținut modal */
+Conținut modal
 .modal-content {
     background-color: #fefefe;
-    margin: 10% auto; /* Aliniere verticală și orizontală */
+    margin: 10% auto; Aliniere verticală și orizontală
     padding: 20px;
     border: 1px solid #888;
-    max-width: 80%; /* Lățime maximă */
+    max-width: 80%; Lățime maximă
 }
 
-/* Închide modal */
+Închide modal
 .close {
     color: #aaa;
     float: right;
@@ -132,9 +341,9 @@ body {
 
 @media only screen and (max-width: 768px) {
     .nav-menu ul {
-        display: none; /* Ascunde meniul principal pe dispozitivele mobile */
+        display: none; Ascunde meniul principal pe dispozitivele mobile
         position: absolute;
-        top: 100px; /* Ajustează poziția meniului pentru a nu se suprapune peste bara de navigare */
+        top: 100px; Ajustează poziția meniului pentru a nu se suprapune peste bara de navigare
         left: 0;
         right: 0;
         background-color: rgba(39, 39, 39, 0.6);
@@ -142,50 +351,12 @@ body {
     }
 
     .nav-menu.active ul {
-        display: flex; /* Afisează meniul când este activat */
-        flex-direction: column; /* Aliniază elementele vertical în meniu */
+        display: flex; Afisează meniul când este activat
+        flex-direction: column; Aliniază elementele vertical în meniu
     }
 
     .nav-menu-btn {
-        display: block; /* Afișează butonul de meniu pe ecranele mai mici */
+        display: block; Afișează butonul de meniu pe ecranele mai mici
     }
 }
 
-/* Stiluri pentru meniul activ */
-.nav-menu.active {
-    display: flex; /* Afisează meniul când este activat */
-    flex-direction: column; /* Aliniază elementele vertical în meniu */
-    background-color: rgba(39, 39, 39, 0.6); /* Schimbă culoarea de fundal a meniului */
-    position: absolute;
-    top: 100px; /* Ajustează poziția meniului pentru a nu se suprapune peste bara de navigare */
-    left: 0;
-    right: 0;
-    z-index: 99; /* Asigură că meniul este afișat deasupra conținutului */
-}
-
-/* Stiluri pentru elementele meniului activ */
-.nav-menu.active ul li {
-    text-align: center; /* Aliniază elementele meniului la centru */
-    margin-bottom: 10px; /* Spațiere între elementele meniului */
-}
-
-/* Stiluri pentru a alinia elementele formularului pe mijlocul ecranului */
-.modal-content form {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Aliniază elementele pe verticală pe mijlocul ecranului */
-}
-
-/* Stiluri pentru etichetele și input-urile formularului */
-.modal-content form label {
-    margin-bottom: 10px; /* Spațiere între etichete */
-    font-weight: bold;
-}
-
-.modal-content form input {
-    width: 100%; /* Lățimea input-urilor la 100% */
-    padding: 8px; /* Spațierea internă */
-    margin-bottom: 15px; /* Spațiere între input-uri */
-    border-radius: 5px; /* Rotunjirea colțurilor */
-    border: 1px solid #ccc; /* Stilul și culoarea bordurii */
-}

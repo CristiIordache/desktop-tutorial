@@ -1,4 +1,4 @@
-// Funcția care configurează opțiunile toastr
+// Function to configure Toastr options
 function toastrtop() {
   toastr.options = {
     "closeButton": false,
@@ -19,42 +19,42 @@ function toastrtop() {
   return toastr;
 }
 
-// Funcția care afișează mesajul toastr de informare și dezactivează câmpul de introducere a emailului
+// Function to display informational Toastr message and disable email input field
 function info() {
   toastrtop().info(
     "We've sent an email with instructions to reset your password. Please check your inbox."
   );
 
-  // Dezactivare câmp de email
+  // Disable email input field
   let emailInput = document.getElementById("email");
   emailInput.disabled = true;
-  emailInput.style.display = "none"; // Ascunde câmpul de email
+  emailInput.style.display = "none"; // Hide the email input field
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   const modal = document.getElementById("myModal");
   const resetForm = document.getElementById("reset-form");
 
-  // Funcția care ascunde fereastra modală
+  // Function to close the modal window
   function closeModal() {
     modal.style.display = "none";
   }
 
-  // Eveniment pentru închiderea ferestrei modale la click pe butonul de închidere
+  // Event listener to close the modal window when clicking the close button
   const closeBtn = document.querySelector(".close");
   closeBtn.addEventListener("click", closeModal);
 
-  // Eveniment pentru închiderea ferestrei modale la click în afara acesteia
+  // Event listener to close the modal window when clicking outside of it
   window.addEventListener("click", function(event) {
     if (event.target === modal) {
       closeModal();
     }
   });
 
-  // Eveniment pentru trimiterea formularului de resetare a parolei
+  // Event listener for submitting the password reset form
   resetForm.addEventListener("submit", function(event) {
-    event.preventDefault(); // Previne trimiterea formularului
-    // Aici puteți adăuga logica pentru a trimite cererea de resetare a parolei la server
-    info(); // Afișează mesajul toastr de informare și dezactivează câmpul de email
+    event.preventDefault(); // Prevent form submission
+    // Here you can add logic to send the password reset request to the server
+    info(); // Display informational Toastr message and disable the email input field
   });
 });
