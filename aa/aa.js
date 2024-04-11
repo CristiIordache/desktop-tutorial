@@ -3,6 +3,7 @@ let a = document.getElementById("loginBtn");
 let b = document.getElementById("registerBtn");
 let x = document.getElementById("login");
 let y = document.getElementById("register");
+//scos variabile
 
 /* Function to toggle responsive navigation menu */
 function myMenuFunction() {
