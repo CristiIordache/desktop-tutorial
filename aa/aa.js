@@ -1,174 +1,268 @@
 /* Get the login button, register button, login container, and register container */
-let a = document.getElementById("loginBtn");
-let b = document.getElementById("registerBtn");
-let x = document.getElementById("login");
-let y = document.getElementById("register");
+let loginbutton = document.getElementById("loginBtn");
+let registerbutton = document.getElementById("registerBtn");
+let userlogin = document.getElementById("login");
+let userregister = document.getElementById("register");
 //scos variabile
 
 /* Function to toggle responsive navigation menu */
 function myMenuFunction() {
-    let x = document.getElementById("navMenu");
-    if (x.className === "nav-menu") {
-        x.className += " responsive";
-    } else {
-        x.className = "nav-menu";
-    }
+  let userlogin = document.getElementById("navMenu");
+  if (userlogin.className === "nav-menu") {
+    userlogin.className += " responsive";
+  } else {
+    userlogin.className = "nav-menu";
+  }
 }
 
 /* Function to display login container */
 function login() {
-    x.style.left = "4px";
-    y.style.right = "-520px";
-    a.className += " white-btn";
-    b.className = "btn";
-    x.style.opacity = 1;
-    y.style.opacity = 0;
+  userlogin.style.left = "4px";
+  userregister.style.right = "-520px";
+  loginbutton.className += " white-btn";
+  registerbutton.className = "btn";
+  userlogin.style.opacity = 1;
+  userregister.style.opacity = 0;
 }
 
 /* Function to display register container */
 function register() {
-    x.style.left = "-510px";
-    y.style.right = "5px";
-    a.className = "btn";
-    b.className += " white-btn";
-    x.style.opacity = 0;
-    y.style.opacity = 1;
+  userlogin.style.left = "-510px";
+  userregister.style.right = "5px";
+  loginbutton.className = "btn";
+  registerbutton.className += " white-btn";
+  userlogin.style.opacity = 0;
+  userregister.style.opacity = 1;
 }
 
 /* Function to redirect to Facebook */
 function redirectToFacebook() {
-    window.location.href = "https://www.facebook.com"; 
+  window.location.href = "https://www.facebook.com";
 }
 
 /* Function to redirect to services page */
 function servis() {
-    window.location.href = "servis.html"; 
+  window.location.href = "servis.html";
 }
 
 /* Function to redirect to About page */
 function about() {
-    window.location.href = "About.html"; 
+  window.location.href = "About.html";
 }
 
 /* Function to validate name */
 function validateName(name) {
-    return name.trim().length >= 3;
+  return name.trim().length >= 3;
 }
 
 /* Function to validate email */
 function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) && email.includes('@gmail.com');
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.includes("@gmail.com");
 }
 
 /* Function to validate password */
 function validatePassword(password) {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{6,}$/;
-    return passwordRegex.test(password);
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).{6,}$/;
+  return passwordRegex.test(password);
 }
 
 /* Function to configure toastr options */
 function toastrtop() {
-    toastr.options = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-top-center",
-        "preventDuplicates": false,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-    return toastr;
+  toastr.options = {
+    closeButton: false,
+    debug: false,
+    newestOnTop: false,
+    progressBar: false,
+    positionClass: "toast-top-center",
+    preventDuplicates: false,
+    showDuration: "300",
+    hideDuration: "1000",
+    timeOut: "5000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut",
+  };
+  return toastr;
 }
 
-/* Function to register a new user */
+function validateConfirmPassword(password, confirmPassword) {
+    return password === confirmPassword;
+  }
+  function configureFlatpickr() {
+    let birthDateInput = document.getElementById("birthDateInput");
+    flatpickr(birthDateInput, {
+      dateFormat: "Y-m-d",
+      maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+      allowInput: true,
+    });3
+}
+function validateBirthDate(birthDate) {
+    const today = new Date();
+    const userBirthDate = new Date(birthDate);
+    const age = today.getFullYear() - userBirthDate.getFullYear();
+    const monthDiff = today.getMonth() - userBirthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < userBirthDate.getDate())) {
+      age--;
+    }
+    return age >= 18;
+}
+  
+let birthDateInput = document.getElementById("birthDateInput");
+flatpickr(birthDateInput, {
+  dateFormat: "d/m/Y", // Formatul datelor de intrare: ziua/luna/anul (de exemplu: 12/04/1990)
+  allowInput: true,
+});
+function configureFlatpickr() {
+    const birthDateInput = document.getElementById("birthDateInput");
+    flatpickr(birthDateInput, {
+      dateFormat: "Y-m-d",
+      maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+      allowInput: true,
+    });
+  }
+  
+  // Apelăm funcția pentru a configura Flatpickr
+  configureFlatpickr();
+
+
+
+/* Function to register loginbutton new user */
 function registerUser() {
-    const firstnameInput = document.getElementById('firstnameInput');
-    const lastnameInput = document.getElementById('lastnameInput');
-    const emailInput = document.getElementById('emailInput');
-    const passwordInput = document.getElementById('passwordInput');
+    const firstnameInput = document.getElementById("firstnameInput");
+    const lastnameInput = document.getElementById("lastnameInput");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const confirmPasswordInput = document.getElementById("confirmPasswordInput");
+    const birthDateInput = document.getElementById("birthDateInput");
+
+    if (!firstnameInput || !lastnameInput || !emailInput || !passwordInput || !confirmPasswordInput || !birthDateInput) {
+        console.error("One or more input elements not found.");
+        return;
+    }
 
     const firstname = firstnameInput.value;
     const lastname = lastnameInput.value;
     const email = emailInput.value;
     const password = passwordInput.value;
-
+    const confirmPassword = confirmPasswordInput.value;
+    const birthDate = birthDateInput.value;
+  
     if (!validateName(firstname)) {
-        toastrtop().error('Please enter a valid Firstname!');
-        return;
+      toastrtop().error("Please enter a valid Firstname!");
+      return;
     }
-
+  
     if (!validateName(lastname)) {
-        toastrtop().error('Please enter a valid Lastname!');
-        return;
+      toastrtop().error("Please enter a valid Lastname!");
+      return;
     }
-
+  
     if (!validateEmail(email)) {
-        toastrtop().error('Please enter a valid Email!');
-        return;
+      toastrtop().error("Please enter a valid Email!");
+      return;
     }
-
+  
     if (!validatePassword(password)) {
-        toastrtop().error('Password must be at least 6 characters long and contain at least one uppercase letter, one special character, and one digit!');
-        return;
+      toastrtop().error(
+        "Password must be at least 6 characters long and contain at least one uppercase letter, one special character, and one digit!"
+      );
+      return;
     }
-
-    let userDataArray = JSON.parse(localStorage.getItem('userDataArray')) || [];
-
-    // Check if user already exists based on email address
-    const existingUser = userDataArray.find(user => user.email === email);
-    if (existingUser) {
-        toastrtop().error('A user with this email already exists!');
-        return;
+  
+    if (!validateConfirmPassword(password, confirmPassword)) {
+      toastrtop().error("Passwords do not match!");
+      return;
     }
+  
+    if (!validateBirthDate(birthDate)) {
+      toastrtop().error("You must be at least 18 years old to register!");
+      return;
+    }
+  
+    // Verificăm dacă emailul este deja înregistrat
+  const userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
+  const existingUser = userDataArray.find(user => user.email === email);
+  if (existingUser) {
+    toastrtop().error("The email address is already in use with another user.");
+    return;
+  }
 
-    // Add new user to array
-    userDataArray.push(new User(firstname, lastname, email, password, "", 0, ""));
-    localStorage.setItem('userDataArray', JSON.stringify(userDataArray));
+  // Șterge datele din toate câmpurile de intrare
+  firstnameInput.value = "";
+  lastnameInput.value = "";
+  emailInput.value = "";
+  passwordInput.value = "";
+  confirmPasswordInput.value = "";
+  birthDateInput.value = "";
 
-    toastrtop().success('Registration successful! <br>Please check your email address to complete the registration');
 
-    // Clear input fields
-    firstnameInput.value = '';
-    lastnameInput.value = '';
-    emailInput.value = '';
-    passwordInput.value = '';
-}
+
+    // Aici este locul unde ar trebui să fie logica de înregistrare a utilizatorului
+  
+    // Crearea unui obiect User cu datele utilizatorului
+    const newUser = new User(firstname, lastname, email, password,confirmPassword,birthDate, "", 0, "");
+  
+    // Salvarea datelor utilizatorului într-o bază de date sau în local storage, etc.
+    // De exemplu, salvarea în local storage:
+
+
+    
+    // let userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
+    
+    userDataArray.push(newUser);
+    localStorage.setItem("userDataArray", JSON.stringify(userDataArray));
+  
+    // Mesaj de succes
+    toastrtop().success("Registration successful! Please log in.");
+    // Șterge datele din toate câmpurile de intrare
+  firstnameInput.value = "";
+  lastnameInput.value = "";
+  emailInput.value = "";
+  passwordInput.value = "";
+  confirmPasswordInput.value = "";
+  birthDateInput.value = "";
+  }
 
 /* User class */
 class User {
-    constructor(firstname, lastname, email, password, telefon, flag_profile, property) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.telefon = telefon;
-        this.flag_profile = flag_profile;
-        this.property = property;
-    }
+  constructor(
+    firstname,
+    lastname,
+    email,
+    password,
+    telefon,
+    flag_profile,
+    property
+  ) {
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.email = email;
+    this.password = password;
+    this.telefon = telefon;
+    this.flag_profile = flag_profile;
+    this.property = property;
+  }
 }
 
 /* Function to log in a user */
 function loginUser() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
 
-    const userDataArray = JSON.parse(localStorage.getItem('userDataArray')) || [];
+  const userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
 
-    const user = userDataArray.find(user => user.email === email && user.password === password);
+  const user = userDataArray.find(
+    (user) => user.email === email && user.password === password
+  );
 
-    if (user) {
-        localStorage.setItem("Log", JSON.stringify(user))
-        toastrtop().success('Login successful!');
-        window.location.href = 'addflat.html';
-    } else {
-        toastrtop().error('Invalid email or password!');
-    }
+  if (user) {
+    localStorage.setItem("Log", JSON.stringify(user));
+    toastrtop().success("Login successful!");
+    window.location.href = "addflat.html";
+  } else {
+    toastrtop().error("Invalid email or password!");
+  }
 }
