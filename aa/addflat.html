@@ -1,83 +1,134 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Flat</title>
-    <link rel="stylesheet" href="addflat.css">
+    <link rel="stylesheet" href="addflat.css" />
     <script src="addflat.js" defer></script>
     <!-- Link to SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"
+    />
     <!-- Load SweetAlert2 JavaScript library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Load jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Link to Toastr CSS stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+      rel="stylesheet"
+    />
     <!-- Load Toastr JavaScript library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-
-
- <!-- Link to Boxicons CSS -->
- <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
- 
-
-
-
-
-</head>
-<body>
-
-
-      <!-- Wrapper element -->
-      <div class="wrapper">
-        <!-- Navigation bar -->
-        <nav class="nav">
-            <div class="nav-logo">
-                <p>JS.</p>
-            </div>
-            <!-- Navigation menu -->
-            <div class="nav-menu" id="navMenu">
-                <ul>
-                    <!-- Menu items -->
-                    <li><a href="#" class="link active" onclick="addProperty()">Add Property </a></li>
-                    <li><a href="#" class="link" onclick="seeProperty()">See Property</a></li>
-                    <li><a href="#" class="link" onclick="myProfile()">My Profile</a></li>
-                    <li><a href="#" class="link" onclick="logOut()">Log Out</a></li>
-                </ul>
-            </div>
-            <!-- Button for toggling the mobile menu -->
-            <div class="nav-menu-btn">
-                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
-            </div>
-        </nav>
-       
-        
-        
-   
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2>Add Property</h2>
-            <form id="propertyForm">
-                <label for="country">Country:</label>
-                <input type="text" id="country" name="country">
-                <label for="city">City:</label>
-                <input type="text" id="city" name="city">
-                <label for="street">Street:</label>
-                <input type="text" id="street" name="street">
-                <label for="streetNumber">Street Number:</label>
-                <input type="text" id="streetNumber" name="streetNumber">
-                <label for="propertySize">Property Size:</label>
-                <input type="text" id="propertySize" name="propertySize">
-                <label for="yearOfConstruction">Year of Construction:</label>
-                <input type="text" id="yearOfConstruction" name="yearOfConstruction">
-                <label for="monthlyPayment">Monthly Payment Price:</label>
-                <input type="text" id="monthlyPayment" name="monthlyPayment">
-                <button type="button" onclick="addProperty()">Add</button>
-            </form>
+    <!-- Link to Boxicons CSS -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Wrapper element -->
+    <div class="wrapper">
+      <!-- Navigation bar -->
+      <nav class="nav">
+        <!-- Logo -->
+        <div class="nav-logo">
+          <p>JS.</p>
         </div>
-    </div> 
-</div>
-</body>
+        <!-- Menu -->
+        <div class="nav-menu" id="navMenu">
+          <ul>
+            <li>
+              <a href="#" class="link active" onclick="addProperty()"
+                >Add Property</a
+              >
+            </li>
+            <li>
+              <a href="#" class="link" onclick="seeProperty()">See Property</a>
+            </li>
+            <li>
+              <a href="#" class="link" onclick="myProfile()">My Profile</a>
+            </li>
+            <li><a href="#" class="link" onclick="logOut()">Log Out</a></li>
+          </ul>
+        </div>
+        <!-- Mobile Menu Button -->
+        <div class="nav-menu-btn">
+          <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+        </div>
+      </nav>
+
+      <!-- Initial Modal -->
+
+      <!-- Formularul pentru adăugarea proprietății -->
+      <div class="form-container" id="addPropertyForm">
+        <div class="container">
+          <h1>Add Property</h1>
+
+          <tr>
+            <h3>City</h3>
+            <td><input class="input" type="text" id="city" /></td>
+            <h3>Street Name</h3>
+            <td><input class="input" type="text" id="streetName" /></td>
+            <h3>Street Number</h3>
+            <td><input class="input" type="number" id="streetNumber" /></td>
+            <h3>Area Size</h3>
+            <td><input class="input" type="number" id="areaSize" /></td>
+            <h3>Year Built</h3>
+            <td><input class="input" type="number" id="yearBuilt" /></td>
+            <h3>Rent Price</h3>
+            <td><input class="input" type="number" id="rentPrice" /></td>
+            <h3>Date Available</h3>
+            <td><input class="input" type="text" id="dateAvailable" /></td>
+          </tr>
+        </div>
+        <table id="propertyTable" style="display: none">
+          <thead>
+            <tr>
+              <th>City</th>
+              <th>Street Name</th>
+              <th>Street Number</th>
+              <th>Area Size</th>
+              <th>Year Built</th>
+              <th>Rent Price</th>
+              <th>Date Available</th>
+            </tr>
+          </thead>
+          <tbody id="propertyTableBody"></tbody>
+        </table>
+
+        <div class="button-container">
+          <button onclick="saveProperty()">Save Property</button>
+          <button onclick="closeAddPropertyForm()">Close</button>
+        </div>
+      </div>
+
+      <div class="profile-container" id="profileForm">
+        <div class="profile">
+          <h1>My Profile</h1>
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" name="firstName" /><br /><br />
+
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" name="lastName" /><br /><br />
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" /><br /><br />
+
+          <label for="dob">Date of Birth:</label>
+          <input type="date" id="dob" name="dob" /><br /><br />
+
+          <label for="telefon">Phone:</label>
+          <input type="tel" id="telefon" name="telefon" /><br /><br />
+        </div>
+
+        <div class="button">
+          <button onclick="saveProfile()">Save Profile</button>
+          <button onclick="closesaveProfile()">Close</button>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

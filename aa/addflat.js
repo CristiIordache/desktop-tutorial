@@ -1,12 +1,103 @@
-
 function myMenuFunction() {
   let x = document.getElementById("navMenu");
   if (x.className === "nav-menu") {
-      x.className += " responsive";
+    x.className += " responsive";
   } else {
-      x.className = "nav-menu";
+    x.className = "nav-menu";
   }
 }
+function logOut() {
+  // Redirecționează utilizatorul către pagina de logare
+  window.location.href = "index.html";
+}
+function addProperty() {
+  let formContainer = document.getElementById("addPropertyForm");
+  formContainer.style.display = "block"; // Afișează elementul
+}
+function closeAddPropertyForm() {
+  let formContainer = document.getElementById("addPropertyForm");
+  formContainer.style.display = "none"; // Ascunde elementul
+}
+function myProfile() {
+  let profileContainer = document.getElementById("profileForm");
+  profileContainer.style.display = "block"; // Afișează elementul
+}
+function closesaveProfile() {
+  let profileContainer = document.getElementById("profileForm");
+  profileContainer.style.display = "none"; // Ascunde elementul
+}
+
+function saveProperty() {
+  // Obțineți valorile introduse în câmpurile de intrare
+  let city = document.getElementById("city").value;
+  let streetName = document.getElementById("streetName").value;
+  let streetNumber = document.getElementById("streetNumber").value;
+  let areaSize = document.getElementById("areaSize").value;
+  let yearBuilt = document.getElementById("yearBuilt").value;
+  let rentPrice = document.getElementById("rentPrice").value;
+  let dateAvailable = document.getElementById("dateAvailable").value;
+
+  // Creați un nou obiect Property
+  let property = new Property(city, streetName, streetNumber, areaSize, yearBuilt, rentPrice, dateAvailable);
+
+  // Obțineți toate proprietățile salvate anterior în local storage
+  let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+  // Adăugați noua proprietate în array-ul de proprietăți
+  properties.push(property);
+
+  // Salvare array-ul actualizat în local storage
+  localStorage.setItem("properties", JSON.stringify(properties));
+
+  // Afișați un mesaj de succes utilizatorului
+  toastr.success("Property saved successfully!");
+}
+
+console.log(seeProperty)
+function seeProperty() {
+  // Obțineți proprietățile salvate din local storage
+  let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+  // Găsiți elementul tabelului și îl faceți vizibil
+  let propertyTable = document.getElementById("propertyTable");
+  propertyTable.style.display = "table"; // Setează display-ul la "table" pentru a afișa tabelul
+
+  // Găsiți elementul tbody al tabelului și îl faceți vizibil
+  let tableBody = document.getElementById("propertyTableBody");
+  tableBody.style.display = "table-row-group"; // Setează display-ul la "table-row-group" pentru a afișa tbody-ul
+
+  // Ștergeți conținutul actual al tbody-ului
+  tableBody.innerHTML = "";
+
+  // Parcurgeți fiecare proprietate și creați un rând de tabel pentru fiecare
+  properties.forEach(property => {
+    let row = tableBody.insertRow();
+
+    // Adăugați celule pentru fiecare proprietate
+    let cityCell = row.insertCell(0);
+    let streetNameCell = row.insertCell(1);
+    let streetNumberCell = row.insertCell(2);
+    let areaSizeCell = row.insertCell(3);
+    let yearBuiltCell = row.insertCell(4);
+    let rentPriceCell = row.insertCell(5);
+    let dateAvailableCell = row.insertCell(6);
+
+    // Setarea valorilor celulelor cu datele proprietății curente
+    cityCell.textContent = property.city;
+    streetNameCell.textContent = property.streetName;
+    streetNumberCell.textContent = property.streetNumber;
+    areaSizeCell.textContent = property.areaSize;
+    yearBuiltCell.textContent = property.yearBuilt;
+    rentPriceCell.textContent = property.rentPrice;
+    dateAvailableCell.textContent = property.dateAvailable;
+  });
+}
+
+
+
+
+
+
 
 
 
@@ -22,77 +113,46 @@ function myMenuFunction() {
 
 
 function add() {
-  //   var navMenu = document.getElementById("navMenu");
-  //   navMenu.classList.toggle("active");
-
-  //test cod cu local storigi
-
+  // Retrieve user data from local storage
   let users = JSON.parse(localStorage.getItem("userDataArray")) || [];
-  let user = JSON.parse(localStorage.getItem("Log")) || [];
+  let user = JSON.parse(localStorage.getItem("Log")) || {};
 
   if (user.flag_profile == 0) {
-    //adaugam informati care le cere
+    // Add required user data
     user.telefon = "9763493546";
     user.flag_profile = "1";
-    //buton de seiv
-    user.property = [];
-    user.property.push(new Property("romania", "bucuresti"));
 
-    // for (let (ele,index) of users) {
-    //   if (ele.email == user.email) {
-    //     ele = user;
-    //   }
-    // }
+    // Initialize user's property array and push property data
+    user.property = [new Property("Romania", "Bucharest")];
+
+    // Update user data in the users array
     users.forEach((element, index) => {
       if (element.email == user.email) {
         users[index] = user;
       }
     });
+
+    // Save updated user data back to local storage
     localStorage.setItem("userDataArray", JSON.stringify(users));
   }
 }
 
 class Property {
-  constructor(country, city) {
-    this.country = country;
+  constructor(
+    city,
+    streetName,
+    streetNumber,
+    areaSize,
+    yearBuilt,
+    rentPrice,
+    dateAvailable
+  ) {
     this.city = city;
+    this.streetName = streetName;
+    this.streetNumber = streetNumber;
+    this.areaSize = areaSize;
+    this.yearBuilt = yearBuilt;
+    this.rentPrice = rentPrice;
+    this.dateAvailable = dateAvailable;
   }
 }
-
-// function openModal() {
-//   document.getElementById("myModal").style.display = "block";
-// }
-
-// // Funcție pentru închiderea ferestrei modale
-// function closeModal() {
-//   document.getElementById("myModal").style.display = "none";
-// }
-
-// // Funcție pentru adăugarea proprietății
-// function addProperty() {
-//   const country = document.getElementById("country").value;
-//   const city = document.getElementById("city").value;
-//   const street = document.getElementById("street").value;
-//   const streetNumber = document.getElementById("streetNumber").value;
-//   const propertySize = document.getElementById("propertySize").value;
-//   const yearOfConstruction =
-//     document.getElementById("yearOfConstruction").value;
-//   const monthlyPayment = document.getElementById("monthlyPayment").value;
-
-//   // Crează un obiect cu detaliile proprietății
-//   const property = {
-//     country: country,
-//     city: city,
-//     street: street,
-//     streetNumber: streetNumber,
-//     propertySize: propertySize,
-//     yearOfConstruction: yearOfConstruction,
-//     monthlyPayment: monthlyPayment,
-//   };
-
-//   // Salvează proprietatea în stocarea locală (poți modifica această parte pentru a stoca datele într-o bază de date sau altă soluție de persistență)
-//   localStorage.setItem("property", JSON.stringify(property));
-
-//   // Închide fereastra modală după adăugarea proprietății
-//   closeModal();
-// }

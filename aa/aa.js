@@ -1,3 +1,8 @@
+
+
+
+
+
 /* Get the login button, register button, login container, and register container */
 let loginbutton = document.getElementById("loginBtn");
 let registerbutton = document.getElementById("registerBtn");
@@ -5,6 +10,15 @@ let userlogin = document.getElementById("login");
 let userregister = document.getElementById("register");
 //scos variabile
 
+let initialLoad = true; // Variabilă pentru a verifica dacă este prima încărcare a paginii
+
+// Funcție pentru încărcarea inițială a paginii
+function initialPageLoad() {
+    if (initialLoad) {
+        location.reload(); // Refresh doar la încărcarea inițială a paginii
+        initialLoad = false; // Setează variabila initialLoad pe false pentru a marca că încărcarea inițială a fost deja efectuată
+    }
+}
 /* Function to toggle responsive navigation menu */
 function myMenuFunction() {
   let userlogin = document.getElementById("navMenu");
@@ -197,6 +211,7 @@ function registerUser() {
   passwordInput.value = "";
   confirmPasswordInput.value = "";
   birthDateInput.value = "";
+ flatpickr.value=""
 
 
 
@@ -216,7 +231,14 @@ function registerUser() {
     localStorage.setItem("userDataArray", JSON.stringify(userDataArray));
   
     // Mesaj de succes
-    toastrtop().success("Registration successful! Please log in.");
+    function registerUser() {
+      // Codul existent pentru înregistrarea utilizatorului
+  
+      // Dacă înregistrarea este reușită, afișează alerta de succes și apoi actualizează pagina
+      toastrtop().success("Registration successful! Please log in.").on('hidden.bs.toast', function(){
+        window.location.reload(); // Refresh complet al paginii după ce utilizatorul primește mesajul de înregistrare reușită
+    });
+  }
     // Șterge datele din toate câmpurile de intrare
   firstnameInput.value = "";
   lastnameInput.value = "";

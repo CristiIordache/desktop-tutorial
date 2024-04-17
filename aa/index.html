@@ -1,156 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login & Registration</title>
     <!-- Link to Boxicons CSS -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <!-- Link to custom CSS file -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <!-- Link to SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"
+    />
     <!-- Load SweetAlert2 JavaScript library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Load jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!-- Link to Toastr CSS stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+      rel="stylesheet"
+    />
     <!-- Load Toastr JavaScript library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
     <!-- Load Flatpickr JavaScript library -->
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr" class="aaa"></script>
+
     <!-- Load custom JavaScript file -->
-    
+
     <script src="aa.js" defer></script>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Wrapper element -->
     <div class="wrapper">
-        <!-- Navigation bar -->
-        <nav class="nav">
-            <div class="nav-logo">
-                <p>JS.</p>
-            </div>
-            <!-- Navigation menu -->
-            <div class="nav-menu" id="navMenu">
-                <ul>
-                    <!-- Menu items -->
-                    <li><a href="#" class="link active">Home</a></li>
-                    <li><a href="#" class="link" onclick="redirectToFacebook()">Blog</a></li>
-                    <li><a href="#" class="link" onclick="servis()">Services</a></li>
-                    <li><a href="#" class="link" onclick="about()">About</a></li>
-                </ul>
-            </div>
-            <!-- Buttons for login and registration -->
-            <div class="nav-button">
-                <button class="btn white-btn" id="loginBtn" onclick="login()">Sign In</button>
-                <button class="btn" id="registerBtn" onclick="register()">Sign Up</button>
-            </div>
-            <!-- Button for toggling the mobile menu -->
-            <div class="nav-menu-btn">
-                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
-            </div>
-        </nav>
-       
-        <!-- Form box containing login and registration forms -->
-        <div class="form-box">
-            <!-- Login and registration containers -->
-            <div class="login-container" id="login">
-                <!-- Top section with switch to registration and header -->
-                <div class="top">
-                    <span>Don't have an account? <a href="#" onclick="register()">Sign Up</a></span>
-                    <header>Login</header>
-                </div>
-                <!-- Input fields for email and password -->
-                <div class="input-box">
-                    <input type="text" id="loginEmail" class="input-field" placeholder="Email">
-                    <i class="bx bx-user"></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" id="loginPassword" class="input-field" placeholder="Password">
-                    <i class="bx bx-lock-alt"></i>
-                </div>
-                <!-- Submit button for signing in -->
-                <div class="input-box">
-                    <input type="submit" class="submit" value="Sign In" onclick="loginUser()">
-                </div>
-                <!-- Checkbox for remember me and link for forgot password -->
-                <div class="two-col">
-                    <div class="one">
-                        <input type="checkbox" id="login-check">
-                        <label for="login-check"> Remember Me</label>
-                    </div>
-                    <div class="two">
-                        <label><a href="reset_password.html">Forgot password?</a></label>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Registration container -->
-            <div class="register-container" id="register">
-                <!-- Top section with switch to login and header -->
-                <div class="top">
-                    <span>Have an account? <a href="#" onclick="login()">Login</a></span>
-                    <header>Sign Up</header>
-                </div>
-                <!-- Input fields for first name, last name, email, and password -->
-                <div class="two-forms">
-                    <div class="input-box">
-                        <input type="text" id="firstnameInput" class="input-field" placeholder="Firstname">
-                        <i class="bx bx-user"></i>
-                    </div>
-                    <div class="input-box">
-                        <input type="text" id="lastnameInput" class="input-field" placeholder="Lastname">
-                        <i class="bx bx-user"></i>
-                    </div>
-                </div>
-                <div class="input-box">
-                    <input type="text" id="emailInput" class="input-field" placeholder="Email">
-                    <i class="bx bx-envelope"></i>
-                </div>
-
-                <div class="input-box">
-                    <input type="password" id="passwordInput" class="input-field" placeholder="Password">
-                    <i class="bx bx-lock-alt"></i>
-                </div>
-
-
-
-
-
-                <div class="input-box">
-                    <input type="password" id="confirmPasswordInput" class="input-field" placeholder="Confirm Password">
-                    <i class="bx bx-lock-alt"></i>
-                </div>
-
-
-
-                <div class="input-box">
-                    <input type="date" id="birthDateInput" class="input-field" placeholder="Birth Date">
-                    <i class="bx bx-calendar"></i>
-                </div>
-
-
-
-                <!-- Submit button for registration -->
-                <div class="input-box">
-                    <input type="submit" class="submit" value="Register" onclick="registerUser()">
-                </div>
-                <!-- Checkbox for remember me and link for forgot password -->
-                <div class="two-col">
-                    <div class="one">
-                        <input type="checkbox" id="register-check">
-                        <label for="register-check"> Remember Me</label>
-                    </div>
-                    <div class="two">
-                        <label><a href="reset_password.html">Forgot password?</a></label>
-                    </div>
-                </div>
-            </div>
+      <!-- Navigation bar -->
+      <nav class="nav">
+        <div class="nav-logo">
+          <p>JS.</p>
         </div>
+        <!-- Navigation menu -->
+        <div class="nav-menu" id="navMenu">
+          <ul>
+            <!-- Menu items -->
+            <li><a href="#" class="link active">Home</a></li>
+            <li>
+              <a href="#" class="link" onclick="redirectToFacebook()">Blog</a>
+            </li>
+            <li><a href="#" class="link" onclick="servis()">Services</a></li>
+            <li><a href="#" class="link" onclick="about()">About</a></li>
+          </ul>
+        </div>
+        <!-- Buttons for login and registration -->
+        <div class="nav-button">
+          <button class="btn white-btn" id="loginBtn" onclick="login()">
+            Sign In
+          </button>
+          <button class="btn" id="registerBtn" onclick="register()">
+            Sign Up
+          </button>
+        </div>
+        <!-- Button for toggling the mobile menu -->
+        <div class="nav-menu-btn">
+          <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+        </div>
+      </nav>
+
+      <!-- Form box containing login and registration forms -->
+      <div class="form-box">
+        <!-- Login and registration containers -->
+        <div class="login-container" id="login">
+          <!-- Top section with switch to registration and header -->
+          <div class="top">
+            <span
+              >Don't have an account?
+              <a href="#" onclick="register()">Sign Up</a></span
+            >
+            <header>Login</header>
+          </div>
+          <!-- Input fields for email and password -->
+          <div class="input-box">
+            <input
+              type="text"
+              id="loginEmail"
+              class="input-field"
+              placeholder="Email"
+            />
+            <i class="bx bx-user"></i>
+          </div>
+          <div class="input-box">
+            <input
+              type="password"
+              id="loginPassword"
+              class="input-field"
+              placeholder="Password"
+            />
+            <i class="bx bx-lock-alt"></i>
+          </div>
+          <!-- Submit button for signing in -->
+          <div class="input-box">
+            <input
+              type="submit"
+              class="submit"
+              value="Sign In"
+              onclick="loginUser()"
+            />
+          </div>
+          <!-- Checkbox for remember me and link for forgot password -->
+          <div class="two-col">
+            <div class="one">
+              <input type="checkbox" id="login-check" />
+              <label for="login-check"> Remember Me</label>
+            </div>
+            <div class="two">
+              <label><a href="reset_password.html">Forgot password?</a></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registration container -->
+        <div class="register-container" id="register">
+          <!-- Top section with switch to login and header -->
+          <div class="top">
+            <span
+              >Have an account? <a href="#" onclick="login()">Login</a></span
+            >
+            <header>Sign Up</header>
+          </div>
+          <!-- Input fields for first name, last name, email, and password -->
+          <div class="two-forms">
+            <div class="input-box">
+              <input
+                type="text"
+                id="firstnameInput"
+                class="input-field"
+                placeholder="Firstname"
+              />
+              <i class="bx bx-user"></i>
+            </div>
+            <div class="input-box">
+              <input
+                type="text"
+                id="lastnameInput"
+                class="input-field"
+                placeholder="Lastname"
+              />
+              <i class="bx bx-user"></i>
+            </div>
+          </div>
+          <div class="input-box">
+            <input
+              type="text"
+              id="emailInput"
+              class="input-field"
+              placeholder="Email"
+            />
+            <i class="bx bx-envelope"></i>
+          </div>
+
+          <div class="input-box">
+            <input
+              type="password"
+              id="passwordInput"
+              class="input-field"
+              placeholder="Password"
+            />
+            <i class="bx bx-lock-alt"></i>
+          </div>
+
+          <div class="input-box">
+            <input
+              type="password"
+              id="confirmPasswordInput"
+              class="input-field"
+              placeholder="Confirm Password"
+            />
+            <i class="bx bx-lock-alt"></i>
+          </div>
+
+          <div class="input-box">
+            <input
+              type="date"
+              id="birthDateInput"
+              class="input-field"
+              placeholder="Birth Date"
+            />
+            <i class="bx bx-calendar"></i>
+          </div>
+
+          <!-- Submit button for registration -->
+          <div class="input-box">
+            <input
+              type="submit"
+              class="submit"
+              value="Register"
+              onclick="registerUser()"
+            />
+          </div>
+          <!-- Checkbox for remember me and link for forgot password -->
+          <div class="two-col">
+            <div class="one">
+              <input type="checkbox" id="register-check" />
+              <label for="register-check"> Remember Me</label>
+            </div>
+            <div class="two">
+              <label><a href="reset_password.html">Forgot password?</a></label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
