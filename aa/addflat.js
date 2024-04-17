@@ -38,7 +38,15 @@ function saveProperty() {
   let dateAvailable = document.getElementById("dateAvailable").value;
 
   // Creați un nou obiect Property
-  let property = new Property(city, streetName, streetNumber, areaSize, yearBuilt, rentPrice, dateAvailable);
+  let property = new Property(
+    city,
+    streetName,
+    streetNumber,
+    areaSize,
+    yearBuilt,
+    rentPrice,
+    dateAvailable
+  );
 
   // Obțineți toate proprietățile salvate anterior în local storage
   let properties = JSON.parse(localStorage.getItem("properties")) || [];
@@ -53,7 +61,6 @@ function saveProperty() {
   toastr.success("Property saved successfully!");
 }
 
-console.log(seeProperty)
 function seeProperty() {
   // Obțineți proprietățile salvate din local storage
   let properties = JSON.parse(localStorage.getItem("properties")) || [];
@@ -70,7 +77,7 @@ function seeProperty() {
   tableBody.innerHTML = "";
 
   // Parcurgeți fiecare proprietate și creați un rând de tabel pentru fiecare
-  properties.forEach(property => {
+  properties.forEach((property) => {
     let row = tableBody.insertRow();
 
     // Adăugați celule pentru fiecare proprietate
@@ -93,24 +100,45 @@ function seeProperty() {
   });
 }
 
+function myProfile() {
+  let profileContainer = document.getElementById("profileForm");
+  profileContainer.style.display = "block"; // Afișează elementul
 
+  // Obține datele utilizatorului din local storage
+  let user = JSON.parse(localStorage.getItem("Log")) || {};
 
+  // Populați câmpurile formularului cu datele utilizatorului
+  document.getElementById("firstName").value = user.firstName || "";
+  document.getElementById("lastName").value = user.lastName || "";
+  document.getElementById("email").value = user.email || "";
+  document.getElementById("dob").value = user.dob || "";
+  document.getElementById("telefon").value = user.telefon || "";
+}
 
+function saveProfile() {
+  // Obțineți datele introduse de utilizator din formular
+  let firstName = document.getElementById("firstName").value;
+  let lastName = document.getElementById("lastName").value;
+  let email = document.getElementById("email").value;
+  let dob = document.getElementById("dob").value;
+  let telefon = document.getElementById("telefon").value;
 
+  // Obțineți datele utilizatorului din local storage
+  let user = JSON.parse(localStorage.getItem("Log")) || {};
 
+  // Actualizați datele utilizatorului cu cele din formular
+  user.firstName = firstName;
+  user.lastName = lastName;
+  user.email = email;
+  user.dob = dob;
+  user.telefon = telefon;
 
+  // Salvați datele actualizate înapoi în local storage
+  localStorage.setItem("Log", JSON.stringify(user));
 
-
-
-
-
-
-
-
-
-
-
-
+  // Afișați un mesaj de succes utilizatorului
+  toastr.success("Profile saved successfully!");
+}
 
 function add() {
   // Retrieve user data from local storage
