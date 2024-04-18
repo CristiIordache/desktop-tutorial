@@ -84,18 +84,7 @@
             <td><input class="input" type="text" id="dateAvailable" /></td>
           </tr>
         </div>
-        <table id="propertyTable" style="display: none">
-          <thead>
-            <tr>
-              <th>City</th>
-              <th>Street Name</th>
-              <th>Street Number</th>
-              <th>Area Size</th>
-              <th>Year Built</th>
-              <th>Rent Price</th>
-              <th>Date Available</th>
-            </tr>
-          </thead>
+        
           <tbody id="propertyTableBody"></tbody>
         </table>
 
@@ -104,6 +93,46 @@
           <button onclick="closeAddPropertyForm()">Close</button>
         </div>
       </div>
+
+
+        
+ <div class="back-container" id="propertyTable">
+        <div class="containerSee">
+          <h1> See Property</h1>
+<tbody id="propertyTableBody">
+          <tr>
+            <h3>City</h3>
+            <td><input class="input" type="text" id="city" /></td>
+            <h3>Street Name</h3>
+            <td><input class="input" type="text" id="streetName" /></td>
+            <h3>Street Number</h3>
+            <td><input class="input" type="number" id="streetNumber" /></td>
+            <h3>Area Size</h3>
+            <td><input class="input" type="number" id="areaSize" /></td>
+            <h3>Year Built</h3>
+            <td><input class="input" type="number" id="yearBuilt" /></td>
+            <h3>Rent Price</h3>
+            <td><input class="input" type="number" id="rentPrice" /></td>
+            <h3>Date Available</h3>
+            <td><input class="input" type="text" id="dateAvailable" /></td>
+          </tr>
+        </tbody>
+        </div>
+        
+          
+        
+
+        <div class="button-container">
+          <button onclick="addfavoritey()">Add favorite</button>
+          <button onclick="closeAddfavorite()">Close</button>
+        </div>
+      </div>
+
+
+
+
+
+
 
       <div class="profile-container" id="profileForm">
         <div class="profile">
@@ -120,8 +149,9 @@
           <label for="dob">Date of Birth:</label>
           <input type="date" id="dob" name="dob" /><br /><br />
 
-          <label for="telefon">Phone:</label>
+          <label for="telefon">Phone:(Optional)</label>
           <input type="tel" id="telefon" name="telefon" /><br /><br />
+          <p></p>
         </div>
 
         <div class="button">

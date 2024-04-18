@@ -27,6 +27,11 @@ function closesaveProfile() {
   profileContainer.style.display = "none"; // Ascunde elementul
 }
 
+function closeAddfavorite() {
+  let propertyTable = document.getElementById("propertyTable");
+  propertyTable.style.display = "none"; // Ascunde containerul "See Property"
+}
+
 function saveProperty() {
   // Obțineți valorile introduse în câmpurile de intrare
   let city = document.getElementById("city").value;
@@ -61,6 +66,45 @@ function saveProperty() {
   toastr.success("Property saved successfully!");
 }
 
+// function seeProperty() {
+//   // Obțineți proprietățile salvate din local storage
+//   let properties = JSON.parse(localStorage.getItem("properties")) || [];
+
+//   // Găsiți elementul tabelului și îl faceți vizibil
+//   let propertyTable = document.getElementById("propertyTable");
+//   propertyTable.style.display = "table"; // Setează display-ul la "table" pentru a afișa tabelul
+
+//   // Găsiți elementul tbody al tabelului și îl faceți vizibil
+//   let tableBody = document.getElementById("propertyTableBody");
+//   tableBody.style.display = "table-row-group"; // Setează display-ul la "table-row-group" pentru a afișa tbody-ul
+
+//   // Ștergeți conținutul actual al tbody-ului
+//   tableBody.innerHTML = "";
+
+//   // Parcurgeți fiecare proprietate și creați un rând de tabel pentru fiecare
+//   properties.forEach((property) => {
+//     let row = tableBody.insertRow();
+
+//     // Adăugați celule pentru fiecare proprietate
+//     let cityCell = row.insertCell(0);
+//     let streetNameCell = row.insertCell(1);
+//     let streetNumberCell = row.insertCell(2);
+//     let areaSizeCell = row.insertCell(3);
+//     let yearBuiltCell = row.insertCell(4);
+//     let rentPriceCell = row.insertCell(5);
+//     let dateAvailableCell = row.insertCell(6);
+
+//     // Setarea valorilor celulelor cu datele proprietății curente
+//     cityCell.textContent = property.city;
+//     streetNameCell.textContent = property.streetName;
+//     streetNumberCell.textContent = property.streetNumber;
+//     areaSizeCell.textContent = property.areaSize;
+//     yearBuiltCell.textContent = property.yearBuilt;
+//     rentPriceCell.textContent = property.rentPrice;
+//     dateAvailableCell.textContent = property.dateAvailable;
+//   });
+// }
+
 function seeProperty() {
   // Obțineți proprietățile salvate din local storage
   let properties = JSON.parse(localStorage.getItem("properties")) || [];
@@ -71,7 +115,7 @@ function seeProperty() {
 
   // Găsiți elementul tbody al tabelului și îl faceți vizibil
   let tableBody = document.getElementById("propertyTableBody");
-  tableBody.style.display = "table-row-group"; // Setează display-ul la "table-row-group" pentru a afișa tbody-ul
+  tableBody.style.display = "propertyTable"; // Setează display-ul la "table-row-group" pentru a afișa tbody-ul
 
   // Ștergeți conținutul actual al tbody-ului
   tableBody.innerHTML = "";
@@ -108,10 +152,10 @@ function myProfile() {
   let user = JSON.parse(localStorage.getItem("Log")) || {};
 
   // Populați câmpurile formularului cu datele utilizatorului
-  document.getElementById("firstName").value = user.firstName || "";
-  document.getElementById("lastName").value = user.lastName || "";
+  document.getElementById("firstName").value = user.firstname || "";
+  document.getElementById("lastName").value = user.lastname || "";
   document.getElementById("email").value = user.email || "";
-  document.getElementById("dob").value = user.dob || "";
+  document.getElementById("dob").value = user.birthDate || "";
   document.getElementById("telefon").value = user.telefon || "";
 }
 
@@ -127,14 +171,20 @@ function saveProfile() {
   let user = JSON.parse(localStorage.getItem("Log")) || {};
 
   // Actualizați datele utilizatorului cu cele din formular
-  user.firstName = firstName;
-  user.lastName = lastName;
+  user.firstname = firstName;
+  user.lastname = lastName;
   user.email = email;
-  user.dob = dob;
+  user.birthDate = dob;
   user.telefon = telefon;
 
   // Salvați datele actualizate înapoi în local storage
   localStorage.setItem("Log", JSON.stringify(user));
+
+  //Getbig localstoreage
+  //Parse in el sa gasesti utilizatorul
+  //Inlocuiesti
+
+  //Salvezi
 
   // Afișați un mesaj de succes utilizatorului
   toastr.success("Profile saved successfully!");

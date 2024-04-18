@@ -133,7 +133,10 @@ label {
 .profile{
     color: #fafafa;
 }
-
+.back-container{
+    display: none; /* Ascunde elementul */
+}
+.containerSee{color: #fafafa;}
 
 
 

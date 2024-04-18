@@ -1,8 +1,3 @@
-
-
-
-
-
 /* Get the login button, register button, login container, and register container */
 let loginbutton = document.getElementById("loginBtn");
 let registerbutton = document.getElementById("registerBtn");
@@ -14,10 +9,10 @@ let initialLoad = true; // Variabilă pentru a verifica dacă este prima încăr
 
 // Funcție pentru încărcarea inițială a paginii
 function initialPageLoad() {
-    if (initialLoad) {
-        location.reload(); // Refresh doar la încărcarea inițială a paginii
-        initialLoad = false; // Setează variabila initialLoad pe false pentru a marca că încărcarea inițială a fost deja efectuată
-    }
+  if (initialLoad) {
+    location.reload(); // Refresh doar la încărcarea inițială a paginii
+    initialLoad = false; // Setează variabila initialLoad pe false pentru a marca că încărcarea inițială a fost deja efectuată
+  }
 }
 /* Function to toggle responsive navigation menu */
 function myMenuFunction() {
@@ -103,102 +98,111 @@ function toastrtop() {
 }
 
 function validateConfirmPassword(password, confirmPassword) {
-    return password === confirmPassword;
-  }
-  function configureFlatpickr() {
-    let birthDateInput = document.getElementById("birthDateInput");
-    flatpickr(birthDateInput, {
-      dateFormat: "Y-m-d",
-      maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-      allowInput: true,
-    });3
+  return password === confirmPassword;
+}
+function configureFlatpickr() {
+  let birthDateInput = document.getElementById("birthDateInput");
+  flatpickr(birthDateInput, {
+    dateFormat: "Y-m-d",
+    maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+    allowInput: true,
+  });
+  3;
 }
 function validateBirthDate(birthDate) {
-    const today = new Date();
-    const userBirthDate = new Date(birthDate);
-    const age = today.getFullYear() - userBirthDate.getFullYear();
-    const monthDiff = today.getMonth() - userBirthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < userBirthDate.getDate())) {
-      age--;
-    }
-    return age >= 18;
-}
-  
-let birthDateInput = document.getElementById("birthDateInput");
-flatpickr(birthDateInput, {
-  dateFormat: "d/m/Y", // Formatul datelor de intrare: ziua/luna/anul (de exemplu: 12/04/1990)
-  allowInput: true,
-});
-function configureFlatpickr() {
-    const birthDateInput = document.getElementById("birthDateInput");
-    flatpickr(birthDateInput, {
-      dateFormat: "Y-m-d",
-      maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-      allowInput: true,
-    });
+  let today = new Date();
+  let userBirthDate = new Date(birthDate);
+  let age = today.getFullYear() - userBirthDate.getFullYear();
+  let monthDiff = today.getMonth() - userBirthDate.getMonth();
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < userBirthDate.getDate())
+  ) {
+    age--;
   }
-  
-  // Apelăm funcția pentru a configura Flatpickr
-  configureFlatpickr();
+  return age >= 18;
+}
 
+let birthDateInput = document.getElementById("birthDateInput");
+// flatpickr(birthDateInput, {
+//   dateFormat: "d/m/Y", // Formatul datelor de intrare: ziua/luna/anul (de exemplu: 12/04/1990)
+//   allowInput: true,
+// });
+function configureFlatpickr() {
+  const birthDateInput = document.getElementById("birthDateInput");
+  flatpickr(birthDateInput, {
+    dateFormat: "Y-m-d",
+    maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+    allowInput: true,
+  });
+}
 
+// Apelăm funcția pentru a configura Flatpickr
+// configureFlatpickr();
 
 /* Function to register loginbutton new user */
 function registerUser() {
-    const firstnameInput = document.getElementById("firstnameInput");
-    const lastnameInput = document.getElementById("lastnameInput");
-    const emailInput = document.getElementById("emailInput");
-    const passwordInput = document.getElementById("passwordInput");
-    const confirmPasswordInput = document.getElementById("confirmPasswordInput");
-    const birthDateInput = document.getElementById("birthDateInput");
+  const firstnameInput = document.getElementById("firstnameInput");
+  const lastnameInput = document.getElementById("lastnameInput");
+  const emailInput = document.getElementById("emailInput");
+  const passwordInput = document.getElementById("passwordInput");
+  const confirmPasswordInput = document.getElementById("confirmPasswordInput");
+  const birthDateInput = document.getElementById("birthDateInput");
 
-    if (!firstnameInput || !lastnameInput || !emailInput || !passwordInput || !confirmPasswordInput || !birthDateInput) {
-        console.error("One or more input elements not found.");
-        return;
-    }
+  if (
+    !firstnameInput ||
+    !lastnameInput ||
+    !emailInput ||
+    !passwordInput ||
+    !confirmPasswordInput ||
+    !birthDateInput
+  ) {
+    console.error("One or more input elements not found.");
+    return;
+  }
 
-    const firstname = firstnameInput.value;
-    const lastname = lastnameInput.value;
-    const email = emailInput.value;
-    const password = passwordInput.value;
-    const confirmPassword = confirmPasswordInput.value;
-    const birthDate = birthDateInput.value;
-  
-    if (!validateName(firstname)) {
-      toastrtop().error("Please enter a valid Firstname!");
-      return;
-    }
-  
-    if (!validateName(lastname)) {
-      toastrtop().error("Please enter a valid Lastname!");
-      return;
-    }
-  
-    if (!validateEmail(email)) {
-      toastrtop().error("Please enter a valid Email!");
-      return;
-    }
-  
-    if (!validatePassword(password)) {
-      toastrtop().error(
-        "Password must be at least 6 characters long and contain at least one uppercase letter, one special character, and one digit!"
-      );
-      return;
-    }
-  
-    if (!validateConfirmPassword(password, confirmPassword)) {
-      toastrtop().error("Passwords do not match!");
-      return;
-    }
-  
-    if (!validateBirthDate(birthDate)) {
-      toastrtop().error("You must be at least 18 years old to register!");
-      return;
-    }
-  
-    // Verificăm dacă emailul este deja înregistrat
+  const firstname = firstnameInput.value;
+  const lastname = lastnameInput.value;
+  const email = emailInput.value;
+  const password = passwordInput.value;
+  const confirmPassword = confirmPasswordInput.value;
+  const birthDate = birthDateInput.value;
+
+  if (!validateName(firstname)) {
+    toastrtop().error("Please enter a valid Firstname!");
+    return;
+  }
+
+  if (!validateName(lastname)) {
+    toastrtop().error("Please enter a valid Lastname!");
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    toastrtop().error("Please enter a valid Email!");
+    return;
+  }
+
+  if (!validatePassword(password)) {
+    toastrtop().error(
+      "Password must be at least 6 characters long and contain at least one uppercase letter, one special character, and one digit!"
+    );
+    return;
+  }
+
+  if (!validateConfirmPassword(password, confirmPassword)) {
+    toastrtop().error("Passwords do not match!");
+    return;
+  }
+
+  if (!validateBirthDate(birthDate)) {
+    toastrtop().error("You must be at least 18 years old to register!");
+    return;
+  }
+
+  // Verificăm dacă emailul este deja înregistrat
   const userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
-  const existingUser = userDataArray.find(user => user.email === email);
+  const existingUser = userDataArray.find((user) => user.email === email);
   if (existingUser) {
     toastrtop().error("The email address is already in use with another user.");
     return;
@@ -211,42 +215,49 @@ function registerUser() {
   passwordInput.value = "";
   confirmPasswordInput.value = "";
   birthDateInput.value = "";
- flatpickr.value=""
+  flatpickr.value = "";
 
+  // Aici este locul unde ar trebui să fie logica de înregistrare a utilizatorului
 
+  // Crearea unui obiect User cu datele utilizatorului
+  const newUser = new User(
+    firstname,
+    lastname,
+    email,
+    password,
+    birthDate,
+    "",
+    0,
+    ""
+  );
 
-    // Aici este locul unde ar trebui să fie logica de înregistrare a utilizatorului
-  
-    // Crearea unui obiect User cu datele utilizatorului
-    const newUser = new User(firstname, lastname, email, password,confirmPassword,birthDate, "", 0, "");
-  
-    // Salvarea datelor utilizatorului într-o bază de date sau în local storage, etc.
-    // De exemplu, salvarea în local storage:
+  // Salvarea datelor utilizatorului într-o bază de date sau în local storage, etc.
+  // De exemplu, salvarea în local storage:
 
+  // let userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
 
-    
-    // let userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
-    
-    userDataArray.push(newUser);
-    localStorage.setItem("userDataArray", JSON.stringify(userDataArray));
-  
-    // Mesaj de succes
-    function registerUser() {
-      // Codul existent pentru înregistrarea utilizatorului
-  
-      // Dacă înregistrarea este reușită, afișează alerta de succes și apoi actualizează pagina
-      toastrtop().success("Registration successful! Please log in.").on('hidden.bs.toast', function(){
+  userDataArray.push(newUser);
+  localStorage.setItem("userDataArray", JSON.stringify(userDataArray));
+
+  // Mesaj de succes
+  function registerUser() {
+    // Codul existent pentru înregistrarea utilizatorului
+
+    // Dacă înregistrarea este reușită, afișează alerta de succes și apoi actualizează pagina
+    toastrtop()
+      .success("Registration successful! Please log in.")
+      .on("hidden.bs.toast", function () {
         window.location.reload(); // Refresh complet al paginii după ce utilizatorul primește mesajul de înregistrare reușită
-    });
+      });
   }
-    // Șterge datele din toate câmpurile de intrare
+  // Șterge datele din toate câmpurile de intrare
   firstnameInput.value = "";
   lastnameInput.value = "";
   emailInput.value = "";
   passwordInput.value = "";
   confirmPasswordInput.value = "";
   birthDateInput.value = "";
-  }
+}
 
 /* User class */
 class User {
@@ -255,6 +266,7 @@ class User {
     lastname,
     email,
     password,
+    birthDate,
     telefon,
     flag_profile,
     property
@@ -264,6 +276,7 @@ class User {
     this.email = email;
     this.password = password;
     this.telefon = telefon;
+    this.birthDate = birthDate;
     this.flag_profile = flag_profile;
     this.property = property;
   }
