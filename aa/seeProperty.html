@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>See Property</title>
+    <link rel="stylesheet" href="seeProperty1.css" />
+    <script src="seeProperty2.js" defer></script>
+     <!-- Link to SweetAlert2 CSS -->
+     <link
+     rel="stylesheet"
+     href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css"
+   />
+   <!-- Load SweetAlert2 JavaScript library -->
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+   <!-- Load jQuery library -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+   <!-- Link to Toastr CSS stylesheet -->
+   <link
+     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+     rel="stylesheet"
+   />
+   <!-- Load Toastr JavaScript library -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+   <!-- Link to Boxicons CSS -->
+   <link
+     href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+     rel="stylesheet"
+   />
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Navigation bar -->
+        <nav class="nav">
+          <!-- Logo -->
+          <div class="nav-logo">
+            <p>JS.</p>
+          </div>
+          <!-- Menu -->
+          <div class="nav-menu" id="navMenu">
+            <ul>
+              <li>
+                <a href="#" class="link active" onclick="seeProperty()">See Property</a>
+              </li>
+              <li>
+                <a href="#" class="link" onclick="addProperty()">Add Property</a>
+              </li>
+              <li>
+                <a href="#" class="link" onclick="favoriteslist()">Favorites</a>
+              </li>
+              <li><a href="#" class="link" onclick="logOut()">Log Out</a></li>
+            </ul>
+          </div>
+          <!-- Mobile Menu Button -->
+          <div class="nav-menu-btn">
+            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+          </div>
+        </nav>
+
+        <div class="tabel">
+            <table id="propertiesTable">
+                <thead>
+                  <tr>
+                    <th>City</th>
+                    <th>Street Name</th>
+                    <th>Street Number</th>
+                    <th>Area Size</th>
+                    <th>Year Built</th>
+                    <th>Rent Price</th>
+                    <th>Date Available</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Aici se vor adăuga dinamic rândurile tabelului -->
+                </tbody>
+
+        </div>
+    </div>
+</body>
+</html>

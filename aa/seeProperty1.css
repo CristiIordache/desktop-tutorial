@@ -110,35 +110,48 @@ label {
     cursor: pointer;
 }
 
-.modal-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #fff;
-    padding: 10%; 
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+
+
+  .tabel {
+    display: none; /* Ascunde tabelul implicit */
 }
 
-.form-container {
-    display: none; /* Ascunde elementul */
+
+.btn-favorite {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 30px;
+    color: #ccc; /* culoare gri */
 }
-.profile-container{
-    display: none;
+
+.btn-favorite.active {
+    color: yellow; /* culoare galbenă */
 }
-.container{
-    color: #fafafa;
-    
+
+
+.btn-delete {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: black;
 }
-.profile{
-    color: #fafafa;
-}
-.game{
-    position: fixed;
-    background-color: #fff;
-    margin-top: 40%;
-    margin-left: 70%;
-    
+
+.btn-delete:hover {
+    color: red; /* culoare roșie la hover */
 }
 
 
@@ -187,10 +200,7 @@ label {
     .nav-menu-btn i:hover {
         background: rgba(255, 255, 255, 0.15); /* Lighten background on hover */
     }
-    .game{
-        margin-top: 70%;
-        margin-left: 60%;
-    }
+   
 }
 
 @media only screen and (max-width: 540px) {
@@ -212,10 +222,7 @@ label {
         flex-direction: column; /* Stack form fields vertically on smaller screens */
         gap: 0; /* Remove gap between form fields */
     }
-    .game{
-        margin-top: 110%;
-        margin-left: 60%;
-    }
+   
 }
 
 

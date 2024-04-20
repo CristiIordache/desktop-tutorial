@@ -6,9 +6,16 @@ function myMenuFunction() {
     x.className = "nav-menu";
   }
 }
+function seeProperty() {
+  // Redirecționează utilizatorul către pagina de logare
+  window.location.href = "seeProperty.html";
+}
 function logOut() {
   // Redirecționează utilizatorul către pagina de logare
   window.location.href = "index.html";
+}
+function gamespace() {
+  window.location.href = "game.html";
 }
 function addProperty() {
   let formContainer = document.getElementById("addPropertyForm");
@@ -64,84 +71,6 @@ function saveProperty() {
 
   // Afișați un mesaj de succes utilizatorului
   toastr.success("Property saved successfully!");
-}
-
-// function seeProperty() {
-//   // Obțineți proprietățile salvate din local storage
-//   let properties = JSON.parse(localStorage.getItem("properties")) || [];
-
-//   // Găsiți elementul tabelului și îl faceți vizibil
-//   let propertyTable = document.getElementById("propertyTable");
-//   propertyTable.style.display = "table"; // Setează display-ul la "table" pentru a afișa tabelul
-
-//   // Găsiți elementul tbody al tabelului și îl faceți vizibil
-//   let tableBody = document.getElementById("propertyTableBody");
-//   tableBody.style.display = "table-row-group"; // Setează display-ul la "table-row-group" pentru a afișa tbody-ul
-
-//   // Ștergeți conținutul actual al tbody-ului
-//   tableBody.innerHTML = "";
-
-//   // Parcurgeți fiecare proprietate și creați un rând de tabel pentru fiecare
-//   properties.forEach((property) => {
-//     let row = tableBody.insertRow();
-
-//     // Adăugați celule pentru fiecare proprietate
-//     let cityCell = row.insertCell(0);
-//     let streetNameCell = row.insertCell(1);
-//     let streetNumberCell = row.insertCell(2);
-//     let areaSizeCell = row.insertCell(3);
-//     let yearBuiltCell = row.insertCell(4);
-//     let rentPriceCell = row.insertCell(5);
-//     let dateAvailableCell = row.insertCell(6);
-
-//     // Setarea valorilor celulelor cu datele proprietății curente
-//     cityCell.textContent = property.city;
-//     streetNameCell.textContent = property.streetName;
-//     streetNumberCell.textContent = property.streetNumber;
-//     areaSizeCell.textContent = property.areaSize;
-//     yearBuiltCell.textContent = property.yearBuilt;
-//     rentPriceCell.textContent = property.rentPrice;
-//     dateAvailableCell.textContent = property.dateAvailable;
-//   });
-// }
-
-function seeProperty() {
-  // Obțineți proprietățile salvate din local storage
-  let properties = JSON.parse(localStorage.getItem("properties")) || [];
-
-  // Găsiți elementul tabelului și îl faceți vizibil
-  let propertyTable = document.getElementById("propertyTable");
-  propertyTable.style.display = "table"; // Setează display-ul la "table" pentru a afișa tabelul
-
-  // Găsiți elementul tbody al tabelului și îl faceți vizibil
-  let tableBody = document.getElementById("propertyTableBody");
-  tableBody.style.display = "propertyTable"; // Setează display-ul la "table-row-group" pentru a afișa tbody-ul
-
-  // Ștergeți conținutul actual al tbody-ului
-  tableBody.innerHTML = "";
-
-  // Parcurgeți fiecare proprietate și creați un rând de tabel pentru fiecare
-  properties.forEach((property) => {
-    let row = tableBody.insertRow();
-
-    // Adăugați celule pentru fiecare proprietate
-    let cityCell = row.insertCell(0);
-    let streetNameCell = row.insertCell(1);
-    let streetNumberCell = row.insertCell(2);
-    let areaSizeCell = row.insertCell(3);
-    let yearBuiltCell = row.insertCell(4);
-    let rentPriceCell = row.insertCell(5);
-    let dateAvailableCell = row.insertCell(6);
-
-    // Setarea valorilor celulelor cu datele proprietății curente
-    cityCell.textContent = property.city;
-    streetNameCell.textContent = property.streetName;
-    streetNumberCell.textContent = property.streetNumber;
-    areaSizeCell.textContent = property.areaSize;
-    yearBuiltCell.textContent = property.yearBuilt;
-    rentPriceCell.textContent = property.rentPrice;
-    dateAvailableCell.textContent = property.dateAvailable;
-  });
 }
 
 function myProfile() {
