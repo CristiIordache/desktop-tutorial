@@ -57,21 +57,86 @@ function saveProperty() {
     areaSize,
     yearBuilt,
     rentPrice,
-    dateAvailable
+    dateAvailable,
+    false
   );
 
   // Obțineți toate proprietățile salvate anterior în local storage
-  let properties = JSON.parse(localStorage.getItem("properties")) || [];
+  // let properties = JSON.parse(localStorage.getItem("properties")) || [];
 
-  // Adăugați noua proprietate în array-ul de proprietăți
-  properties.push(property);
+  let loginUser = JSON.parse(localStorage.getItem("Log")) || [];
 
-  // Salvare array-ul actualizat în local storage
-  localStorage.setItem("properties", JSON.stringify(properties));
+  let andUser = JSON.parse(localStorage.getItem("userDataArray")) || [];
+
+  // let apartamente = GetAllApartementsFromLoggedUser(andUser, loginUser);
+  // apartamente[3].favorite = true;
+  // if (SaveUpdatedApartements(andUser, loginUser, apartamente)) {
+  //   console.log("apart updatat");
+  // } else {
+  //   console.log("Nu s-a updatat");
+  // }
+  // console.log(apartamente);
+
+  if (loginUser && andUser) {
+    for (let user of andUser) {
+      if (user.email === loginUser.email) {
+        user.property = user.property || [];
+        user.property.push(property);
+      }
+    }
+    localStorage.setItem("userDataArray", JSON.stringify(andUser));
+    toastr.success("Property saved successfully!");
+
+    // Resetare câmpuri de intrare
+    document.getElementById("city").value = "";
+    document.getElementById("streetName").value = "";
+    document.getElementById("streetNumber").value = "";
+    document.getElementById("areaSize").value = "";
+    document.getElementById("yearBuilt").value = "";
+    document.getElementById("rentPrice").value = "";
+    document.getElementById("dateAvailable").value = "";
+  } else {
+    toastr.success("nu sa salvat");
+  }
+
+  // // Salvare array-ul actualizat în local storage
+  // localStorage.setItem("properties", JSON.stringify(properties));
 
   // Afișați un mesaj de succes utilizatorului
-  toastr.success("Property saved successfully!");
+  // toastr.success("Property saved successfully!");
+
+  // // Resetare câmpuri de intrare
+  // document.getElementById("city").value = "";
+  // document.getElementById("streetName").value = "";
+  // document.getElementById("streetNumber").value = "";
+  // document.getElementById("areaSize").value = "";
+  // document.getElementById("yearBuilt").value = "";
+  // document.getElementById("rentPrice").value = "";
+  // document.getElementById("dateAvailable").value = "";
 }
+
+// function GetAllApartementsFromLoggedUser(totiUseri, userulLogat) {
+//   if (userulLogat && totiUseri) {
+//     for (let user of totiUseri) {
+//       if (user.email === userulLogat.email) {
+//         return user.property;
+//       }
+//     }
+//     return "";
+//   }
+// }
+// function SaveUpdatedApartements(totiUseri, userulLogat, apartamente) {
+//   if (userulLogat && totiUseri) {
+//     for (let user of totiUseri) {
+//       if (user.email === userulLogat.email) {
+//         user.property = apartamente;
+//         localStorage.setItem("userDataArray", JSON.stringify(totiUseri));
+//         return true;
+//       }
+//     }
+//     return false;
+//   }
+// }
 
 function myProfile() {
   let profileContainer = document.getElementById("profileForm");
@@ -152,7 +217,8 @@ class Property {
     areaSize,
     yearBuilt,
     rentPrice,
-    dateAvailable
+    dateAvailable,
+    favorite
   ) {
     this.city = city;
     this.streetName = streetName;
@@ -161,5 +227,6 @@ class Property {
     this.yearBuilt = yearBuilt;
     this.rentPrice = rentPrice;
     this.dateAvailable = dateAvailable;
+    this.favorite = favorite;
   }
 }

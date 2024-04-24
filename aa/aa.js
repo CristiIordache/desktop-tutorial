@@ -137,8 +137,7 @@ function configureFlatpickr() {
   });
 }
 
-// Apelăm funcția pentru a configura Flatpickr
-// configureFlatpickr();
+
 
 /* Function to register loginbutton new user */
 function registerUser() {
@@ -229,6 +228,7 @@ function registerUser() {
     "",
     0,
     ""
+    
   );
 
   // Salvarea datelor utilizatorului într-o bază de date sau în local storage, etc.
@@ -269,7 +269,8 @@ class User {
     birthDate,
     telefon,
     flag_profile,
-    property
+    property,
+    favorite
   ) {
     this.firstname = firstname;
     this.lastname = lastname;
@@ -279,6 +280,7 @@ class User {
     this.birthDate = birthDate;
     this.flag_profile = flag_profile;
     this.property = property;
+    this.favorite = favorite;
   }
 }
 

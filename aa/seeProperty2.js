@@ -1,134 +1,47 @@
+// Funcție pentru a afișa sau ascunde meniul de navigare responsiv în funcție de starea sa
 function myMenuFunction() {
-    let x = document.getElementById("navMenu");
-    if (x.className === "nav-menu") {
-        x.className += " responsive";
+    let x = document.getElementById("navMenu"); // Obține elementul cu id-ul "navMenu"
+    if (x.className === "nav-menu") { // Verifică clasa elementului
+        x.className += " responsive"; // Adaugă clasa "responsive" dacă nu există
     } else {
-        x.className = "nav-menu";
+        x.className = "nav-menu"; // Altfel, setează clasa la "nav-menu"
     }
 }
 
+// Funcție pentru a redirecționa utilizatorul către pagina de adăugare a unei proprietăți
 function addProperty() {
-    window.location.href = "addflat.html";
+    window.location.href = "addflat.html"; // Redirecționează utilizatorul către pagina "addflat.html"
 }
 
+// Funcție pentru a deconecta utilizatorul și a-l redirecționa către pagina de autentificare
 function logOut() {
-    // Redirecționează utilizatorul către pagina de logare
-    window.location.href = "index.html";
+    window.location.href = "index.html"; // Redirecționează utilizatorul către pagina "index.html"
 }
 
+// Funcție pentru a afișa sau ascunde tabelul de proprietăți atunci când se apasă butonul "See Property"
 function seeProperty() {
-    const tabel = document.querySelector('.tabel');
-    if (tabel.style.display === 'none') {
-        initTable(); // Inițializează tabelul doar dacă este ascuns și este nevoie să fie afișat
+    let tabel = document.querySelector('.tabel'); // Obține elementul cu clasa "tabel"
+    if (tabel.style.display === 'none') { // Verifică dacă tabelul este ascuns
+        initTableFromUserData(); // Inițializează tabelul din datele utilizatorului
         tabel.style.display = 'block'; // Afișează tabelul
     } else {
-        tabel.style.display = 'none'; // Ascunde tabelul dacă este deja afișat
+        tabel.style.display = 'none'; // Altfel, ascunde tabelul
     }
 }
 
-function initTable() {
-    const tableBody = document.querySelector('#propertiesTable tbody');
-    tableBody.innerHTML = '';
+// Funcție pentru a inițializa și afișa tabelul de proprietăți din local storage
+function initTableFromUserData() {
+    let tableBody = document.querySelector('#propertiesTable tbody'); // Obține corpul tabelului
+    tableBody.innerHTML = ''; // Golește conținutul actual al corpului tabelului
 
-    const properties = JSON.parse(localStorage.getItem('properties')) || [];
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let userDataArray = JSON.parse(localStorage.getItem('userDataArray')) || []; // Obține datele utilizatorului din local storage
 
-    properties.forEach(property => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-        <td>${property.city}</td>
-        <td>${property.streetName}</td>
-        <td>${property.streetNumber}</td>
-        <td>${property.areaSize}</td>
-        <td>${property.yearBuilt}</td>
-        <td>${property.rentPrice}</td>
-        <td>${property.dateAvailable}</td>
-        <td>
-            <button class="btn-favorite" onclick="addToFavorites('${property.city}')" data-city="${property.city}">&#9734;</button>
-            <button class="btn-delete" onclick="deleteProperty('${property.city}')">Delete</button>
-        </td>
-        `;
-        tableBody.appendChild(row);
-
-        // Verificăm dacă orașul este în lista de favorite și actualizăm stilul butonului corespunzător
-        const button = row.querySelector('.btn-favorite');
-        if (favorites.some(favorite => favorite.city === property.city)) {
-            button.classList.add('active');
-        }
-    });
-}
-
-function addToFavorites(city) {
-    const button = document.querySelector(`.btn-favorite[data-city="${city}"]`);
-    if (button) {
-        const tableRow = button.closest('tr');
-        if (tableRow) {
-            const rowData = Array.from(tableRow.cells).map(cell => cell.innerText);
-            const propertyData = {
-                city: rowData[0],
-                streetName: rowData[1],
-                streetNumber: rowData[2],
-                areaSize: rowData[3],
-                yearBuilt: rowData[4],
-                rentPrice: rowData[5],
-                dateAvailable: rowData[6]
-            };
-
-            const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            const index = favorites.findIndex(item => item.city === city);
-
-            if (index === -1) {
-                favorites.push(propertyData);
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                updateFavoriteButton(city, true);
-            } else {
-                favorites.splice(index, 1);
-                localStorage.setItem('favorites', JSON.stringify(favorites));
-                updateFavoriteButton(city, false);
-            }
-        } else {
-            console.error(`Nu s-a găsit nicio linie de tabel pentru orașul ${city}`);
-        }
-    } else {
-        console.error(`Nu s-a găsit butonul pentru orașul ${city}`);
-    }
-}
-
-function deleteProperty(city) {
-    const properties = JSON.parse(localStorage.getItem('properties')) || [];
-    const index = properties.findIndex(property => property.city === city);
-    
-    if (index !== -1) {
-        properties.splice(index, 1);
-        localStorage.setItem('properties', JSON.stringify(properties));
-        initTable();
-    }
-}
-
-function updateFavoriteButton(city, isFavorite) {
-    const buttons = document.querySelectorAll('.btn-favorite');
-    buttons.forEach(button => {
-        if (button.dataset.city === city) {
-            if (isFavorite) {
-                button.classList.add('active');
-            } else {
-                button.classList.remove('active');
-            }
-        }
-    });
-}
-
-
-function favoriteslist() {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-    if (favorites.length > 0) {
-        // Există proprietăți favorite în local storage
-        const tableBody = document.querySelector('#propertiesTable tbody');
-        tableBody.innerHTML = ''; // Golește conținutul actual al tabelului
-
-        favorites.forEach(property => {
-            const row = document.createElement('tr');
+    // Parcurge fiecare utilizator din userDataArray
+    userDataArray.forEach(user => {
+        let properties = user.property || []; // Extrage lista de proprietăți ale utilizatorului
+        properties.forEach(property => {
+            let row = document.createElement('tr'); // Creează un rând nou pentru tabel
+            // Completează rândul cu detalii despre proprietate
             row.innerHTML = `
             <td>${property.city}</td>
             <td>${property.streetName}</td>
@@ -138,33 +51,147 @@ function favoriteslist() {
             <td>${property.rentPrice}</td>
             <td>${property.dateAvailable}</td>
             <td>
-            <button class="btn-delete" onclick="removeFromFavorites('${property.city}')">Remove</button>
+                <button class="btn-favorite" onclick="addToFavorites('${property.city}')" data-city="${property.city}">&#9734;</button>
+                <button class="btn-delete" onclick="deleteProperty('${property.city}')">Delete</button>
             </td>
             `;
-            tableBody.appendChild(row);
+            tableBody.appendChild(row); // Adaugă rândul la tabel
+
+            // Verifică dacă proprietatea este în lista de favorite și actualizează stilul butonului corespunzător
+            let button = row.querySelector('.btn-favorite');
+            if (property.favorite) {
+                button.classList.add('active');
+            }
+        });
+    });
+}
+
+// Funcție pentru a adăuga o proprietate la lista de favorite
+function addToFavorites(city) {
+    let userDataArray = JSON.parse(localStorage.getItem('userDataArray')) || []; // Obține datele utilizatorului din local storage
+
+    // Parcurge fiecare utilizator pentru a găsi proprietatea cu orașul specificat
+    userDataArray.forEach(user => {
+        let properties = user.property || []; // Extrage lista de proprietăți ale utilizatorului
+        properties.forEach(property => {
+            if (property.city === city) {
+                // Găsit proprietatea, actualizează starea de favorite
+                property.favorite = !property.favorite;
+
+                // Actualizează userDataArray în local storage
+                localStorage.setItem('userDataArray', JSON.stringify(userDataArray));
+
+                // Actualizează stilul butonului
+                updateFavoriteButton(city, property.favorite);
+
+                // Adaugă proprietatea la lista de favorite
+                let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                if (property.favorite) {
+                    favorites.push(property);
+                } else {
+                    // Dacă proprietatea nu mai este favorite, elimină-o din lista de favorite
+                    favorites = favorites.filter(favProperty => favProperty.city !== property.city);
+                }
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+
+                return; // Ieși din funcție după actualizare
+            }
+        });
+    });
+}
+
+
+// Funcție pentru a șterge o proprietate și rândul corespunzător din tabel
+function deleteProperty(city) {
+    let tableRows = document.querySelectorAll('#propertiesTable tbody tr'); // Obține toate rândurile tabelului
+    tableRows.forEach(row => {
+        let cityCell = row.cells[0]; // Prima celulă din rând este cea care conține orașul
+        if (cityCell.textContent.trim() === city) { // Verifică dacă orașul din rând corespunde orașului specificat
+            row.remove(); // Șterge rândul din tabel
+        }
+    });
+
+    let userDataArray = JSON.parse(localStorage.getItem('userDataArray')) || []; // Obține datele utilizatorului din local storage
+    // Parcurge fiecare utilizator pentru a găsi proprietatea cu orașul specificat
+    userDataArray.forEach(user => {
+        let properties = user.property || []; // Extrage lista de proprietăți ale utilizatorului
+        let updatedProperties = properties.filter(property => property.city !== city); // Filtrează proprietățile pentru a elimina proprietatea cu orașul specificat
+        user.property = updatedProperties; // Actualizează lista de proprietăți pentru acest utilizator
+    });
+    localStorage.setItem('userDataArray', JSON.stringify(userDataArray)); // Actualizează userDataArray în local storage
+}
+
+// Funcție pentru a actualiza stilul butonului de adăugare la favorite
+function updateFavoriteButton(city, isFavorite) {
+    let buttons = document.querySelectorAll('.btn-favorite'); // Obține toate butoanele de favorite
+    buttons.forEach(button => {
+        if (button.dataset.city === city) { // Verifică dacă butonul corespunde orașului specificat
+            if (isFavorite) {
+                button.classList.add('active'); // Adaugă clasa "active" dacă proprietatea este favorite
+            } else {
+                button.classList.remove('active'); // Altfel, elimină clasa "active"
+            }
+        }
+    });
+}
+
+// Funcție pentru a afișa lista de proprietăți favorite
+function favoriteslist() {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || []; // Obține lista de proprietăți favorite din local storage
+
+    if (favorites.length > 0) { // Verifică dacă există proprietăți favorite
+        let tableBody = document.querySelector('#propertiesTable tbody'); // Obține corpul tabelului
+        tableBody.innerHTML = ''; // Golește conținutul actual al corpului tabelului
+
+        favorites.forEach(property => {
+            let row = document.createElement('tr'); // Creează un rând nou pentru tabel
+            // Completează rândul cu detalii despre proprietate
+            row.innerHTML = `
+            <td>${property.city}</td>
+            <td>${property.streetName}</td>
+            <td>${property.streetNumber}</td>
+            <td>${property.areaSize}</td>
+            <td>${property.yearBuilt}</td>
+            <td>${property.rentPrice}</td>
+            <td>${property.dateAvailable}</td>
+            <td>
+                <button class="btn-delete" onclick="removeFromFavorites('${property.city}')">Remove</button>
+            </td>
+            `;
+            tableBody.appendChild(row); // Adaugă rândul la tabel
         });
 
-        // Afișează tabelul cu proprietățile favorite
-        const tabel = document.querySelector('.tabel');
-        tabel.style.display = 'block';
+        let tabel = document.querySelector('.tabel'); // Obține elementul cu clasa "tabel"
+        tabel.style.display = 'block'; // Afișează tabelul cu proprietățile favorite
     } else {
-        // Nu există proprietăți favorite în local storage
-        // Poți adăuga aici un mesaj sau o acțiune corespunzătoare
-        console.log('Nu există proprietăți favorite');
+        console.log('Nu există proprietăți favorite'); // Afisează un mesaj în consolă dacă nu există proprietăți favorite
     }
 }
 
+// Funcție pentru a elimina o proprietate din lista de favorite
 function removeFromFavorites(city) {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const updatedFavorites = favorites.filter(property => property.city !== city);
-    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || []; // Obține lista de proprietăți favorite din local storage
+    let updatedFavorites = favorites.filter(property => property.city !== city); // Filtrare pentru a elimina proprietatea specificată
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites)); // Actualizează lista de proprietăți favorite în local storage
 
-    const tableRows = document.querySelectorAll('#propertiesTable tbody tr');
+    let tableRows = document.querySelectorAll('#propertiesTable tbody tr'); // Obține toate rândurile tabelului
     tableRows.forEach(row => {
-        const cityCell = row.cells[0]; // Prima celulă din rând este cea care conține orașul
-        if (cityCell.textContent.trim() === city) {
-            row.remove(); // Șterge rândul dacă orașul corespunde
+        let cityCell = row.cells[0]; // Prima celulă din rând este cea care conține orașul
+        if (cityCell.textContent.trim() === city) { // Verifică dacă orașul din rând corespunde orașului specificat
+            row.remove(); // Șterge rândul din tabel
             return; // Ieși din funcție după ștergere
         }
     });
 }
+
+// Adaugă un event listener pentru detectarea mișcării roții pentru a scrola pagina
+window.addEventListener('wheel', function(event) {
+    // Verifică direcția mișcării roții
+    if (event.deltaY < 0) {
+        // Scrolează în sus
+        window.scrollTo({ top: window.pageYOffset - 100, behavior: 'smooth' }); // Scade 100px din poziția actuală
+    } else {
+        // Scrolează în jos
+        window.scrollTo({ top: window.pageYOffset + 100, behavior: 'smooth' }); // Adaugă 100px la poziția actuală
+    }
+});
