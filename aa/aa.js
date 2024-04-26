@@ -303,3 +303,12 @@ function loginUser() {
     toastrtop().error("Invalid email or password!");
   }
 }
+
+
+window.onload = function() {
+  window.addEventListener("wheel", function(event) {
+    if (event.deltaY !== 0) {
+      window.scrollBy(0, event.deltaY);
+    }
+  });
+};

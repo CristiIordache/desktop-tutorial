@@ -76,6 +76,7 @@ label {
 
 /* Button for sign in and sign up */
 .nav-button .btn {
+    
     width: 130px;
     height: 40px;
     font-weight: 500;
@@ -86,6 +87,9 @@ label {
     transition: .3s ease; /* Add transition effect */
 }
 
+.nav-menu-btn i {
+    margin-top: 25px;
+}
 .btn:hover {
     background: rgba(255, 255, 255, 0.3); /* Semi-transparent background on hover */
 }
@@ -94,6 +98,7 @@ label {
 #registerBtn {
     margin-left: 15px;
 }
+
 
 /* Styles for white buttons */
 .btn.white-btn {
@@ -140,6 +145,7 @@ label {
     margin-left: 70%;
     
 }
+
 
 
 

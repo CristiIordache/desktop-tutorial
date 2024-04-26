@@ -1,6 +1,6 @@
 window.onload = function(){
-  var c = document.querySelector("canvas");
-  var canvas = document.querySelector("canvas");
+  let c = document.querySelector("canvas");
+  let canvas = document.querySelector("canvas");
   c.width = innerWidth;
   c.height = innerHeight;
   c = c.getContext("2d");
@@ -20,38 +20,38 @@ window.onload = function(){
   mouse.x = event.clientX;
   });
   canvas.addEventListener("touchmove", function(event){
-    var rect = canvas.getBoundingClientRect();
-    var root = document.documentElement;
-    var touch = event.changedTouches[0];
-    var touchX = parseInt(touch.clientX);
-    var touchY = parseInt(touch.clientY) - rect.top - root.scrollTop;
+    let rect = canvas.getBoundingClientRect();
+    let root = document.documentElement;
+    let touch = event.changedTouches[0];
+    let touchX = parseInt(touch.clientX);
+    let touchY = parseInt(touch.clientY) - rect.top - root.scrollTop;
     event.preventDefault();
     mouse.x = touchX;
     mouse.y = touchY;
   });
-  var player_width = 32;
-  var player_height = 32;
-  var playerImg = new Image();
-  var score = 0;
-  var health = 100;
+  let player_width = 32;
+  let player_height = 32;
+  let playerImg = new Image();
+  let score = 0;
+  let health = 100;
   playerImg.src = "https://image.ibb.co/dfbD1U/heroShip.png";
   
-  var _bullets = []; 
-  var bullet_width = 6;
-  var bullet_height = 8;
-  var bullet_speed = 10;
+  let _bullets = []; 
+  let bullet_width = 6;
+  let bullet_height = 8;
+  let bullet_speed = 10;
 
-  var _enemies = []; 
-  var enemyImg = new Image();
+  let _enemies = []; 
+  let enemyImg = new Image();
   enemyImg.src = "https://i.ibb.co/0YgHvmx/enemy-fotor-20230927153748.png"
-  var enemy_width = 32;
-  var enemy_height = 32;
+  let enemy_width = 32;
+  let enemy_height = 32;
 
-  var _healthkits = []; 
-  var healthkitImg = new Image();
+  let _healthkits = []; 
+  let healthkitImg = new Image();
   healthkitImg.src = "https://image.ibb.co/gFvSEU/first_aid_kit.png";
-  var healthkit_width = 32;
-  var healthkit_height = 32;
+  let healthkit_width = 32;
+  let healthkit_height = 32;
   
   function Player(x, y, width, height){
     this.x = x;
@@ -125,37 +125,37 @@ window.onload = function(){
     };
   }
     
-  var __player = new Player(mouse.x, mouse.y, player_width, player_height);
+  let __player = new Player(mouse.x, mouse.y, player_width, player_height);
   
   function drawEnemies(){
-    for (var _ = 0; _<4; _++){ 
-      var x = Math.random()*(innerWidth-enemy_width);
-      var y = -enemy_height; 
-      var width = enemy_width;
-      var height = enemy_height;
-      var speed = Math.random()*2;
-      var __enemy = new Enemy(x, y, width, height, speed);
+    for (let _ = 0; _<4; _++){ 
+      let x = Math.random()*(innerWidth-enemy_width);
+      let y = -enemy_height; 
+      let width = enemy_width;
+      let height = enemy_height;
+      let speed = Math.random()*2;
+      let __enemy = new Enemy(x, y, width, height, speed);
       _enemies.push(__enemy);
     }
   }setInterval(drawEnemies, 1234);
     
   function drawHealthkits(){
-    for (var _ = 0; _<1; _++){   
-      var x = Math.random()*(innerWidth-enemy_width);
-      var y = -enemy_height; 
-      var width = healthkit_width;
-      var height = healthkit_height;
-      var speed = Math.random()*2.6;
-      var __healthkit = new Healthkit(x, y, width, height, speed);
+    for (let _ = 0; _<1; _++){   
+      let x = Math.random()*(innerWidth-enemy_width);
+      let y = -enemy_height; 
+      let width = healthkit_width;
+      let height = healthkit_height;
+      let speed = Math.random()*2.6;
+      let __healthkit = new Healthkit(x, y, width, height, speed);
       _healthkits.push(__healthkit); 
     }
   }setInterval(drawHealthkits, 15000);
 
   function fire(){ 
-    for (var _ = 0; _<1; _++){
-      var x = mouse.x-bullet_width/2;
-      var y = mouse.y-player_height;
-      var __bullet = new Bullet(x, y, bullet_width, bullet_height, bullet_speed);
+    for (let _ = 0; _<1; _++){
+      let x = mouse.x-bullet_width/2;
+      let y = mouse.y-player_height;
+      let __bullet = new Bullet(x, y, bullet_width, bullet_height, bullet_speed);
       _bullets.push(__bullet);
     }
   }setInterval(fire, 200);
@@ -186,27 +186,34 @@ window.onload = function(){
     
     __player.update();
 
-    for (var i=0; i < _bullets.length; i++){
+    for (let i=0; i < _bullets.length; i++){
       _bullets[i].update();
       if (_bullets[i].y < 0){
         _bullets.splice(i, 1);
       }
     }
 
-    for (var k=0; k < _enemies.length; k++){
+    for (let k=0; k < _enemies.length; k++){
       _enemies[k].update();
       if(_enemies[k].y > innerHeight){
         _enemies.splice(k, 1);
         health -= 10;
       if(health == 0){
-        alert("You DIED!\nYour score was "+score);
+        alert("You DIED!\nYour score was " + score);
+        let playAgain = confirm("Do you want to play again?");
+        if (playAgain) {
+            startGame();
+        } else {
+            window.location.href = "addflat.html";
+        }
         startGame();
-       }
+      }
+        
       }
     }
   
-    for(var j = _enemies.length-1; j >= 0; j--){
-      for(var l = _bullets.length-1; l >= 0; l--){
+    for(let j = _enemies.length-1; j >= 0; j--){
+      for(let l = _bullets.length-1; l >= 0; l--){
         if(collision(_enemies[j], _bullets[l])){
           _enemies.splice(j, 1);
           _bullets.splice(l, 1);
@@ -215,11 +222,11 @@ window.onload = function(){
       }
     }
     
-    for(var h=0; h < _healthkits.length; h++){
+    for(let h=0; h < _healthkits.length; h++){
       _healthkits[h].update();
     }
-    for(var hh = _healthkits.length-1; hh >= 0; hh--){
-      for(var hhh = _bullets.length-1; hhh >= 0; hhh--){
+    for(let hh = _healthkits.length-1; hh >= 0; hh--){
+      for(let hhh = _bullets.length-1; hhh >= 0; hhh--){
         if(collision(_healthkits[hh], _bullets[hhh])){
           _healthkits.splice(hh, 1);
           _bullets.splice(hhh, 1);

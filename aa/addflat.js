@@ -48,6 +48,7 @@ function saveProperty() {
   let yearBuilt = document.getElementById("yearBuilt").value;
   let rentPrice = document.getElementById("rentPrice").value;
   let dateAvailable = document.getElementById("dateAvailable").value;
+  let HasAC=document.getElementById("HasAC").value
 
   // Creați un nou obiect Property
   let property = new Property(
@@ -58,6 +59,7 @@ function saveProperty() {
     yearBuilt,
     rentPrice,
     dateAvailable,
+    HasAC,
     false
   );
 
@@ -230,3 +232,11 @@ class Property {
     this.favorite = favorite;
   }
 }
+
+window.onload = function() {
+  window.addEventListener("wheel", function(event) {
+    if (event.deltaY !== 0) {
+      window.scrollBy(0, event.deltaY);
+    }
+  });
+};

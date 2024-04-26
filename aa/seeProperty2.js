@@ -34,11 +34,18 @@ function initTableFromUserData() {
     let tableBody = document.querySelector('#propertiesTable tbody'); // Obține corpul tabelului
     tableBody.innerHTML = ''; // Golește conținutul actual al corpului tabelului
 
+    let loginUser = JSON.parse(localStorage.getItem("Log")) || {}; // Obține utilizatorul curent din local storage
+
+    // if (!loginUser || !loginUser.firstname) {
+    // }
+
     let userDataArray = JSON.parse(localStorage.getItem('userDataArray')) || []; // Obține datele utilizatorului din local storage
 
-    // Parcurge fiecare utilizator din userDataArray
-    userDataArray.forEach(user => {
-        let properties = user.property || []; // Extrage lista de proprietăți ale utilizatorului
+    // Găsește utilizatorul curent în array-ul de date ale utilizatorilor
+    let currentUserData = userDataArray.find((user) => user.email === loginUser.email);
+
+    if (currentUserData) { // Verifică dacă s-a găsit utilizatorul curent
+        let properties = currentUserData.property || []; // Extrage lista de proprietăți ale utilizatorului curent
         properties.forEach(property => {
             let row = document.createElement('tr'); // Creează un rând nou pentru tabel
             // Completează rândul cu detalii despre proprietate
@@ -63,11 +70,18 @@ function initTableFromUserData() {
                 button.classList.add('active');
             }
         });
-    });
+    } else {
+        console.log('Nu s-au găsit proprietăți pentru utilizatorul curent.');
+    }
 }
+
+
 
 // Funcție pentru a adăuga o proprietate la lista de favorite
 function addToFavorites(city) {
+    let loginUser = JSON.parse(localStorage.getItem("Log")) || {}; // Obține utilizatorul curent din local storage
+    let userFavoritesKey = 'favorites_' + loginUser.email; // Creează cheia specifică utilizatorului pentru lista de favorite
+
     let userDataArray = JSON.parse(localStorage.getItem('userDataArray')) || []; // Obține datele utilizatorului din local storage
 
     // Parcurge fiecare utilizator pentru a găsi proprietatea cu orașul specificat
@@ -81,18 +95,18 @@ function addToFavorites(city) {
                 // Actualizează userDataArray în local storage
                 localStorage.setItem('userDataArray', JSON.stringify(userDataArray));
 
-                // Actualizează stilul butonului
-                updateFavoriteButton(city, property.favorite);
-
-                // Adaugă proprietatea la lista de favorite
-                let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+                // Adaugă proprietatea la lista de favorite specifică utilizatorului
+                let favorites = JSON.parse(localStorage.getItem(userFavoritesKey)) || [];
                 if (property.favorite) {
                     favorites.push(property);
                 } else {
                     // Dacă proprietatea nu mai este favorite, elimină-o din lista de favorite
                     favorites = favorites.filter(favProperty => favProperty.city !== property.city);
                 }
-                localStorage.setItem('favorites', JSON.stringify(favorites));
+                localStorage.setItem(userFavoritesKey, JSON.stringify(favorites));
+
+                // Actualizează stilul butonului
+                updateFavoriteButton(city, property.favorite);
 
                 return; // Ieși din funcție după actualizare
             }
@@ -137,7 +151,10 @@ function updateFavoriteButton(city, isFavorite) {
 
 // Funcție pentru a afișa lista de proprietăți favorite
 function favoriteslist() {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || []; // Obține lista de proprietăți favorite din local storage
+    let loginUser = JSON.parse(localStorage.getItem("Log")) || {}; // Obține utilizatorul curent din local storage
+    let userFavoritesKey = 'favorites_' + loginUser.email; // Creează cheia specifică utilizatorului pentru lista de favorite
+
+    let favorites = JSON.parse(localStorage.getItem(userFavoritesKey)) || []; // Obține lista de proprietăți favorite specifică utilizatorului din local storage
 
     if (favorites.length > 0) { // Verifică dacă există proprietăți favorite
         let tableBody = document.querySelector('#propertiesTable tbody'); // Obține corpul tabelului
@@ -195,3 +212,12 @@ window.addEventListener('wheel', function(event) {
         window.scrollTo({ top: window.pageYOffset + 100, behavior: 'smooth' }); // Adaugă 100px la poziția actuală
     }
 });
+
+
+window.onload = function() {
+    window.addEventListener("wheel", function(event) {
+      if (event.deltaY !== 0) {
+        window.scrollBy(0, event.deltaY);
+      }
+    });
+  };

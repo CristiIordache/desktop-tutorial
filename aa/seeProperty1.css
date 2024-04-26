@@ -71,7 +71,9 @@ label {
   padding-bottom: 15px;
   margin: 0 25px;
 }
-
+.nav-menu-btn i {
+  margin-top: 25px;
+}
 /* Styles for links in the menu */
 .link:hover,
 .active {
