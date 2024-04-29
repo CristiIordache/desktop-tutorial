@@ -40,7 +40,6 @@ function closeAddfavorite() {
 }
 
 function saveProperty() {
-  // Obțineți valorile introduse în câmpurile de intrare
   let city = document.getElementById("city").value;
   let streetName = document.getElementById("streetName").value;
   let streetNumber = document.getElementById("streetNumber").value;
@@ -48,9 +47,8 @@ function saveProperty() {
   let yearBuilt = document.getElementById("yearBuilt").value;
   let rentPrice = document.getElementById("rentPrice").value;
   let dateAvailable = document.getElementById("dateAvailable").value;
-  let HasAC=document.getElementById("HasAC").value
-
-  // Creați un nou obiect Property
+  let hasAC = document.getElementById("hasAC").checked; // Check if AC is checked
+  console.log(hasAC);
   let property = new Property(
     city,
     streetName,
@@ -59,25 +57,12 @@ function saveProperty() {
     yearBuilt,
     rentPrice,
     dateAvailable,
-    HasAC,
-    false
+    false, // Assigning AC value
+    hasAC
   );
 
-  // Obțineți toate proprietățile salvate anterior în local storage
-  // let properties = JSON.parse(localStorage.getItem("properties")) || [];
-
   let loginUser = JSON.parse(localStorage.getItem("Log")) || [];
-
   let andUser = JSON.parse(localStorage.getItem("userDataArray")) || [];
-
-  // let apartamente = GetAllApartementsFromLoggedUser(andUser, loginUser);
-  // apartamente[3].favorite = true;
-  // if (SaveUpdatedApartements(andUser, loginUser, apartamente)) {
-  //   console.log("apart updatat");
-  // } else {
-  //   console.log("Nu s-a updatat");
-  // }
-  // console.log(apartamente);
 
   if (loginUser && andUser) {
     for (let user of andUser) {
@@ -89,7 +74,7 @@ function saveProperty() {
     localStorage.setItem("userDataArray", JSON.stringify(andUser));
     toastr.success("Property saved successfully!");
 
-    // Resetare câmpuri de intrare
+    // Reset fields
     document.getElementById("city").value = "";
     document.getElementById("streetName").value = "";
     document.getElementById("streetNumber").value = "";
@@ -97,48 +82,11 @@ function saveProperty() {
     document.getElementById("yearBuilt").value = "";
     document.getElementById("rentPrice").value = "";
     document.getElementById("dateAvailable").value = "";
+    document.getElementById("hasAC").checked = false; // Uncheck AC
   } else {
-    toastr.success("nu sa salvat");
+    toastr.error("Failed to save property");
   }
-
-  // // Salvare array-ul actualizat în local storage
-  // localStorage.setItem("properties", JSON.stringify(properties));
-
-  // Afișați un mesaj de succes utilizatorului
-  // toastr.success("Property saved successfully!");
-
-  // // Resetare câmpuri de intrare
-  // document.getElementById("city").value = "";
-  // document.getElementById("streetName").value = "";
-  // document.getElementById("streetNumber").value = "";
-  // document.getElementById("areaSize").value = "";
-  // document.getElementById("yearBuilt").value = "";
-  // document.getElementById("rentPrice").value = "";
-  // document.getElementById("dateAvailable").value = "";
 }
-
-// function GetAllApartementsFromLoggedUser(totiUseri, userulLogat) {
-//   if (userulLogat && totiUseri) {
-//     for (let user of totiUseri) {
-//       if (user.email === userulLogat.email) {
-//         return user.property;
-//       }
-//     }
-//     return "";
-//   }
-// }
-// function SaveUpdatedApartements(totiUseri, userulLogat, apartamente) {
-//   if (userulLogat && totiUseri) {
-//     for (let user of totiUseri) {
-//       if (user.email === userulLogat.email) {
-//         user.property = apartamente;
-//         localStorage.setItem("userDataArray", JSON.stringify(totiUseri));
-//         return true;
-//       }
-//     }
-//     return false;
-//   }
-// }
 
 function myProfile() {
   let profileContainer = document.getElementById("profileForm");
@@ -220,7 +168,8 @@ class Property {
     yearBuilt,
     rentPrice,
     dateAvailable,
-    favorite
+    favorite,
+    hasAC
   ) {
     this.city = city;
     this.streetName = streetName;
@@ -230,11 +179,12 @@ class Property {
     this.rentPrice = rentPrice;
     this.dateAvailable = dateAvailable;
     this.favorite = favorite;
+    this.hasAC = hasAC;
   }
 }
 
-window.onload = function() {
-  window.addEventListener("wheel", function(event) {
+window.onload = function () {
+  window.addEventListener("wheel", function (event) {
     if (event.deltaY !== 0) {
       window.scrollBy(0, event.deltaY);
     }
