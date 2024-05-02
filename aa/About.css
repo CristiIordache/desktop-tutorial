@@ -1,10 +1,4 @@
-body {
-  background: url("1.jpg"); /* Background image */
-  background-size: cover; /* Cover the entire viewport */
-  background-repeat: no-repeat; /* Do not repeat the background */
-  background-attachment: fixed; /* Fix the background position */
-  overflow: hidden; /* Hide overflow content */
-}
+@import url(global.css);
 
 .header {
   background-color: rgba(0, 0, 0, 0.5); /* Transparent background color */
@@ -38,7 +32,7 @@ footer {
 }
 
 button {
-  background-color: #4CAF50; /* Background color for buttons */
+  background-color: #4caf50; /* Background color for buttons */
   border: none; /* Remove border */
   color: white; /* Text color */
   padding: 15px 25px; /* Padding for buttons */
@@ -62,13 +56,13 @@ button:hover {
 /* Media query for screens with max-width 786px */
 @media only screen and (max-width: 786px) {
   .container {
-      width: 90%; /* Adjust container width for smaller screens */
+    width: 90%; /* Adjust container width for smaller screens */
   }
 }
 
 /* Media query for screens with max-width 540px */
 @media only screen and (max-width: 540px) {
   .container {
-      width: 95%; /* Adjust container width for very small screens */
+    width: 95%; /* Adjust container width for very small screens */
   }
 }

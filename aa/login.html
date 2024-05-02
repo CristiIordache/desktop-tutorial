@@ -11,7 +11,7 @@
       rel="stylesheet"
     />
     <!-- Link to custom CSS file -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="login.css" />
     <!-- Link to SweetAlert2 CSS -->
     <link
       rel="stylesheet"
@@ -33,7 +33,7 @@
 
     <!-- Load custom JavaScript file -->
 
-    <script src="aa.js" defer></script>
+    <script src="login.js" defer></script>
   </head>
   <body>
     <!-- Wrapper element -->
@@ -76,11 +76,11 @@
         <div class="login-container" id="login">
           <!-- Top section with switch to registration and header -->
           <div class="top">
-            <span
+            <span class="account"
               >Don't have an account?
               <a href="#" onclick="register()">Sign Up</a></span
             >
-            <header>Login</header>
+            <header class="login1">Login</header>
           </div>
           <!-- Input fields for email and password -->
           <div class="input-box">
@@ -126,10 +126,10 @@
         <div class="register-container" id="register">
           <!-- Top section with switch to login and header -->
           <div class="top">
-            <span
+            <span class="account"
               >Have an account? <a href="#" onclick="login()">Login</a></span
             >
-            <header>Sign Up</header>
+            <header class="singup1">Sign Up</header>
           </div>
           <!-- Input fields for first name, last name, email, and password -->
           <div class="two-forms">

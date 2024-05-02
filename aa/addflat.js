@@ -6,37 +6,75 @@ function myMenuFunction() {
     x.className = "nav-menu";
   }
 }
+document.querySelectorAll('.nav-menu .link').forEach(item => {
+  item.addEventListener('click', () => {
+    myMenuFunction(); // Închideți meniul
+  });
+});
 function seeProperty() {
   // Redirecționează utilizatorul către pagina de logare
   window.location.href = "seeProperty.html";
 }
+
 function logOut() {
   // Redirecționează utilizatorul către pagina de logare
-  window.location.href = "index.html";
+  window.location.href = "login.html";
 }
+
 function gamespace() {
   window.location.href = "game.html";
 }
+
 function addProperty() {
   let formContainer = document.getElementById("addPropertyForm");
-  formContainer.style.display = "block"; // Afișează elementul
+  let profileContainer = document.getElementById("profileForm");
+
+  // Verificăm dacă formularul pentru adăugarea proprietății este deja deschis
+  if (formContainer.style.display === "block") {
+    return; // Nu facem nimic dacă formularul este deja deschis
+  }
+
+  // Închidem profilul dacă este deschis
+  profileContainer.style.display = "none";
+
+  // Afișăm formularul pentru adăugarea proprietății
+  formContainer.style.display = "block";
 }
+
+function myProfile() {
+  let formContainer = document.getElementById("addPropertyForm");
+  let profileContainer = document.getElementById("profileForm");
+
+  // Închidem formularul pentru adăugarea proprietății dacă este deschis
+  formContainer.style.display = "none";
+
+  // Verificăm dacă profilul este deja deschis
+  if (profileContainer.style.display === "block") {
+    return; // Nu facem nimic dacă profilul este deja deschis
+  }
+
+  // Afișăm profilul
+  profileContainer.style.display = "block";
+
+  // Obține datele utilizatorului din local storage
+  let user = JSON.parse(localStorage.getItem("Log")) || {};
+
+  // Populați câmpurile formularului cu datele utilizatorului
+  document.getElementById("firstName").value = user.firstname || "";
+  document.getElementById("lastName").value = user.lastname || "";
+  document.getElementById("email").value = user.email || "";
+  document.getElementById("dob").value = user.birthDate || "";
+  document.getElementById("telefon").value = user.telefon || "";
+}
+
 function closeAddPropertyForm() {
   let formContainer = document.getElementById("addPropertyForm");
   formContainer.style.display = "none"; // Ascunde elementul
 }
-function myProfile() {
-  let profileContainer = document.getElementById("profileForm");
-  profileContainer.style.display = "block"; // Afișează elementul
-}
+
 function closesaveProfile() {
   let profileContainer = document.getElementById("profileForm");
   profileContainer.style.display = "none"; // Ascunde elementul
-}
-
-function closeAddfavorite() {
-  let propertyTable = document.getElementById("propertyTable");
-  propertyTable.style.display = "none"; // Ascunde containerul "See Property"
 }
 
 function saveProperty() {
@@ -88,21 +126,6 @@ function saveProperty() {
   }
 }
 
-function myProfile() {
-  let profileContainer = document.getElementById("profileForm");
-  profileContainer.style.display = "block"; // Afișează elementul
-
-  // Obține datele utilizatorului din local storage
-  let user = JSON.parse(localStorage.getItem("Log")) || {};
-
-  // Populați câmpurile formularului cu datele utilizatorului
-  document.getElementById("firstName").value = user.firstname || "";
-  document.getElementById("lastName").value = user.lastname || "";
-  document.getElementById("email").value = user.email || "";
-  document.getElementById("dob").value = user.birthDate || "";
-  document.getElementById("telefon").value = user.telefon || "";
-}
-
 function saveProfile() {
   // Obțineți datele introduse de utilizator din formular
   let firstName = document.getElementById("firstName").value;
@@ -124,39 +147,8 @@ function saveProfile() {
   // Salvați datele actualizate înapoi în local storage
   localStorage.setItem("Log", JSON.stringify(user));
 
-  //Getbig localstoreage
-  //Parse in el sa gasesti utilizatorul
-  //Inlocuiesti
-
-  //Salvezi
-
   // Afișați un mesaj de succes utilizatorului
   toastr.success("Profile saved successfully!");
-}
-
-function add() {
-  // Retrieve user data from local storage
-  let users = JSON.parse(localStorage.getItem("userDataArray")) || [];
-  let user = JSON.parse(localStorage.getItem("Log")) || {};
-
-  if (user.flag_profile == 0) {
-    // Add required user data
-    user.telefon = "9763493546";
-    user.flag_profile = "1";
-
-    // Initialize user's property array and push property data
-    user.property = [new Property("Romania", "Bucharest")];
-
-    // Update user data in the users array
-    users.forEach((element, index) => {
-      if (element.email == user.email) {
-        users[index] = user;
-      }
-    });
-
-    // Save updated user data back to local storage
-    localStorage.setItem("userDataArray", JSON.stringify(users));
-  }
 }
 
 class Property {

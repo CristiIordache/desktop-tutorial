@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
   
   // Redirect the user to index.html page when the submit button is clicked
   submitButton.addEventListener("click", function() {
-      window.location.href = "index.html";
+      window.location.href = "login.html";
   });
 });
 

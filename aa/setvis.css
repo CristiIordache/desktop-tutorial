@@ -1,12 +1,4 @@
-/* Styling for the body */
-body {
-  /* Set background image */
-  background: url("1.jpg");
-  background-size: cover; /* Cover the entire viewport */
-  background-repeat: no-repeat; /* Do not repeat the background image */
-  background-attachment: fixed; /* Fixed background position */
-  overflow: hidden; /* Hide overflow content */
-}
+@import url(global.css);
 
 /* Styling for the header */
 header {
