@@ -3,17 +3,18 @@ let loginbutton = document.getElementById("loginBtn");
 let registerbutton = document.getElementById("registerBtn");
 let userlogin = document.getElementById("login");
 let userregister = document.getElementById("register");
-//scos variabile
+// Define variables
 
-let initialLoad = true; // Variabilă pentru a verifica dacă este prima încărcare a paginii
+let initialLoad = true; // Variable to check if it's the first page load
 
-// Funcție pentru încărcarea inițială a paginii
+// Function for initial page load
 function initialPageLoad() {
   if (initialLoad) {
-    location.reload(); // Refresh doar la încărcarea inițială a paginii
-    initialLoad = false; // Setează variabila initialLoad pe false pentru a marca că încărcarea inițială a fost deja efectuată
+    location.reload(); // Refresh only on initial page load
+    initialLoad = false; // Set initialLoad variable to false to mark that initial load has been done
   }
 }
+
 /* Function to toggle responsive navigation menu */
 function myMenuFunction() {
   let userlogin = document.getElementById("navMenu");
@@ -97,18 +98,22 @@ function toastrtop() {
   return toastr;
 }
 
+/* Function to validate password confirmation */
 function validateConfirmPassword(password, confirmPassword) {
   return password === confirmPassword;
 }
+
+/* Function to configure Flatpickr date picker */
 function configureFlatpickr() {
-  let birthDateInput = document.getElementById("birthDateInput");
+  const birthDateInput = document.getElementById("birthDateInput");
   flatpickr(birthDateInput, {
     dateFormat: "Y-m-d",
     maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
     allowInput: true,
   });
-  3;
 }
+
+/* Function to validate birth date */
 function validateBirthDate(birthDate) {
   let today = new Date();
   let userBirthDate = new Date(birthDate);
@@ -123,23 +128,7 @@ function validateBirthDate(birthDate) {
   return age >= 18;
 }
 
-let birthDateInput = document.getElementById("birthDateInput");
-// flatpickr(birthDateInput, {
-//   dateFormat: "d/m/Y", // Formatul datelor de intrare: ziua/luna/anul (de exemplu: 12/04/1990)
-//   allowInput: true,
-// });
-function configureFlatpickr() {
-  const birthDateInput = document.getElementById("birthDateInput");
-  flatpickr(birthDateInput, {
-    dateFormat: "Y-m-d",
-    maxDate: new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-    allowInput: true,
-  });
-}
-
-
-
-/* Function to register loginbutton new user */
+/* Function to register a new user */
 function registerUser() {
   const firstnameInput = document.getElementById("firstnameInput");
   const lastnameInput = document.getElementById("lastnameInput");
@@ -199,7 +188,7 @@ function registerUser() {
     return;
   }
 
-  // Verificăm dacă emailul este deja înregistrat
+  // Check if the email is already registered
   const userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
   const existingUser = userDataArray.find((user) => user.email === email);
   if (existingUser) {
@@ -207,18 +196,17 @@ function registerUser() {
     return;
   }
 
-  // Șterge datele din toate câmpurile de intrare
+  // Clear input fields
   firstnameInput.value = "";
   lastnameInput.value = "";
   emailInput.value = "";
   passwordInput.value = "";
   confirmPasswordInput.value = "";
   birthDateInput.value = "";
-  flatpickr.value = "";
 
-  // Aici este locul unde ar trebui să fie logica de înregistrare a utilizatorului
+  // Logic for user registration should go here
 
-  // Crearea unui obiect User cu datele utilizatorului
+  // Create a new User object with user data
   const newUser = new User(
     firstname,
     lastname,
@@ -228,35 +216,18 @@ function registerUser() {
     "",
     0,
     ""
-    
   );
 
-  // Salvarea datelor utilizatorului într-o bază de date sau în local storage, etc.
-  // De exemplu, salvarea în local storage:
-
-  // let userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
-
+  // Add the new user to the array of users
   userDataArray.push(newUser);
   localStorage.setItem("userDataArray", JSON.stringify(userDataArray));
 
-  // Mesaj de succes
-  function registerUser() {
-    // Codul existent pentru înregistrarea utilizatorului
-
-    // Dacă înregistrarea este reușită, afișează alerta de succes și apoi actualizează pagina
-    toastrtop()
-      .success("Registration successful! Please log in.")
-      .on("hidden.bs.toast", function () {
-        window.location.reload(); // Refresh complet al paginii după ce utilizatorul primește mesajul de înregistrare reușită
-      });
-  }
-  // Șterge datele din toate câmpurile de intrare
-  firstnameInput.value = "";
-  lastnameInput.value = "";
-  emailInput.value = "";
-  passwordInput.value = "";
-  confirmPasswordInput.value = "";
-  birthDateInput.value = "";
+  // Show success message and reload the page after a successful registration
+  toastrtop()
+    .success("Registration successful! Please log in.")
+    .on("hidden.bs.toast", function () {
+      window.location.reload(); // Full page refresh after user receives successful registration message
+    });
 }
 
 /* User class */
@@ -304,7 +275,7 @@ function loginUser() {
   }
 }
 
-
+// Function to handle mouse wheel scroll
 window.onload = function() {
   window.addEventListener("wheel", function(event) {
     if (event.deltaY !== 0) {

@@ -21,7 +21,7 @@ function addProperty() {
 
 // Funcție pentru a deconecta utilizatorul și a-l redirecționa către pagina de autentificare
 function logOut() {
-  window.location.href = "index.html"; // Redirecționează utilizatorul către pagina "index.html"
+  window.location.href = "login.html"; // Redirecționează utilizatorul către pagina "index.html"
 }
 
 function seeProperty() {
