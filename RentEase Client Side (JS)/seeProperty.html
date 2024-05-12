@@ -59,24 +59,44 @@
         </nav>
 
         <div class="tabel">
-            <table id="propertiesTable">
-                <thead>
-                  <tr>
-                    <th>City</th>
-                    <th>Street Name</th>
-                    <th>Street Number</th>
-                    <th>Area Size</th>
-                    <th>Year Built</th>
-                    <th>Rent Price</th>
-                    <th>Date Available</th>
-                    <th>Has AC?</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- Aici se vor adăuga dinamic rândurile tabelului -->
-                </tbody>
+          <!-- Add a dropdown menu for column selection -->
+          <label  for="sortColumn"  class="sortname">Sort by</label>
 
-        </div>
+          <select id="sortColumn"  class="sorttabel">
+              <option value="0">City</option>
+              <option value="1">Street Name</option>
+              <option value="2">Street Number</option>
+              <option value="3">Area Size</option>
+              <option value="4">Year Built</option>
+              <option value="5">Rent Price</option>
+              <option value="6">Date Available</option>
+              <option value="7">Has AC?</option>
+          </select>
+      
+          <!-- Add sorting button -->
+          <button id="sortButton" onclick="sortTable()" style="display: none;">Sort</button>
+      
+          <!-- Add table -->
+          <table id="propertiesTable" style="display: none;">
+              <thead>
+                  <tr>
+                      <th>City</th>
+                      <th>Street Name</th>
+                      <th>Street Number</th>
+                      <th>Area Size</th>
+                      <th>Year Built</th>
+                      <th>Rent Price</th>
+                      <th>Date Available</th>
+                      <th>Has AC?</th>
+                      <th id="remove">Favorite</th> 
+                      <th id="deletelain">Delete</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <!-- Here the rows of the table will be added dynamically -->
+              </tbody>
+          </table>
+      </div>
     </div>
 </body>
 </html>

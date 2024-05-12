@@ -8,20 +8,22 @@ function myMenuFunction() {
 }
 document.querySelectorAll('.nav-menu .link').forEach(item => {
   item.addEventListener('click', () => {
-    myMenuFunction(); // Închideți meniul
+    myMenuFunction(); // Close the menu
   });
 });
+
 function seeProperty() {
-  // Redirecționează utilizatorul către pagina de logare
+  // Redirect the user to the seeProperty page
   window.location.href = "seeProperty.html";
 }
 
 function logOut() {
-  // Redirecționează utilizatorul către pagina de logare
+  // Redirect the user to the login page
   window.location.href = "login.html";
 }
 
 function gamespace() {
+  // Redirect the user to the game page
   window.location.href = "game.html";
 }
 
@@ -29,15 +31,15 @@ function addProperty() {
   let formContainer = document.getElementById("addPropertyForm");
   let profileContainer = document.getElementById("profileForm");
 
-  // Verificăm dacă formularul pentru adăugarea proprietății este deja deschis
+  // Check if the property addition form is already open
   if (formContainer.style.display === "block") {
-    return; // Nu facem nimic dacă formularul este deja deschis
+    return; // Do nothing if the form is already open
   }
 
-  // Închidem profilul dacă este deschis
+  // Close the profile if it's open
   profileContainer.style.display = "none";
 
-  // Afișăm formularul pentru adăugarea proprietății
+  // Display the property addition form
   formContainer.style.display = "block";
 }
 
@@ -45,21 +47,21 @@ function myProfile() {
   let formContainer = document.getElementById("addPropertyForm");
   let profileContainer = document.getElementById("profileForm");
 
-  // Închidem formularul pentru adăugarea proprietății dacă este deschis
+  // Close the property addition form if it's open
   formContainer.style.display = "none";
 
-  // Verificăm dacă profilul este deja deschis
+  // Check if the profile is already open
   if (profileContainer.style.display === "block") {
-    return; // Nu facem nimic dacă profilul este deja deschis
+    return; // Do nothing if the profile is already open
   }
 
-  // Afișăm profilul
+  // Display the profile
   profileContainer.style.display = "block";
 
-  // Obține datele utilizatorului din local storage
+  // Get user data from local storage
   let user = JSON.parse(localStorage.getItem("Log")) || {};
 
-  // Populați câmpurile formularului cu datele utilizatorului
+  // Populate form fields with user data
   document.getElementById("firstName").value = user.firstname || "";
   document.getElementById("lastName").value = user.lastname || "";
   document.getElementById("email").value = user.email || "";
@@ -69,12 +71,12 @@ function myProfile() {
 
 function closeAddPropertyForm() {
   let formContainer = document.getElementById("addPropertyForm");
-  formContainer.style.display = "none"; // Ascunde elementul
+  formContainer.style.display = "none"; // Hide the element
 }
 
 function closesaveProfile() {
   let profileContainer = document.getElementById("profileForm");
-  profileContainer.style.display = "none"; // Ascunde elementul
+  profileContainer.style.display = "none"; // Hide the element
 }
 
 function saveProperty() {
@@ -182,3 +184,31 @@ window.onload = function () {
     }
   });
 };
+
+
+
+
+let logoutTimer; // Variable to store the timer
+
+function resetLogoutTimer() {
+    clearTimeout(logoutTimer); // Clear the previous timer
+
+    // Set a new timer for, let's say, 10 minutes (600,000 milliseconds)
+  logoutTimer = setTimeout(logout, 600000); // Adjust the time as per your requirement
+  
+ // Checking the logout time after the user's movements
+  // let currentTime = new Date();
+  // console.log("Timer reset at: " + currentTime.toLocaleTimeString());
+}
+
+function logout() {
+    // Perform logout actions here, such as redirecting to a logout page
+    window.location.href = "login.html"; // Example logout action, replace with your logout logic
+}
+
+// Reset the timer on user activity
+document.addEventListener("mousemove", resetLogoutTimer);
+document.addEventListener("keypress", resetLogoutTimer);
+
+// Start the timer when the page loads
+document.addEventListener("DOMContentLoaded", resetLogoutTimer);
