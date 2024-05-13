@@ -94,6 +94,8 @@ th {
   font-size: medium;
 }
 
+
+
 /* Media queries for responsive design */
 @media only screen and (max-width: 786px) {
   table {

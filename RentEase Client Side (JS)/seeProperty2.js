@@ -169,26 +169,47 @@ function addToFavorites(city, streetName, streetNumber) {
 
 // Function to delete a property and its corresponding row from the table
 function deleteProperty(city) {
-  let tableRows = document.querySelectorAll("#propertiesTable tbody tr"); // Get all table rows
-  tableRows.forEach((row) => {
-    let cityCell = row.cells[0]; // The first cell in a row contains the city
-    if (cityCell.textContent.trim() === city) {
-      // Check if the city in the row matches the specified city
-      row.remove(); // Remove the row from the table
+  // Confirmation message using SweetAlert2
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Once deleted, you will not be able to recover this property!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!',
+    cancelButtonText: 'No, cancel!',
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // If the user confirms the action
+      let tableRows = document.querySelectorAll("#propertiesTable tbody tr"); // Get all table rows
+      tableRows.forEach((row) => {
+        let cityCell = row.cells[0]; // The first cell in each row contains the city
+        if (cityCell.textContent.trim() === city) {
+          // Check if the city in the row matches the specified city
+          row.remove(); // Remove the row from the table
+        }
+      });
+
+      let userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || []; // Get user data from localStorage
+      // Loop through each user to find the property with the specified city
+      userDataArray.forEach((user) => {
+        let properties = user.property || []; // Extract the user's property list
+        let updatedProperties = properties.filter(
+          (property) => property.city !== city
+        ); // Filter properties to remove the property with the specified city
+        user.property = updatedProperties; // Update the property list for this user
+      });
+      localStorage.setItem("userDataArray", JSON.stringify(userDataArray)); // Update userDataArray in localStorage
+
+      // Success message using Toastr
+      toastr.success('Property deleted successfully!');
+    } else if (result.dismiss === Swal.DismissReason.cancel) {
+      // If the user cancels the action, do nothing
+      toastr.info('Property deletion cancelled!');
     }
   });
-
-  let userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || []; // Get the user data from local storage
-  // Iterate through each user to find the property with the specified city
-  userDataArray.forEach((user) => {
-    let properties = user.property || []; // Extract the user's list of properties
-    let updatedProperties = properties.filter(
-      (property) => property.city !== city
-    ); // Filter properties to remove the property with the specified city
-    user.property = updatedProperties; // Update the list of properties for this user
-  });
-  localStorage.setItem("userDataArray", JSON.stringify(userDataArray)); // Update userDataArray in local storage
 }
+
 
 // Function to update the style of the favorite button
 function updateFavoriteButton(city, streetName, streetNumber, isFavorite) {
@@ -405,179 +426,177 @@ window.onload = function () {
 };
 
 function addHoverClassToCells() {
-  let cells = document.querySelectorAll("#propertiesTable tbody tr td"); // Obține toate celulele din tabel
+  let cells = document.querySelectorAll("#propertiesTable tbody tr td"); // Get all the cells in the table
   cells.forEach((cell) => {
-    cell.classList.add("hover-effect"); // Adaugă clasa de hover la fiecare celulă
+    cell.classList.add("hover-effect"); // Add the hover class to each cell
   });
 }
 
-// Adaugă clasa de hover la fiecare celulă a tabelului
+// Add the hover class to each table cell
 addHoverClassToCells();
 
 
 function sortTable() {
-  let table = document.getElementById('propertiesTable'); // Obține tabelul după ID
-  let sortColumn = document.getElementById('sortColumn').value; // Obține valoarea selectată din meniul dropdown
+  let table = document.getElementById('propertiesTable'); // Get the table by ID
+  let sortColumn = document.getElementById('sortColumn').value; // Get the selected value from the dropdown
 
-  let rows = Array.from(table.querySelectorAll('tbody tr')); // Obține toate rândurile din tbody
+  let rows = Array.from(table.querySelectorAll('tbody tr')); // Get all rows from tbody
 
-  // Sortează rândurile în funcție de conținutul coloanei selectate
+  // Sort the rows by the contents of the selected column
   rows.sort(function(a, b) {
-      let textA = a.cells[sortColumn].textContent.trim().toLowerCase(); // Sortează după conținutul coloanei selectate
+      let textA = a.cells[sortColumn].textContent.trim().toLowerCase(); // Sort by the contents of the selected column
       let textB = b.cells[sortColumn].textContent.trim().toLowerCase();
       return textA.localeCompare(textB);
   });
 
-  // Reorganizează rândurile în tabel
+  // Rearrange the rows in the table
   let tbody = table.querySelector('tbody');
-  tbody.innerHTML = ''; // Șterge conținutul tbody
+  tbody.innerHTML = ''; // Clear the contents of tbody
   rows.forEach(function(row) {
-      tbody.appendChild(row); // Adaugă fiecare rând sortat înapoi în tbody
+      tbody.appendChild(row); // Add each sorted row back to tbody
   });
 }
 
 
-// Adaugă un eveniment de clic pe coloana "City" pentru a apela funcția de sortare
+// Add a click event on the "City" column to call the sort function
 document
   .querySelector("#propertiesTable th:nth-child(1)")
   .addEventListener("click", function () {
     sortTableByCity();
   });
 
-// Funcție pentru a sorta tabelul în funcție de oraș
+// Function to sort the table by city
 function sortTableByCity() {
-  let table = document.querySelector("#propertiesTable tbody"); // Obține tbody-ul tabelului
-  let rows = Array.from(table.querySelectorAll("tr")); // Obține toate rândurile și convertește nodurile NodeList într-un array
+  let table = document.querySelector("#propertiesTable tbody"); // Get the tbody of the table
+  let rows = Array.from(table.querySelectorAll("tr")); // Get all rows and convert NodeList nodes to an array
 
-  // Sortează rândurile în funcție de oraș
+  // sort the rows according to the city and the rest
   rows.sort(function (a, b) {
-    let cityA = a.cells[0].textContent.toLowerCase().trim(); // Obține orașul din primul celulă a rândului a
-    let cityB = b.cells[0].textContent.toLowerCase().trim(); // Obține orașul din primul celulă a rândului b
-    return cityA.localeCompare(cityB); // Compara orașele pentru a sorta în ordine alfabetică
+    let cityA = a.cells[0].textContent.toLowerCase().trim();// Get the city from the first cell of row a
+    let cityB = b.cells[0].textContent.toLowerCase().trim(); // Get the city from the first cell of row b
+    return cityA.localeCompare(cityB); // Compare cities to sort alphabetically
   });
 
-  // Elimină rândurile din tabel
+  // Remove rows from the table
   table.innerHTML = "";
 
-  // Adaugă rândurile sortate în tabel
+  // Add the sorted rows to the table
   rows.forEach(function (row) {
     table.appendChild(row);
   });
 }
 
-// Adaugă un eveniment de clic pe coloana "Street Name" pentru a apela funcția de sortare
+// Add a click event to the "Street Name" column to call the sorting function
 document
   .querySelector("#propertiesTable th:nth-child(2)")
   .addEventListener("click", function () {
     sortTableByStreetName();
   });
 
-// Funcție pentru a sorta tabelul în funcție de numele străzii
+// Function to sort the table based on street name
 function sortTableByStreetName() {
-  let table = document.querySelector("#propertiesTable tbody"); // Obține tbody-ul tabelului
-  let rows = Array.from(table.querySelectorAll("tr")); // Obține toate rândurile și convertește nodurile NodeList într-un array
+  let table = document.querySelector("#propertiesTable tbody"); // Get the table tbody
+  let rows = Array.from(table.querySelectorAll("tr")); // Get all rows and convert NodeList nodes to an array
 
-  // Sortează rândurile în funcție de numele străzii
+  // Sort rows based on street name
   rows.sort(function (a, b) {
-    let streetNameA = a.cells[1].textContent.toLowerCase().trim(); // Obține numele străzii din a doua celulă a rândului a
-    let streetNameB = b.cells[1].textContent.toLowerCase().trim(); // Obține numele străzii din a doua celulă a rândului b
-    return streetNameA.localeCompare(streetNameB); // Compara numele străzilor pentru a sorta în ordine alfabetică
+    let streetNameA = a.cells[1].textContent.toLowerCase().trim(); // Get street name from the second cell of row a
+    let streetNameB = b.cells[1].textContent.toLowerCase().trim(); // Get street name from the second cell of row b
+    return streetNameA.localeCompare(streetNameB); // Compare street names to sort in alphabetical order
   });
 
-  // Elimină rândurile din tabel
+  // Remove rows from the table
   table.innerHTML = "";
 
-  // Adaugă rândurile sortate în tabel
+  // Add sorted rows to the table
   rows.forEach(function (row) {
     table.appendChild(row);
   });
 }
 
-// Adaugă un eveniment de clic pe coloana "Area Size" pentru a apela funcția de sortare
+// Add a click event to the "Area Size" column to call the sorting function
 document
   .querySelector("#propertiesTable th:nth-child(4)")
   .addEventListener("click", function () {
     sortTableByAreaSize();
   });
 
-// Funcție pentru a sorta tabelul în funcție de aria proprietății
+// Function to sort the table based on property area
 function sortTableByAreaSize() {
-  let table = document.querySelector("#propertiesTable tbody"); // Obține tbody-ul tabelului
-  let rows = Array.from(table.querySelectorAll("tr")); // Obține toate rândurile și convertește nodurile NodeList într-un array
+  let table = document.querySelector("#propertiesTable tbody"); // Get the table tbody
+  let rows = Array.from(table.querySelectorAll("tr")); // Get all rows and convert NodeList nodes to an array
 
-  // Sortează rândurile în funcție de aria proprietății
+  // Sort rows based on property area
   rows.sort(function (a, b) {
-    let areaSizeA = parseFloat(a.cells[3].textContent.trim()); // Obține aria proprietății din a patra celulă a rândului a
-    let areaSizeB = parseFloat(b.cells[3].textContent.trim()); // Obține aria proprietății din a patra celulă a rândului b
-    return areaSizeA - areaSizeB; // Compara ariile proprietăților pentru a sorta în ordine numerică
+    let areaSizeA = parseFloat(a.cells[3].textContent.trim()); // Get property area from the fourth cell of row a
+    let areaSizeB = parseFloat(b.cells[3].textContent.trim()); // Get property area from the fourth cell of row b
+    return areaSizeA - areaSizeB; // Compare property areas to sort in numerical order
   });
 
-  // Elimină rândurile din tabel
+  // Remove rows from the table
   table.innerHTML = "";
 
-  // Adaugă rândurile sortate în tabel
+  // Add sorted rows to the table
   rows.forEach(function (row) {
     table.appendChild(row);
   });
 }
 
-// Adaugă un eveniment de clic pe coloana "Year Built" pentru a apela funcția de sortare
+// Add a click event to the "Year Built" column to call the sorting function
 document
   .querySelector("#propertiesTable th:nth-child(5)")
   .addEventListener("click", function () {
     sortTableByYearBuilt();
   });
 
-// Funcție pentru a sorta tabelul în funcție de anul construcției
+// Function to sort the table based on the year built
 function sortTableByYearBuilt() {
-  let table = document.querySelector("#propertiesTable tbody"); // Obține tbody-ul tabelului
-  let rows = Array.from(table.querySelectorAll("tr")); // Obține toate rândurile și convertește nodurile NodeList într-un array
+  let table = document.querySelector("#propertiesTable tbody"); // Get the table tbody
+  let rows = Array.from(table.querySelectorAll("tr")); // Get all rows and convert NodeList nodes to an array
 
-  // Sortează rândurile în funcție de anul construcției
+  // Sort rows based on the year built
   rows.sort(function (a, b) {
-    let yearBuiltA = parseInt(a.cells[4].textContent.trim()); // Obține anul construcției din a cincea celulă a rândului a
-    let yearBuiltB = parseInt(b.cells[4].textContent.trim()); // Obține anul construcției din a cincea celulă a rândului b
-    return yearBuiltA - yearBuiltB; // Compara anii construcției pentru a sorta în ordine numerică
+    let yearBuiltA = parseInt(a.cells[4].textContent.trim()); // Get the year built from the fifth cell of row a
+    let yearBuiltB = parseInt(b.cells[4].textContent.trim()); // Get the year built from the fifth cell of row b
+    return yearBuiltA - yearBuiltB; // Compare the years built to sort in numerical order
   });
 
-  // Elimină rândurile din tabel
+  // Remove rows from the table
   table.innerHTML = "";
 
-  // Adaugă rândurile sortate în tabel
+  // Add sorted rows to the table
   rows.forEach(function (row) {
     table.appendChild(row);
   });
 }
 
-// Adaugă un eveniment de clic pe coloana "Rent Price" pentru a apela funcția de sortare
+// Add a click event to the "Rent Price" column to call the sorting function
 document
   .querySelector("#propertiesTable th:nth-child(6)")
   .addEventListener("click", function () {
     sortTableByRentPrice();
   });
 
-// Funcție pentru a sorta tabelul în funcție de prețul chiriei
+// Function to sort the table based on rent price
 function sortTableByRentPrice() {
-  let table = document.querySelector("#propertiesTable tbody"); // Obține tbody-ul tabelului
-  let rows = Array.from(table.querySelectorAll("tr")); // Obține toate rândurile și convertește nodurile NodeList într-un array
+  let table = document.querySelector("#propertiesTable tbody"); // Get the table tbody
+  let rows = Array.from(table.querySelectorAll("tr")); // Get all rows and convert NodeList nodes to an array
 
-  // Sortează rândurile în funcție de prețul chiriei
+  // Sort rows based on rent price
   rows.sort(function (a, b) {
-    let rentPriceA = parseFloat(a.cells[5].textContent.trim()); // Obține prețul chiriei din a șasea celulă a rândului a
-    let rentPriceB = parseFloat(b.cells[5].textContent.trim()); // Obține prețul chiriei din a șasea celulă a rândului b
-    return rentPriceA - rentPriceB; // Compara prețurile chiriei pentru a sorta în ordine numerică
+    let rentPriceA = parseFloat(a.cells[5].textContent.trim()); // Get rent price from the sixth cell of row a
+    let rentPriceB = parseFloat(b.cells[5].textContent.trim()); // Get rent price from the sixth cell of row b
+    return rentPriceA - rentPriceB; // Compare rent prices to sort in numerical order
   });
 
-  // Elimină rândurile din tabel
+  // Remove rows from the table
   table.innerHTML = "";
 
-  // Adaugă rândurile sortate în tabel
+  // Add sorted rows to the table
   rows.forEach(function (row) {
     table.appendChild(row);
   });
 }
-
-
 
 let logoutTimer; // Variable to store the timer
 
@@ -603,4 +622,5 @@ document.addEventListener("keypress", resetLogoutTimer);
 
 // Start the timer when the page loads
 document.addEventListener("DOMContentLoaded", resetLogoutTimer);
+
 

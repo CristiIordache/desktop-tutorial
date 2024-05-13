@@ -129,29 +129,30 @@ function saveProperty() {
 }
 
 function saveProfile() {
-  // Obțineți datele introduse de utilizator din formular
+  // Get user input data from the form
   let firstName = document.getElementById("firstName").value;
   let lastName = document.getElementById("lastName").value;
   let email = document.getElementById("email").value;
   let dob = document.getElementById("dob").value;
-  let telefon = document.getElementById("telefon").value;
+  let phone = document.getElementById("phone").value;
 
-  // Obțineți datele utilizatorului din local storage
+  // Get user data from local storage
   let user = JSON.parse(localStorage.getItem("Log")) || {};
 
-  // Actualizați datele utilizatorului cu cele din formular
+  // Update user data with the form input
   user.firstname = firstName;
   user.lastname = lastName;
   user.email = email;
   user.birthDate = dob;
-  user.telefon = telefon;
+  user.phone = phone;
 
-  // Salvați datele actualizate înapoi în local storage
+  // Save the updated data back to local storage
   localStorage.setItem("Log", JSON.stringify(user));
 
-  // Afișați un mesaj de succes utilizatorului
+  // Display a success message to the user
   toastr.success("Profile saved successfully!");
 }
+
 
 class Property {
   constructor(
