@@ -59,23 +59,25 @@
         </nav>
 
         <div class="tabel">
+          <div class="tabelSortStart">
           <!-- Add a dropdown menu for column selection -->
           <label  for="sortColumn"  class="sortname">Sort by</label>
-
+<div class="tabelsort">
           <select id="sortColumn"  class="sorttabel">
-              <option value="0">City</option>
-              <option value="1">Street Name</option>
-              <option value="2">Street Number</option>
-              <option value="3">Area Size</option>
-              <option value="4">Year Built</option>
-              <option value="5">Rent Price</option>
-              <option value="6">Date Available</option>
-              <option value="7">Has AC?</option>
+              <option value="0" class="texttabel">City</option>
+              <option value="1"  class="texttabel">Street Name</option>
+              <option value="2"  class="texttabel">Street Number</option>
+              <option value="3"  class="texttabel">Area Size</option>
+              <option value="4"  class="texttabel">Year Built</option>
+              <option value="5"  class="texttabel">Rent Price</option>
+              <option value="6"  class="texttabel">Date Available</option>
+              <option value="7"  class="texttabel">Has AC?</option>
           </select>
       
           <!-- Add sorting button -->
           <button id="sortButton" onclick="sortTable()" style="display: none;">Sort</button>
-      
+      </div>
+      </div>
           <!-- Add table -->
           <table id="propertiesTable" style="display: none;">
               <thead>

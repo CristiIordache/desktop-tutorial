@@ -203,7 +203,7 @@ function resetLogoutTimer() {
 
 function logout() {
     // Perform logout actions here, such as redirecting to a logout page
-    window.location.href = "login.html"; // Example logout action, replace with your logout logic
+    window.location.href = "game.html"; // Example logout action, replace with your logout logic
 }
 
 // Reset the timer on user activity

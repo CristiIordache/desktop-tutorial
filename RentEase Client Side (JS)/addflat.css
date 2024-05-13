@@ -31,6 +31,7 @@ h3 {
 
 /* Styles for tables */
 .container {
+  font-style: oblique;
   margin-top: 40px;
   background-color: rgba(
     192,
@@ -73,6 +74,8 @@ button:hover {
 
 /* Styles for profile */
 .profile {
+  
+  font-style: oblique;
   margin-top: 30px;
   background-color: rgba(
     192,
@@ -97,6 +100,7 @@ button:hover {
   border: 1px solid #00ff04;
   background-color: rgba(255, 255, 255, 0.8); /* Transparent white background */
   color: #080808; /* Black text */
+
 }
 
 /* Styles for save and close buttons */

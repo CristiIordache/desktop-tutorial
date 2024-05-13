@@ -204,7 +204,7 @@ window.onload = function(){
         if (playAgain) {
             startGame();
         } else {
-            window.location.href = "addflat.html";
+            window.location.href = "login.html";
         }
         startGame();
       }
