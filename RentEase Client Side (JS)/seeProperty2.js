@@ -29,6 +29,8 @@ function seeProperty() {
   let sortButton = document.getElementById("sortButton"); // Get the sort button
   let sortLabel = document.querySelector("label[for='sortColumn']"); // Get the label for sorting
   let sortSelect = document.getElementById("sortColumn"); // Get the select element for sorting
+  let sortLeftButton = document.getElementById("sortLeftButton"); // Get the button for left selection
+  let sortRightButton = document.getElementById("sortRightButton"); // Get the button for right selection
 
   if (table.style.display === "none") {
     // Check if the table is hidden
@@ -41,6 +43,10 @@ function seeProperty() {
     // Make the label and select for sorting visible
     sortLabel.style.display = "block";
     sortSelect.style.display = "block";
+
+    // Make the left and right selection buttons visible
+    sortLeftButton.style.display = "inline-block";
+    sortRightButton.style.display = "inline-block";
 
     // Make the "Delete" column visible again
     let deleteColumn = document.querySelectorAll("#propertiesTable th#deletelain, #propertiesTable td#deletelain");
@@ -56,8 +62,13 @@ function seeProperty() {
     // Hide the label and select for sorting
     sortLabel.style.display = "none";
     sortSelect.style.display = "none";
+
+    // Hide the left and right selection buttons
+    sortLeftButton.style.display = "none";
+    sortRightButton.style.display = "none";
   }
 }
+
 
 // Function to initialize and display the properties table from local storage
 function initTableFromUserData() {
@@ -623,4 +634,14 @@ document.addEventListener("keypress", resetLogoutTimer);
 // Start the timer when the page loads
 document.addEventListener("DOMContentLoaded", resetLogoutTimer);
 
+
+
+function moveSelection(direction) {
+  var sortColumn = document.getElementById("sortColumn");
+  var newIndex = sortColumn.selectedIndex + direction;
+  if (newIndex >= 0 && newIndex < sortColumn.options.length) {
+      sortColumn.selectedIndex = newIndex;
+      sortTable();
+  }
+}
 

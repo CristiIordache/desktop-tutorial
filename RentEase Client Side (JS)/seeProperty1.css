@@ -7,12 +7,12 @@ table {
 }
 th,
 td {
-  border: 1px solid #a5dc86; /* Sets border properties for table header and data cells */
+  border: 1px solid #3e53ef; /* Sets border properties for table header and data cells */
   text-align: left; /* Aligns text to the left within table cells */
   padding: 8px; /* Adds padding inside table cells */
 }
 th {
-  background-color: #b8eb9ab2; /* Sets background color for table header */
+  background-color: #2b3dcc8b; /* Sets background color for table header */
 }
 
 .tabel {
@@ -20,23 +20,31 @@ th {
   justify-content: center; /* Centers the child elements horizontally within the container */
   align-items: center; /* Centers the child elements vertically within the container */
   flex-direction: column; /* Arranges the child elements in a single column */
-  margin-top: 110px; /* Adds margin space on the top of the container */
-  background-color: rgba(40, 5, 240, 0.323);
+  margin-top: px; /* Adds margin space on the top of the container */
+  /* background-color: rgba(40, 5, 240, 0.323); */
   font-style: oblique;
+  border-radius: 10px;
+  background-color: rgba(192, 192, 192, 0.5); /* Transparent grey background */
+
   border-radius: 10px;
 }
 
 .btn-favorite {
+  display: flex;
+  margin-left: 15px;
   background-color: transparent; /* Sets background color of the button to transparent */
   border: none; /* Removes border from the button */
   cursor: pointer; /* Changes cursor to a pointer on hover, indicating interactivity */
-  font-size: 30px; /* Sets font size of the button text */
+  font-size: 35px; /* Sets font size of the button text */
   color: #05f6f2fb; /* Sets text color to a shade of gray */
-  
 }
 
 .btn-favorite.active {
-  color: hsl(0, 96%, 49%); /* Sets text color to yellow when the button has the 'active' class */
+  color: hsl(
+    0,
+    96%,
+    49%
+  ); /* Sets text color to yellow when the button has the 'active' class */
 }
 
 .btn-delete {
@@ -56,17 +64,16 @@ th {
 }
 
 #propertiesTable tbody tr:hover {
-  background-color: rgba(5, 240, 68, 0.264);
+  background-color: #3e53ef25;
   cursor: pointer;
 }
 
-
-#sortButton{
+#sortButton {
   border-radius: 5px;
   padding: 5px;
   font-weight: bold;
   color: white;
-  background-color: #b8eb9ab2;
+  background-color: #3e53ef94;
   font-style: oblique;
 }
 
@@ -76,25 +83,39 @@ th {
 .sorttabel {
   display: none;
   color: white;
-  background-color: #b8eb9ab2;
+  background-color: #3e53ef94;
   font-style: oblique;
   font-weight: bold;
-  
 }
-.tabelSortStart{
+.tabelSortStart {
   margin-right: auto;
+  margin-bottom: 5px;
 }
-.tabelsort{
+.tabelsort {
   display: flex;
-  
 }
-.texttabel{
+.texttabel {
   color: black;
   font-style: oblique;
   font-size: medium;
 }
 
+.tabelsort button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #3e53ef; /* Set color for arrow buttons */
+}
 
+.sortname {
+  margin-right: 10px; /* Add margin to the right of the label */
+}
+
+.sortname,
+.tabelsort button {
+  font-style: oblique;
+}
 
 /* Media queries for responsive design */
 @media only screen and (max-width: 786px) {
@@ -112,7 +133,7 @@ th {
   .btn-delete {
     font-size: 15px; /* Sets smaller font size for delete buttons on smaller screens */
   }
-  .tabelSortStart{
+  .tabelSortStart {
     margin-right: auto;
   }
 }
@@ -129,7 +150,6 @@ th {
     gap: 0; /* Removes gap between form fields */
   }
   table {
-   
     font-size: 15px; /* Sets even smaller font size for tables on very small screens */
   }
 
@@ -144,7 +164,7 @@ th {
   .btn-delete {
     font-size: 10px; /* Sets smaller font size for delete buttons on very small screens */
   }
-  .tabelSortStart{
+  .tabelSortStart {
     margin-right: auto;
   }
 }
