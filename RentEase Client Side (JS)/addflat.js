@@ -134,24 +134,61 @@ function saveProfile() {
   let lastName = document.getElementById("lastName").value;
   let email = document.getElementById("email").value;
   let dob = document.getElementById("dob").value;
-  let phone = document.getElementById("phone").value;
+  let telefon = document.getElementById("telefon").value;
 
   // Get user data from local storage
   let user = JSON.parse(localStorage.getItem("Log")) || {};
 
+  // Check if email address has changed
+  if (user.email !== email) {
+    // Display error message
+    toastr.error("The email address cannot be changed.");
+    return; // Exit function without saving
+  }
+  let userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || [];
+
+  // Update userDataArray if the user exists
+  for (let i = 0; i < userDataArray.length; i++) {
+    if (userDataArray[i].email === user.email) {
+      userDataArray[i].firstname = firstName;
+      lastname = lastName;
+      dob = dob;
+      telefon=telefon
+      
+      break;
+    }
+  }
+
+
+  //de midificat mai sus 
+
+  // Save the updated userDataArray back to local storage
+  localStorage.setItem("userDataArray", JSON.stringify(userDataArray));
+
+  // Display a success message to the user
+  toastr.success("Profile saved successfully!");
+  // Check if any field except email is changed
+  if (user.firstname !== firstName || user.lastname !== lastName || user.birthDate !== dob || user.telefon !== telefon) {
+    // Redirect the user to the login page
+    window.location.href = "login.html";
+    return; // Exit function without saving
+  }
+
   // Update user data with the form input
-  user.firstname = firstName;
-  user.lastname = lastName;
-  user.email = email;
-  user.birthDate = dob;
-  user.phone = phone;
+  // user.firstname = firstName;
+  // user.lastname = lastName;
+  // user.birthDate = dob;
+  // user.telefon = telefon;
 
   // Save the updated data back to local storage
   localStorage.setItem("Log", JSON.stringify(user));
 
-  // Display a success message to the user
-  toastr.success("Profile saved successfully!");
+  // Get userDataArray from local storage
+ 
 }
+
+
+
 
 
 class Property {

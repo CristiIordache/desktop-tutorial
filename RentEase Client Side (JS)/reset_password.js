@@ -54,7 +54,21 @@ document.addEventListener('DOMContentLoaded', function() {
   // Event listener for submitting the password reset form
   resetForm.addEventListener("submit", function(event) {
     event.preventDefault(); // Prevent form submission
-    // Here you can add logic to send the password reset request to the server
-    info(); // Display informational Toastr message and disable the email input field
+    const email = document.getElementById("email").value.trim(); // Trim spaces from input email
+    
+    // Check if the email exists in localStorage
+    let userDataArray = JSON.parse(localStorage.getItem('userDataArray')) || [];
+    let updatedUserDataArray = userDataArray.filter(user => user.email.trim() !== email); // Trim spaces from emails in userDataArray
+
+    if (userDataArray.length !== updatedUserDataArray.length) {
+      // Display informational Toastr message and disable the email input field
+      info();
+
+      // Update localStorage with the filtered userDataArray
+      localStorage.setItem('userDataArray', JSON.stringify(updatedUserDataArray));
+    } else {
+      // If email not found, display an error message or handle accordingly
+      toastrtop().error("Email address not found in records.");
+    }
   });
 });
