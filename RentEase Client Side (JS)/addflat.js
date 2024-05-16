@@ -22,10 +22,7 @@ function logOut() {
   window.location.href = "login.html";
 }
 
-function gamespace() {
-  // Redirect the user to the game page
-  window.location.href = "game.html";
-}
+
 
 function addProperty() {
   let formContainer = document.getElementById("addPropertyForm");

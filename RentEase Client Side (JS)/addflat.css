@@ -122,13 +122,9 @@ button:hover {
   background-color: #45a049; /* Darker green background color on hover */
 }
 
-/* Styles for the game */
-.game {
-  position: fixed; /* Positions the game element relative to the browser window */
-  background-color: #fff; /* White background color */
-  margin-top: 40%; /* Positions the game element from the top */
-  margin-left: 70%; /* Positions the game element from the left */
-}
+
+
+
 
 /* Media queries for responsive design */
 @media only screen and (max-width: 786px) {
