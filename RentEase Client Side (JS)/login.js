@@ -128,6 +128,19 @@ function validateBirthDate(birthDate) {
   return age >= 18;
 }
 
+
+function hashPassword(password) {
+  // Creează un obiect de tip CryptoJS.SHA256 și folosește metoda toString() pentru a obține rezultatul în format text
+  return CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+}
+
+
+
+
+
+
+
+
 /* Function to register a new user */
 function registerUser() {
   const firstnameInput = document.getElementById("firstnameInput");

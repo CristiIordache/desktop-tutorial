@@ -151,9 +151,9 @@ function saveProfile() {
   for (let i = 0; i < userDataArray.length; i++) {
     if (userDataArray[i].email === user.email) {
       userDataArray[i].firstname = firstName;
-      lastname = lastName;
-      dob = dob;
-      telefon=telefon
+    userDataArray[i].lastname = lastName; 
+    userDataArray[i].dob = dob; 
+    userDataArray[i].telefon = telefon;
       
       break;
     }
