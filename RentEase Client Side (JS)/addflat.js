@@ -247,3 +247,14 @@ document.addEventListener("keypress", resetLogoutTimer);
 
 // Start the timer when the page loads
 document.addEventListener("DOMContentLoaded", resetLogoutTimer);
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  let closeButton = document.getElementById('closeButton');
+  let videoContainer = document.getElementById('videoContainer');
+
+  closeButton.addEventListener('click', function() {
+      videoContainer.style.display = 'none';
+  });
+});

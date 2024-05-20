@@ -24,6 +24,12 @@ function logOut() {
   window.location.href = "login.html"; // Redirect user to "index.html" page
 }
 
+
+function myProfile() {
+  window.location.href= "addflat.html"
+}
+
+
 function seeProperty() {
   let table = document.querySelector("#propertiesTable"); // Get the element with id "propertiesTable"
   let sortButton = document.getElementById("sortButton"); // Get the sort button
@@ -645,3 +651,11 @@ function moveSelection(direction) {
   }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  let closeButton = document.getElementById('closeButton');
+  let videoContainer = document.getElementById('videoContainer');
+
+  closeButton.addEventListener('click', function() {
+      videoContainer.style.display = 'none';
+  });
+});
