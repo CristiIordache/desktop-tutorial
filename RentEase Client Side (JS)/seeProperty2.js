@@ -24,11 +24,9 @@ function logOut() {
   window.location.href = "login.html"; // Redirect user to "index.html" page
 }
 
-
 function myProfile() {
-  window.location.href= "addflat.html"
+  window.location.href = "addflat.html";
 }
-
 
 function seeProperty() {
   let table = document.querySelector("#propertiesTable"); // Get the element with id "propertiesTable"
@@ -55,7 +53,9 @@ function seeProperty() {
     sortRightButton.style.display = "inline-block";
 
     // Make the "Delete" column visible again
-    let deleteColumn = document.querySelectorAll("#propertiesTable th#deletelain, #propertiesTable td#deletelain");
+    let deleteColumn = document.querySelectorAll(
+      "#propertiesTable th#deletelain, #propertiesTable td#deletelain"
+    );
     deleteColumn.forEach((column) => {
       column.style.display = "table-cell";
     });
@@ -74,7 +74,6 @@ function seeProperty() {
     sortRightButton.style.display = "none";
   }
 }
-
 
 // Function to initialize and display the properties table from local storage
 function initTableFromUserData() {
@@ -108,17 +107,19 @@ function initTableFromUserData() {
       <td>${property.hasAC ? "Yes" : "No"}</td>
       <td id="tdbtn">
           <button class="btn-favorite ${
-              property.favorite ? " active" : ""
+            property.favorite ? " active" : ""
           }" onclick="addToFavorites('${property.city}', '${
-              property.streetName
-          }', '${property.streetNumber}')" data-city="${
-              property.city
-          }" data-street="${property.streetName}" data-number="${
-              property.streetNumber
-          }">&#9734;</button></td>
+        property.streetName
+      }', '${property.streetNumber}')" data-city="${
+        property.city
+      }" data-street="${property.streetName}" data-number="${
+        property.streetNumber
+      }">&#9734;</button></td>
 
 <td>
-          <button class="btn-delete" onclick="deleteProperty('${property.city}')">Delete</button>
+          <button class="btn-delete" onclick="deleteProperty('${
+            property.city
+          }')">Delete</button>
       </td>
   `;
       tableBody.appendChild(row); // Add the row to the table
@@ -181,20 +182,19 @@ function addToFavorites(city, streetName, streetNumber) {
       }
     });
   });
-  
 }
 
 // Function to delete a property and its corresponding row from the table
 function deleteProperty(city) {
   // Confirmation message using SweetAlert2
   Swal.fire({
-    title: 'Are you sure?',
-    text: 'Once deleted, you will not be able to recover this property!',
-    icon: 'warning',
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this property!",
+    icon: "warning",
     showCancelButton: true,
-    confirmButtonText: 'Yes, delete it!',
-    cancelButtonText: 'No, cancel!',
-    reverseButtons: true
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel!",
+    reverseButtons: true,
   }).then((result) => {
     if (result.isConfirmed) {
       // If the user confirms the action
@@ -207,7 +207,8 @@ function deleteProperty(city) {
         }
       });
 
-      let userDataArray = JSON.parse(localStorage.getItem("userDataArray")) || []; // Get user data from localStorage
+      let userDataArray =
+        JSON.parse(localStorage.getItem("userDataArray")) || []; // Get user data from localStorage
       // Loop through each user to find the property with the specified city
       userDataArray.forEach((user) => {
         let properties = user.property || []; // Extract the user's property list
@@ -219,14 +220,13 @@ function deleteProperty(city) {
       localStorage.setItem("userDataArray", JSON.stringify(userDataArray)); // Update userDataArray in localStorage
 
       // Success message using Toastr
-      toastr.success('Property deleted successfully!');
+      toastr.success("Property deleted successfully!");
     } else if (result.dismiss === Swal.DismissReason.cancel) {
       // If the user cancels the action, do nothing
-      toastr.info('Property deletion cancelled!');
+      toastr.info("Property deletion cancelled!");
     }
   });
 }
-
 
 // Function to update the style of the favorite button
 function updateFavoriteButton(city, streetName, streetNumber, isFavorite) {
@@ -282,8 +282,8 @@ function favoriteslist() {
               <button class="btn-delete" onclick="removeFromFavorites('${
                 property.city
               }', '${property.streetName}', '${
-          property.streetNumber
-        }')">Remove</button>
+            property.streetNumber
+          }')">Remove</button>
           </td>
           `;
           row.setAttribute("data-favorite", "true");
@@ -304,12 +304,16 @@ function favoriteslist() {
       }
 
       // Ascunde coloana "Delete" și schimbă textul coloanei "Favorite" în "Remove"
-      let deleteColumn = document.querySelectorAll("#propertiesTable th#deletelain, #propertiesTable td#deletelain");
+      let deleteColumn = document.querySelectorAll(
+        "#propertiesTable th#deletelain, #propertiesTable td#deletelain"
+      );
       deleteColumn.forEach((column) => {
         column.style.display = "none";
       });
 
-      let removeColumn = document.querySelectorAll("#propertiesTable th#remove, #propertiesTable td#remove");
+      let removeColumn = document.querySelectorAll(
+        "#propertiesTable th#remove, #propertiesTable td#remove"
+      );
       removeColumn.forEach((column) => {
         column.textContent = "Remove";
       });
@@ -320,12 +324,6 @@ function favoriteslist() {
     console.log("Properties table not found");
   }
 }
-
-
-
-
-
-
 
 // Function to update the style of favorite buttons
 function updateFavoriteButtonsStyle(favorites) {
@@ -452,28 +450,26 @@ function addHoverClassToCells() {
 // Add the hover class to each table cell
 addHoverClassToCells();
 
-
 function sortTable() {
-  let table = document.getElementById('propertiesTable'); // Get the table by ID
-  let sortColumn = document.getElementById('sortColumn').value; // Get the selected value from the dropdown
+  let table = document.getElementById("propertiesTable"); // Get the table by ID
+  let sortColumn = document.getElementById("sortColumn").value; // Get the selected value from the dropdown
 
-  let rows = Array.from(table.querySelectorAll('tbody tr')); // Get all rows from tbody
+  let rows = Array.from(table.querySelectorAll("tbody tr")); // Get all rows from tbody
 
   // Sort the rows by the contents of the selected column
-  rows.sort(function(a, b) {
-      let textA = a.cells[sortColumn].textContent.trim().toLowerCase(); // Sort by the contents of the selected column
-      let textB = b.cells[sortColumn].textContent.trim().toLowerCase();
-      return textA.localeCompare(textB);
+  rows.sort(function (a, b) {
+    let textA = a.cells[sortColumn].textContent.trim().toLowerCase(); // Sort by the contents of the selected column
+    let textB = b.cells[sortColumn].textContent.trim().toLowerCase();
+    return textA.localeCompare(textB);
   });
 
   // Rearrange the rows in the table
-  let tbody = table.querySelector('tbody');
-  tbody.innerHTML = ''; // Clear the contents of tbody
-  rows.forEach(function(row) {
-      tbody.appendChild(row); // Add each sorted row back to tbody
+  let tbody = table.querySelector("tbody");
+  tbody.innerHTML = ""; // Clear the contents of tbody
+  rows.forEach(function (row) {
+    tbody.appendChild(row); // Add each sorted row back to tbody
   });
 }
-
 
 // Add a click event on the "City" column to call the sort function
 document
@@ -489,7 +485,7 @@ function sortTableByCity() {
 
   // sort the rows according to the city and the rest
   rows.sort(function (a, b) {
-    let cityA = a.cells[0].textContent.toLowerCase().trim();// Get the city from the first cell of row a
+    let cityA = a.cells[0].textContent.toLowerCase().trim(); // Get the city from the first cell of row a
     let cityB = b.cells[0].textContent.toLowerCase().trim(); // Get the city from the first cell of row b
     return cityA.localeCompare(cityB); // Compare cities to sort alphabetically
   });
@@ -618,19 +614,19 @@ function sortTableByRentPrice() {
 let logoutTimer; // Variable to store the timer
 
 function resetLogoutTimer() {
-    clearTimeout(logoutTimer); // Clear the previous timer
+  clearTimeout(logoutTimer); // Clear the previous timer
 
-    // Set a new timer for, let's say, 10 minutes (600,000 milliseconds)
-  logoutTimer = setTimeout(logout, 600000); // Adjust the time as per your requirement
-  
- // Checking the logout time after the user's movements
+  // Set a new timer for, let's say, 10 minutes (600,000 milliseconds)
+  logoutTimer = setTimeout(logout, 6000); // Adjust the time as per your requirement
+
+  // Checking the logout time after the user's movements
   // let currentTime = new Date();
   // console.log("Timer reset at: " + currentTime.toLocaleTimeString());
 }
 
 function logout() {
-    // Perform logout actions here, such as redirecting to a logout page
-    window.location.href = "game.html"; // Example logout action, replace with your logout logic
+  // Perform logout actions here, such as redirecting to a logout page
+  window.location.href = "game.html"; // Example logout action, replace with your logout logic
 }
 
 // Reset the timer on user activity
@@ -640,22 +636,20 @@ document.addEventListener("keypress", resetLogoutTimer);
 // Start the timer when the page loads
 document.addEventListener("DOMContentLoaded", resetLogoutTimer);
 
-
-
 function moveSelection(direction) {
   var sortColumn = document.getElementById("sortColumn");
   var newIndex = sortColumn.selectedIndex + direction;
   if (newIndex >= 0 && newIndex < sortColumn.options.length) {
-      sortColumn.selectedIndex = newIndex;
-      sortTable();
+    sortColumn.selectedIndex = newIndex;
+    sortTable();
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  let closeButton = document.getElementById('closeButton');
-  let videoContainer = document.getElementById('videoContainer');
+document.addEventListener("DOMContentLoaded", function () {
+  let closeButton = document.getElementById("closeButton");
+  let videoContainer = document.getElementById("videoContainer");
 
-  closeButton.addEventListener('click', function() {
-      videoContainer.style.display = 'none';
+  closeButton.addEventListener("click", function () {
+    videoContainer.style.display = "none";
   });
 });
