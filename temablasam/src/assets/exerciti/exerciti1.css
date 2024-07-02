@@ -1,0 +1,17 @@
+.discount-container {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.discount-container h2 {
+    margin-bottom: 20px;
+}
+
+.discount-container p {
+    margin: 10px 0;
+    font-size: 16px;
+}
