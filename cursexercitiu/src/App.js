@@ -1,5 +1,6 @@
 import Heder from "./heder";
 import Navbar from "./navbar";
+import UserContext from "./content";
 
 function App() {
   const name = "cris"
@@ -9,7 +10,9 @@ function App() {
   
   ]
   return (
-    <Navbar  buttonArray={buttonArray} name={name}>  </Navbar>
+    <UserContext.Provaider value={"cris"}>
+      <Navbar buttonArray={buttonArray} name={name}>  </Navbar>
+    </UserContext.Provaider>
   );
 }
 
