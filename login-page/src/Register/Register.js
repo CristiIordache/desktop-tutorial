@@ -13,6 +13,12 @@ const Register = () => {
   const [error, setError] = useState(""); // Stare pentru mesajele de eroare, inițializată cu un string gol
   const [success, setSuccess] = useState(""); // Stare pentru mesajele de succes, inițializată cu un string gol
 
+  const hendleRregist = (e) => {
+  e.preventDefault()
+}
+
+
+
   // Funcția care se ocupă de submiterea formularului
   const handleSubmit = (event) => {
     event.preventDefault(); // Previne comportamentul implicit de reîncărcare a paginii la submiterea formularului
