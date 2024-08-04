@@ -1,15 +1,19 @@
+// src/App.jsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import NewFlat from './components/Flats/NewFlat';
-import FlatView from './components/Flats/FlatView';
+
 import EditFlat from './components/Flats/EditFlat';
 import Profile from './components/Profile/Profile';
 import ProfileUpdate from './components/Profile/ProfileUpdate';
 import AllUsers from './components/Admin/AllUsers';
 import Header from './components/Header';
+import MessageBar from './components/Messages/MessageBar';
+import FlatView from './components/Flats/FlatView';
+
 
 const App = () => {
   return (
@@ -25,6 +29,9 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/profile/update" element={<ProfileUpdate />} />
         <Route path="/admin/users" element={<AllUsers />} />
+        <Route path="/" element={<FlatView />} />
+        <Route path="/messages" element={<MessageBar />} />
+        
       </Routes>
     </div>
   );

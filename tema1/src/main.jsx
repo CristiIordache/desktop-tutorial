@@ -13,7 +13,7 @@ import Http from "./componets/http.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Http />,
+    element: <Home/>,
     
   },
 

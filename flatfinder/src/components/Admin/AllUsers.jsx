@@ -1,12 +1,12 @@
-// src/components/Admin/AllUsers.jsx
 import React, { useEffect, useState } from 'react';
 import { db } from '../../services/firebase';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
-import { Table, TableBody, TableCell, TableHead, TableRow, Button, TextField } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
+  const [editedData, setEditedData] = useState({});
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -17,13 +17,28 @@ const AllUsers = () => {
   }, []);
 
   const handleEditClick = (user) => {
-    setEditingUser(user);
+    if (!user.isAdmin) {
+      setEditingUser(user);
+      setEditedData(user);
+    }
   };
 
   const handleSaveClick = async () => {
     const userDoc = doc(db, 'users', editingUser.id);
-    await updateDoc(userDoc, editingUser);
+    await updateDoc(userDoc, editedData);
+    setUsers(users.map(user => (user.id === editingUser.id ? editedData : user)));
     setEditingUser(null);
+    setEditedData({});
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedData({ ...editedData, [name]: value });
+  };
+
+  const handleClose = () => {
+    setEditingUser(null);
+    setEditedData({});
   };
 
   return (
@@ -33,7 +48,10 @@ const AllUsers = () => {
         <TableHead>
           <TableRow>
             <TableCell>Email</TableCell>
-            <TableCell>Display Name</TableCell>
+            <TableCell>First Name</TableCell>
+            <TableCell>Last Name</TableCell>
+            <TableCell>Date of Birth</TableCell>
+            <TableCell>Password</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -41,19 +59,13 @@ const AllUsers = () => {
           {users.map(user => (
             <TableRow key={user.id}>
               <TableCell>{user.email}</TableCell>
+              <TableCell>{user.firstName}</TableCell>
+              <TableCell>{user.lastName}</TableCell>
+              <TableCell>{user.birthdate}</TableCell>
+              <TableCell>{user.password}</TableCell>
               <TableCell>
-                {editingUser && editingUser.id === user.id ? (
-                  <TextField
-                    value={editingUser.displayName}
-                    onChange={(e) => setEditingUser({ ...editingUser, displayName: e.target.value })}
-                  />
-                ) : (
-                  user.displayName
-                )}
-              </TableCell>
-              <TableCell>
-                {editingUser && editingUser.id === user.id ? (
-                  <Button onClick={handleSaveClick}>Save</Button>
+                {user.isAdmin ? (
+                  <Button disabled>Edit</Button>
                 ) : (
                   <Button onClick={() => handleEditClick(user)}>Edit</Button>
                 )}
@@ -62,6 +74,65 @@ const AllUsers = () => {
           ))}
         </TableBody>
       </Table>
+
+      <Dialog open={!!editingUser} onClose={handleClose}>
+        <DialogTitle>Edit User</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            name="email"
+            label="Email"
+            type="email"
+            fullWidth
+            value={editedData.email || ''}
+            onChange={handleInputChange}
+          />
+          <TextField
+            margin="dense"
+            name="firstName"
+            label="First Name"
+            type="text"
+            fullWidth
+            value={editedData.firstName || ''}
+            onChange={handleInputChange}
+          />
+          <TextField
+            margin="dense"
+            name="lastName"
+            label="Last Name"
+            type="text"
+            fullWidth
+            value={editedData.lastName || ''}
+            onChange={handleInputChange}
+          />
+          <TextField
+            margin="dense"
+            name="birthdate"
+            label="Date of Birth"
+            type="date"
+            fullWidth
+            value={editedData.birthdate || ''}
+            onChange={handleInputChange}
+          />
+          <TextField
+            margin="dense"
+            name="password"
+            label="Password"
+            type="password"
+            fullWidth
+            value={editedData.password || ''}
+            onChange={handleInputChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleSaveClick} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
