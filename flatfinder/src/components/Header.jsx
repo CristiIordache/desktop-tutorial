@@ -44,7 +44,7 @@ const Header = () => {
             <Button color="inherit" component={Link} to="/profile">My Profile</Button>
             {/* Afișează butonul "All Users" doar dacă utilizatorul este admin */}
             {isAdmin && <Button color="inherit" component={Link} to="/admin/users">All Users</Button>}
-            <Button color="inherit" component={Link} to="/messages">Messages</Button>
+            {/* {<Button color="inherit" component={Link} to="/messages">Messages</Button> } */}
             {/* Butonul pentru deconectare */}
             <Button color="inherit" onClick={handleLogout}>Logout</Button>
           </>

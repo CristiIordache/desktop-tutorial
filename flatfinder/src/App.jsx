@@ -13,7 +13,7 @@ import AllUsers from './components/Admin/AllUsers';
 import Header from './components/Header';
 import MessageBar from './components/Messages/MessageBar';
 import FlatView from './components/Flats/FlatView';
-
+import FavoriteFlats from './components/Flats/FavoriteFlats';
 
 const App = () => {
   return (
@@ -31,7 +31,7 @@ const App = () => {
         <Route path="/admin/users" element={<AllUsers />} />
         <Route path="/" element={<FlatView />} />
         <Route path="/messages" element={<MessageBar />} />
-        
+        <Route path="/favorites" element={<FavoriteFlats />} />
       </Routes>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db, auth } from "../../services/firebase";
 import { Table, TableBody, TableCell, TableHead, TableRow, Button, Modal, Box } from "@mui/material";
 import MessageBar from "../Messages/MessageBar";
@@ -8,7 +8,6 @@ const FlatView = () => {
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
   const [openMessageBar, setOpenMessageBar] = useState(false);
-
   const currentUser = auth.currentUser;
 
   useEffect(() => {
@@ -62,6 +61,7 @@ const FlatView = () => {
             <TableCell>Rent Price</TableCell>
             <TableCell>Date Available</TableCell>
             <TableCell>Actions</TableCell>
+            <TableCell>Is Favorite</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -75,14 +75,25 @@ const FlatView = () => {
               <TableCell>{flat.yearBuilt}</TableCell>
               <TableCell>{flat.rentPrice}</TableCell>
               <TableCell>{flat.dateAvailable}</TableCell>
+              
               <TableCell>
-                <Button
-                  onClick={() => handleSelectFlat(flat)}
-                  variant="contained"
-                  color="secondary"
-                >
-                  Send Message
-                </Button>
+                {flat.uid !== currentUser?.uid ? (
+                  <Button
+                    onClick={() => handleSelectFlat(flat)}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Send Message
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleSelectFlat(flat)}
+                    variant="contained"
+                    color="primary"
+                  >
+                    View Messages
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}
@@ -100,6 +111,7 @@ const FlatView = () => {
             <MessageBar
               flatId={selectedFlat.id}
               receiverUid={selectedFlat.uid} // Assuming each flat has an owner UID
+              currentUserUid={currentUser.uid} // Pass the current user UID
             />
           )}
         </Box>
