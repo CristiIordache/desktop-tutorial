@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../services/firebase';
+import { collection, getDocs, doc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
+import { db, auth } from '../../services/firebase'; // Make sure to import auth for current user
 import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 const EditFlat = () => {
@@ -20,8 +20,23 @@ const EditFlat = () => {
 
   useEffect(() => {
     const fetchFlats = async () => {
-      const flatsCollection = await getDocs(collection(db, 'apartments'));
-      setFlats(flatsCollection.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      if (auth.currentUser) {
+        try {
+          // Use `uid` for filtering
+          const q = query(
+            collection(db, 'apartments'),
+            where('uid', '==', auth.currentUser.uid) // Use 'uid' instead of 'ownerUid'
+          );
+          const flatsCollection = await getDocs(q);
+          const flatsList = flatsCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          console.log('Fetched flats:', flatsList); // Debugging log
+          setFlats(flatsList);
+        } catch (error) {
+          console.error('Error fetching flats: ', error);
+        }
+      } else {
+        console.error('No current user found.');
+      }
     };
     fetchFlats();
   }, []);
@@ -47,13 +62,47 @@ const EditFlat = () => {
       await updateDoc(flatDoc, flatData);
       alert('Flat updated successfully');
       setOpen(false);
+      // Refresh flats list
+      await fetchFlats();
     } catch (error) {
       console.error('Error updating document: ', error);
     }
   };
 
+  const handleDelete = async () => {
+    if (!selectedFlat) return;
+    try {
+      await deleteDoc(doc(db, 'apartments', selectedFlat));
+      alert('Flat deleted successfully');
+      setOpen(false);
+      // Refresh flats list
+      await fetchFlats();
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+    }
+  };
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const fetchFlats = async () => {
+    if (auth.currentUser) {
+      try {
+        const q = query(
+          collection(db, 'apartments'),
+          where('uid', '==', auth.currentUser.uid) // Ensure the filter is correct
+        );
+        const flatsCollection = await getDocs(q);
+        const flatsList = flatsCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        console.log('Refreshed flats:', flatsList); // Debugging log
+        setFlats(flatsList);
+      } catch (error) {
+        console.error('Error fetching flats: ', error);
+      }
+    } else {
+      console.error('No current user found.');
+    }
   };
 
   return (
@@ -102,7 +151,7 @@ const EditFlat = () => {
             <TextField name="city" label="City" value={flatData.city} onChange={handleChange} fullWidth margin="dense" />
             <TextField name="streetName" label="Street Name" value={flatData.streetName} onChange={handleChange} fullWidth margin="dense" />
             <TextField name="streetNumber" label="Street Number" value={flatData.streetNumber} onChange={handleChange} fullWidth margin="dense" />
-            <TextField name="hasAC" label="Has AC" value={flatData.hasAC} onChange={handleChange} fullWidth margin="dense" />
+            <TextField name="hasAC" label="Has AC" type="checkbox" checked={flatData.hasAC} onChange={e => setFlatData({ ...flatData, hasAC: e.target.checked })} fullWidth margin="dense" />
             <TextField name="yearBuilt" label="Year Built" value={flatData.yearBuilt} onChange={handleChange} fullWidth margin="dense" />
             <TextField name="rentPrice" label="Rent Price" value={flatData.rentPrice} onChange={handleChange} fullWidth margin="dense" />
             <TextField name="dateAvailable" label="Date Available" value={flatData.dateAvailable} onChange={handleChange} fullWidth margin="dense" />
@@ -114,6 +163,9 @@ const EditFlat = () => {
           </Button>
           <Button onClick={handleSubmit} variant="contained" color="primary">
             Update Flat
+          </Button>
+          <Button onClick={handleDelete} variant="contained" color="error">
+            Delete Flat
           </Button>
         </DialogActions>
       </Dialog>

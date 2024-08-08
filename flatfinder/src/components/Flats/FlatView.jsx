@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db, auth } from "../../services/firebase";
 import { Table, TableBody, TableCell, TableHead, TableRow, Button, Modal, Box } from "@mui/material";
 import MessageBar from "../Messages/MessageBar";
@@ -34,6 +34,11 @@ const FlatView = () => {
     setSelectedFlat(null);
   };
 
+  const handleAddToFavorites = (flatId) => {
+    // Add logic to handle adding to favorites
+    console.log(`Add flat ${flatId} to favorites`);
+  };
+
   const style = {
     position: 'absolute',
     top: '50%',
@@ -61,7 +66,8 @@ const FlatView = () => {
             <TableCell>Rent Price</TableCell>
             <TableCell>Date Available</TableCell>
             <TableCell>Actions</TableCell>
-            <TableCell>Is Favorite</TableCell>
+            
+            <TableCell>Add to Favorites</TableCell> {/* New column header */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -94,6 +100,15 @@ const FlatView = () => {
                     View Messages
                   </Button>
                 )}
+              </TableCell>
+              
+              <TableCell>
+                <Button
+                  onClick={() => handleAddToFavorites(flat.id)}
+                  variant="text" // Using a simple button without specific Material-UI design
+                >
+                  Add to Favorites
+                </Button>
               </TableCell>
             </TableRow>
           ))}
