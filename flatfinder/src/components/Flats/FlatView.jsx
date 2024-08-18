@@ -50,8 +50,9 @@ const FlatView = () => {
     setSelectedFlat(null);
   };
 
-  const handleToggleFavorite = async (flatId) => {
+  const handleToggleFavorite = async (flat) => {
     try {
+      const flatId = flat.id;
       if (favoriteFlats.has(flatId)) {
         // If the flat is already in favorites, remove it
         const favoriteDocQuery = query(
@@ -70,13 +71,21 @@ const FlatView = () => {
           console.log(`Flat ${flatId} removed from favorites`);
         }
       } else {
-        // If the flat is not in favorites, add it
+        // If the flat is not in favorites, add it along with all flat details
         await addDoc(collection(db, "favorites"), {
-          flatId: flatId,
+          flatId: flat.id,
           userId: currentUser.uid,
+          flatName: flat.flatName,
+          city: flat.city,
+          streetName: flat.streetName,
+          streetNumber: flat.streetNumber,
+          hasAC: flat.hasAC,
+          yearBuilt: flat.yearBuilt,
+          rentPrice: flat.rentPrice,
+          dateAvailable: flat.dateAvailable,
         });
         setFavoriteFlats((prevFavorites) => new Set(prevFavorites).add(flatId));
-        console.log(`Flat ${flatId} added to favorites`);
+        console.log(`Flat ${flatId} added to favorites with full details`);
       }
     } catch (error) {
       console.error("Error toggling favorite status: ", error);
@@ -146,7 +155,7 @@ const FlatView = () => {
               <TableCell>
                 {flat.uid !== currentUser?.uid && (
                   <Button
-                    onClick={() => handleToggleFavorite(flat.id)}
+                    onClick={() => handleToggleFavorite(flat)}
                     variant="text"
                   >
                     {favoriteFlats.has(flat.id)

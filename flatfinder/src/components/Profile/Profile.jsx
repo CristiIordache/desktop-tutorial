@@ -43,7 +43,7 @@ const Profile = () => {
             {Object.keys(userData).map((key) => (
               <TableRow key={key}>
                 <TableCell>{key}</TableCell>
-                <TableCell>{userData[key]}</TableCell>
+                <TableCell>{userData[key] ?? 'N/A'}</TableCell>
               </TableRow>
             ))}
           </TableBody>

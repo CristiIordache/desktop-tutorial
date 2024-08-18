@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useAuth } from './src/context/AuthContext';
-import { signOut, deleteUser } from 'firebase/auth';
+import { signOut, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { auth, db } from './src/services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import styles
 
 const Header = () => {
   const { currentUser, isAdmin } = useAuth();
   const [fullName, setFullName] = useState('');
+  const [openConfirmation, setOpenConfirmation] = useState(false);
+  const [password, setPassword] = useState(''); // Add state for password
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -34,16 +39,40 @@ const Header = () => {
     await signOut(auth);
   };
 
-  const handleDeleteAccount = async () => {
-    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-      try {
-        await deleteUser(auth.currentUser);
-        alert("Your account has been deleted.");
-      } catch (error) {
+  const handleOpenConfirmation = () => {
+    setOpenConfirmation(true);
+  };
+
+  const handleCloseConfirmation = () => {
+    setOpenConfirmation(false);
+  };
+
+  const handleReauthenticateAndDelete = async () => {
+    try {
+      // Create a credential for re-authentication
+      const credential = EmailAuthProvider.credential(currentUser.email, password);
+      // Re-authenticate the user
+      await reauthenticateWithCredential(currentUser, credential);
+      // Proceed with account deletion
+      await deleteUser(currentUser);
+      toast.success("Your account has been deleted.");
+      navigate('/login'); // Redirect to login page after successful deletion
+    } catch (error) {
+      if (error.code === 'auth/requires-recent-login') {
+        toast.error("Please sign in again to delete your account.");
+      } else {
         console.error("Error deleting account:", error);
-        alert("Failed to delete account. Please try again.");
+        toast.error("Failed to delete account. Please try again.");
       }
     }
+  };
+
+  const handleConfirmDelete = () => {
+    toast.info('Delete account process initiated.');
+    // Call handleReauthenticateAndDelete after a short delay to ensure the toast is shown
+    setTimeout(() => {
+      handleReauthenticateAndDelete();
+    }, 1000); // Adjust the delay as needed
   };
 
   const linkStyle = {
@@ -59,63 +88,95 @@ const Header = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <NavLink to="/" style={linkStyle}>FlatFinder</NavLink>
-        </Typography>
-        {currentUser ? (
-          <>
-            <Typography variant="body1" sx={{ marginRight: 2 }}>
-              Hello, {fullName || 'User'}
-            </Typography>
-            <NavLink
-              to="/"
-              style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-            >
-              <Button color="inherit">Home</Button>
-            </NavLink>
-            <NavLink
-              to="/profile"
-              style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-            >
-              <Button color="inherit">My Profile</Button>
-            </NavLink>
-            <NavLink
-              to="/favorites"
-              style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-            >
-              <Button color="inherit">Favorites</Button>
-            </NavLink>
-            {isAdmin && (
+    <>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <NavLink to="/" style={linkStyle}>FlatFinder</NavLink>
+          </Typography>
+          {currentUser ? (
+            <>
+              <Typography variant="body1" sx={{ marginRight: 2 }}>
+                Hello, {fullName || 'User'}
+              </Typography>
               <NavLink
-                to="/admin/users"
+                to="/"
                 style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
               >
-                <Button color="inherit">All Users</Button>
+                <Button color="inherit">Home</Button>
               </NavLink>
-            )}
-            <Button color="inherit" onClick={handleLogout}>Logout</Button>
-            <Button color="inherit" onClick={handleDeleteAccount}>Delete Account</Button>
-          </>
-        ) : (
-          <>
-            <NavLink
-              to="/login"
-              style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-            >
-              <Button color="inherit">Login</Button>
-            </NavLink>
-            <NavLink
-              to="/register"
-              style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-            >
-              <Button color="inherit">Register</Button>
-            </NavLink>
-          </>
-        )}
-      </Toolbar>
-    </AppBar>
+              <NavLink
+                to="/profile"
+                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+              >
+                <Button color="inherit">My Profile</Button>
+              </NavLink>
+              <NavLink
+                to="/favorites"
+                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+              >
+                <Button color="inherit">Favorites</Button>
+              </NavLink>
+              {isAdmin && (
+                <NavLink
+                  to="/admin/users"
+                  style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                >
+                  <Button color="inherit">All Users</Button>
+                </NavLink>
+              )}
+              <Button color="inherit" onClick={handleLogout}>Logout</Button>
+              <Button color="inherit" onClick={handleOpenConfirmation}>Delete Account</Button>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+              >
+                <Button color="inherit">Login</Button>
+              </NavLink>
+              <NavLink
+                to="/register"
+                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+              >
+                <Button color="inherit">Register</Button>
+              </NavLink>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={openConfirmation} onClose={handleCloseConfirmation}>
+        <DialogTitle>Confirm Account Deletion</DialogTitle>
+        <DialogContent>
+          <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+          <p>Please re-enter your password to confirm.</p>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirmation} color="primary">Cancel</Button>
+          <Button
+            onClick={() => {
+              handleCloseConfirmation(); // Close the dialog first
+              handleConfirmDelete(); // Then perform the deletion
+            }}
+            color="primary"
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* ToastContainer is required for toast notifications */}
+      <ToastContainer />
+    </>
   );
 };
 
