@@ -1,6 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Menu,
+  MenuItem,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from './src/context/AuthContext';
 import { signOut, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { auth, db } from './src/services/firebase';
@@ -13,7 +28,11 @@ const Header = () => {
   const [fullName, setFullName] = useState('');
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [password, setPassword] = useState(''); // Add state for password
+  const [anchorEl, setAnchorEl] = useState(null); // State for menu anchor
+  const openMenu = Boolean(anchorEl);
   const navigate = useNavigate(); // Initialize the useNavigate hook
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -75,6 +94,19 @@ const Header = () => {
     }, 1000); // Adjust the delay as needed
   };
 
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+    handleMenuClose();
+  };
+
   const linkStyle = {
     textDecoration: 'none',
     color: 'inherit',
@@ -94,54 +126,90 @@ const Header = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <NavLink to="/" style={linkStyle}>FlatFinder</NavLink>
           </Typography>
-          {currentUser ? (
+          {isSmallScreen ? (
             <>
-              <Typography variant="body1" sx={{ marginRight: 2 }}>
-                Hello, {fullName || 'User'}
-              </Typography>
-              <NavLink
-                to="/"
-                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleMenuOpen}
               >
-                <Button color="inherit">Home</Button>
-              </NavLink>
-              <NavLink
-                to="/profile"
-                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                open={openMenu}
+                onClose={handleMenuClose}
               >
-                <Button color="inherit">My Profile</Button>
-              </NavLink>
-              <NavLink
-                to="/favorites"
-                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-              >
-                <Button color="inherit">Favorites</Button>
-              </NavLink>
-              {isAdmin && (
-                <NavLink
-                  to="/admin/users"
-                  style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-                >
-                  <Button color="inherit">All Users</Button>
-                </NavLink>
-              )}
-              <Button color="inherit" onClick={handleLogout}>Logout</Button>
-              <Button color="inherit" onClick={handleOpenConfirmation}>Delete Account</Button>
+                {currentUser ? (
+                  <>
+                    <MenuItem onClick={() => handleMenuItemClick('/')}>Home</MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick('/profile')}>My Profile</MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick('/favorites')}>Favorites</MenuItem>
+                    {isAdmin && <MenuItem onClick={() => handleMenuItemClick('/admin/users')}>All Users</MenuItem>}
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    <MenuItem onClick={handleOpenConfirmation}>Delete Account</MenuItem>
+                  </>
+                ) : (
+                  <>
+                    <MenuItem onClick={() => handleMenuItemClick('/login')}>Login</MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick('/register')}>Register</MenuItem>
+                  </>
+                )}
+              </Menu>
             </>
           ) : (
             <>
-              <NavLink
-                to="/login"
-                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-              >
-                <Button color="inherit">Login</Button>
-              </NavLink>
-              <NavLink
-                to="/register"
-                style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
-              >
-                <Button color="inherit">Register</Button>
-              </NavLink>
+              {currentUser ? (
+                <>
+                  <Typography variant="body1" sx={{ marginRight: 2 }}>
+                    Hello, {fullName || 'User'}
+                  </Typography>
+                  <NavLink
+                    to="/"
+                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                  >
+                    <Button color="inherit">Home</Button>
+                  </NavLink>
+                  <NavLink
+                    to="/profile"
+                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                  >
+                    <Button color="inherit">My Profile</Button>
+                  </NavLink>
+                  <NavLink
+                    to="/favorites"
+                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                  >
+                    <Button color="inherit">Favorites</Button>
+                  </NavLink>
+                  {isAdmin && (
+                    <NavLink
+                      to="/admin/users"
+                      style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    >
+                      <Button color="inherit">All Users</Button>
+                    </NavLink>
+                  )}
+                  <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                  <Button color="inherit" onClick={handleOpenConfirmation}>Delete Account</Button>
+                </>
+              ) : (
+                <>
+                  <NavLink
+                    to="/login"
+                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                  >
+                    <Button color="inherit">Login</Button>
+                  </NavLink>
+                  <NavLink
+                    to="/register"
+                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                  >
+                    <Button color="inherit">Register</Button>
+                  </NavLink>
+                </>
+              )}
             </>
           )}
         </Toolbar>
