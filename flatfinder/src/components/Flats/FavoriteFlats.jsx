@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../services/firebase";
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { DataGrid } from '@mui/x-data-grid';
 
 const FavoriteFlats = () => {
   const [favoriteFlats, setFavoriteFlats] = useState([]);
@@ -41,37 +41,27 @@ const FavoriteFlats = () => {
     fetchFavorites();
   }, [currentUser]);
 
+  const columns = [
+    { field: 'flatName', headerName: 'Flat Name', width: 150 },
+    { field: 'city', headerName: 'City', width: 130 },
+    { field: 'streetName', headerName: 'Street Name', width: 130 },
+    { field: 'streetNumber', headerName: 'Street Number', width: 130 },
+    { field: 'hasAC', headerName: 'Has AC', width: 90, renderCell: (params) => (params.value ? "Yes" : "No") },
+    { field: 'yearBuilt', headerName: 'Year Built', width: 110 },
+    { field: 'rentPrice', headerName: 'Rent Price', width: 110 },
+    { field: 'dateAvailable', headerName: 'Date Available', width: 150 },
+  ];
+
   return (
-    <div>
+    <div style={{ height: 400, width: '100%' }}>
       <h1>Your Favorite Flats</h1>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Flat Name</TableCell>
-            <TableCell>City</TableCell>
-            <TableCell>Street Name</TableCell>
-            <TableCell>Street Number</TableCell>
-            <TableCell>Has AC</TableCell>
-            <TableCell>Year Built</TableCell>
-            <TableCell>Rent Price</TableCell>
-            <TableCell>Date Available</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {favoriteFlats.map((flat) => (
-            <TableRow key={flat.id}>
-              <TableCell>{flat.flatName}</TableCell>
-              <TableCell>{flat.city}</TableCell>
-              <TableCell>{flat.streetName}</TableCell>
-              <TableCell>{flat.streetNumber}</TableCell>
-              <TableCell>{flat.hasAC ? "Yes" : "No"}</TableCell>
-              <TableCell>{flat.yearBuilt}</TableCell>
-              <TableCell>{flat.rentPrice}</TableCell>
-              <TableCell>{flat.dateAvailable}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <DataGrid
+        rows={favoriteFlats}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5, 10]}
+        checkboxSelection
+      />
     </div>
   );
 };

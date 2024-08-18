@@ -10,11 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@date-io/date-fns": "^3.0.0",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
+    "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
+    "@mui/x-data-grid": "^7.13.0",
+    "@mui/x-date-pickers": "^7.13.0",
     "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
     "firebase": "^10.12.5",
     "firebase-admin": "^12.3.0",
     "formik": "^2.4.6",
