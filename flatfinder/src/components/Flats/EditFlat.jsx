@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-// Validation schema using Yup
+// Validation schema using Yup for form validation
 const validationSchema = yup.object({
   flatName: yup.string().required('Flat name is required'),
   city: yup.string().required('City is required'),
@@ -21,12 +21,14 @@ const validationSchema = yup.object({
 });
 
 const EditFlat = () => {
+  // State to store list of flats and selected flat
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
   const [open, setOpen] = useState(false);
   const [confirmationOpen, setConfirmationOpen] = useState(false); // State for confirmation dialog
-  const navigate = useNavigate(); // Use the navigate hook
+  const navigate = useNavigate(); // Hook for navigation
 
+  // Fetch flats from Firestore when the component mounts
   useEffect(() => {
     const fetchFlats = async () => {
       if (auth.currentUser) {
@@ -45,6 +47,7 @@ const EditFlat = () => {
     fetchFlats();
   }, []);
 
+  // Update formik values when selectedFlat changes
   useEffect(() => {
     if (selectedFlat) {
       const flat = flats.find(f => f.id === selectedFlat);
@@ -54,11 +57,13 @@ const EditFlat = () => {
     }
   }, [selectedFlat, flats]);
 
+  // Handler for selecting a flat and opening the edit dialog
   const handleFlatSelect = (flat) => {
     setSelectedFlat(flat.id);
     setOpen(true);
   };
 
+  // Formik setup for managing form state and validation
   const formik = useFormik({
     initialValues: {
       flatName: '',
@@ -73,42 +78,45 @@ const EditFlat = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      setConfirmationOpen(true); // Open the confirmation dialog
+      setConfirmationOpen(true); // Open the confirmation dialog on form submit
     },
   });
 
+  // Handle update confirmation and perform the update operation
   const handleConfirmUpdate = async () => {
     setConfirmationOpen(false); // Close confirmation dialog
     try {
       const flatDoc = doc(db, 'apartments', selectedFlat);
       await updateDoc(flatDoc, formik.values);
-      toast.success('Flat updated successfully'); // Use toast for success message
+      toast.success('Flat updated successfully'); // Notify user of success
       navigate('/'); // Navigate to home page
       await fetchFlats(); // Refresh flats list
     } catch (error) {
       console.error('Error updating document: ', error);
-      
     }
   };
 
+  // Handle flat deletion
   const handleDelete = async () => {
     if (!selectedFlat) return;
     try {
       await deleteDoc(doc(db, 'apartments', selectedFlat));
-      toast.success('Flat deleted successfully'); // Use toast for success message
+      toast.success('Flat deleted successfully'); // Notify user of success
       setOpen(false);
-      navigate('/'); // Navigate to the home page after successful deletion
+      navigate('/'); // Navigate to home page after deletion
     } catch (error) {
       console.error('Error deleting document: ', error);
       toast.error('Error deleting flat'); // Notify user of error
     }
   };
 
+  // Close the dialog and reset the form
   const handleClose = () => {
     setOpen(false);
     formik.resetForm();
   };
 
+  // Define columns for DataGrid
   const columns = [
     { field: 'flatName', headerName: 'Flat Name', width: 150 },
     { field: 'city', headerName: 'City', width: 100 },
@@ -154,6 +162,7 @@ const EditFlat = () => {
         </div>
       </Paper>
 
+      {/* Dialog for editing a flat */}
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>Edit Flat</DialogTitle>
         <DialogContent>
@@ -265,7 +274,7 @@ const EditFlat = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Confirmation Dialog */}
+      {/* Confirmation Dialog for updates */}
       <Dialog open={confirmationOpen} onClose={() => setConfirmationOpen(false)}>
         <DialogTitle>Confirm Update</DialogTitle>
         <DialogContent>

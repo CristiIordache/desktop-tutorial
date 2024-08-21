@@ -6,9 +6,9 @@ import { Table, TableBody, TableCell, TableHead, TableRow, Button, TextField, Di
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify'; // Import toast
+import { toast } from 'react-toastify'; // Import toast for notifications
 
-// Validation schema using Yup
+// Validation schema using Yup to validate form inputs
 const validationSchema = yup.object({
   email: yup.string().email('Invalid email address').required('Email is required'),
   firstName: yup.string().required('First name is required'),
@@ -18,29 +18,37 @@ const validationSchema = yup.object({
 });
 
 const AllUsers = () => {
+  // State to hold user data from Firestore
   const [users, setUsers] = useState([]);
+  // State to manage the user currently being edited
   const [editingUser, setEditingUser] = useState(null);
-  const [confirmationOpen, setConfirmationOpen] = useState(false); // State for confirmation dialog
-  const navigate = useNavigate(); // Hook for navigation
+  // State to control the visibility of the confirmation dialog
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  // Hook for programmatic navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Function to fetch users from Firestore
     const fetchUsers = async () => {
       try {
         const usersCollection = await getDocs(collection(db, 'users'));
+        // Map the documents to user objects and set them in state
         setUsers(usersCollection.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     };
     fetchUsers();
-  }, []);
+  }, []); // Empty dependency array means this runs once on component mount
 
+  // Handler for edit button click
   const handleEditClick = (user) => {
     if (!user.isAdmin) {
-      setEditingUser(user);
+      setEditingUser(user); // Set the user to be edited
     }
   };
 
+  // Formik setup for form handling
   const formik = useFormik({
     initialValues: editingUser || {
       email: '',
@@ -50,33 +58,38 @@ const AllUsers = () => {
       password: '',
     },
     validationSchema,
-    enableReinitialize: true,
+    enableReinitialize: true, // Reinitialize form if editingUser changes
     onSubmit: () => {
-      setConfirmationOpen(true); // Open the confirmation dialog
+      setConfirmationOpen(true); // Open confirmation dialog on form submit
     },
   });
 
+  // Confirm update of user data
   const handleConfirmUpdate = async () => {
     setConfirmationOpen(false); // Close confirmation dialog
     if (editingUser) {
       const userDoc = doc(db, 'users', editingUser.id);
       try {
+        // Update user document in Firestore
         await updateDoc(userDoc, formik.values);
+        // Update user list in state
         setUsers(users.map(user => (user.id === editingUser.id ? { ...user, ...formik.values } : user)));
-        setEditingUser(null);
+        setEditingUser(null); // Clear editingUser state
         navigate('/admin/users'); // Redirect to users list
-        toast.success('User data has been saved successfully'); // Show success toast
+        toast.success('User data has been saved successfully'); // Success notification
       } catch (error) {
         console.error('Error updating user:', error);
-        toast.error('Failed to save user data'); // Show error toast
+        toast.error('Failed to save user data'); // Error notification
       }
     }
   };
 
+  // Close confirmation dialog without saving
   const handleCloseConfirmation = () => {
     setConfirmationOpen(false);
   };
 
+  // Close edit dialog and reset form
   const handleClose = () => {
     setEditingUser(null);
     formik.resetForm();
@@ -120,6 +133,7 @@ const AllUsers = () => {
         </Table>
       </Paper>
 
+      {/* Dialog for editing user */}
       <Dialog open={!!editingUser} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>Edit User</DialogTitle>
         <DialogContent>
@@ -192,7 +206,7 @@ const AllUsers = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Confirmation Dialog */}
+      {/* Confirmation Dialog for saving changes */}
       <Dialog open={confirmationOpen} onClose={handleCloseConfirmation}>
         <DialogTitle>Confirm Changes</DialogTitle>
         <DialogContent>

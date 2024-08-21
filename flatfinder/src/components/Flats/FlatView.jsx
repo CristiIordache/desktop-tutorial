@@ -4,23 +4,30 @@ import { db, auth } from "../../services/firebase";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Modal, Box, useMediaQuery } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import MessageBar from "../Messages/MessageBar";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import MessageBar from "../Messages/MessageBar"; // Component to handle messaging
 
 const FlatView = () => {
+  // State to store flats and user's favorite flats
   const [flats, setFlats] = useState([]);
   const [favoriteFlats, setFavoriteFlats] = useState(new Set());
   const [selectedFlat, setSelectedFlat] = useState(null);
   const [openMessageBar, setOpenMessageBar] = useState(false);
+
+  // Get the currently authenticated user
   const currentUser = auth.currentUser;
 
+  // Hooks for responsive design
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Phones
-  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md')); // Tablets
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // For mobile screens
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md')); // For tablet screens
 
-  const navigate = useNavigate(); // Initialize the useNavigate hook
+  // Hook for navigation
+  const navigate = useNavigate();
 
+  // Fetch flats and favorite flats on component mount
   useEffect(() => {
+    // Function to fetch all flats
     const fetchFlats = async () => {
       try {
         const flatsCollection = await getDocs(collection(db, "apartments"));
@@ -30,6 +37,7 @@ const FlatView = () => {
       }
     };
 
+    // Function to fetch favorite flats for the current user
     const fetchFavorites = async () => {
       if (currentUser) {
         const favoritesQuery = query(
@@ -45,20 +53,24 @@ const FlatView = () => {
     fetchFavorites();
   }, [currentUser]);
 
+  // Handle selecting a flat to message or view messages
   const handleSelectFlat = (flat) => {
     setSelectedFlat(flat);
     setOpenMessageBar(true);
   };
 
+  // Close the message modal
   const handleCloseMessageBar = () => {
     setOpenMessageBar(false);
     setSelectedFlat(null);
   };
 
+  // Toggle favorite status for a flat
   const handleToggleFavorite = async (flat) => {
     try {
       const flatId = flat.id;
       if (favoriteFlats.has(flatId)) {
+        // If already a favorite, remove it
         const favoriteDocQuery = query(
           collection(db, "favorites"),
           where("userId", "==", currentUser.uid),
@@ -74,6 +86,7 @@ const FlatView = () => {
           });
         }
       } else {
+        // If not a favorite, add it
         await addDoc(collection(db, "favorites"), {
           flatId: flat.id,
           userId: currentUser.uid,
@@ -93,6 +106,7 @@ const FlatView = () => {
     }
   };
 
+  // Define columns for DataGrid
   const columns = [
     { field: 'flatName', headerName: 'Flat Name', flex: 1, minWidth: 150 },
     { field: 'city', headerName: 'City', flex: 1, minWidth: 130 },
@@ -112,7 +126,7 @@ const FlatView = () => {
           onClick={() => handleSelectFlat(params.row)}
           variant="contained"
           color="secondary"
-          size={isMobile ? "small" : "medium"} // Adjust button size on mobile
+          size={isMobile ? "small" : "medium"} // Adjust button size based on screen size
         >
           {params.row.uid !== currentUser?.uid ? "Send Message" : "View Messages"}
         </Button>
@@ -128,7 +142,7 @@ const FlatView = () => {
           <Button
             onClick={() => handleToggleFavorite(params.row)}
             variant="text"
-            size={isMobile ? "small" : "medium"} // Adjust button size on mobile
+            size={isMobile ? "small" : "medium"} // Adjust button size based on screen size
           >
             {favoriteFlats.has(params.row.id) ? "Remove from Favorites" : "Add to Favorites"}
           </Button>
@@ -137,6 +151,7 @@ const FlatView = () => {
     },
   ];
 
+  // Styling for the modal
   const style = {
     position: "absolute",
     top: "50%",
@@ -172,19 +187,21 @@ const FlatView = () => {
         </Button>
       </div>
 
+      {/* DataGrid to display flats */}
       <div style={{ height: isMobile ? 400 : 500, width: '100%', overflowX: 'auto' }}>
-        <div style={{ minWidth: '700px' }}> {/* Set minimum width for horizontal scroll */}
+        <div style={{ minWidth: '700px' }}> {/* Ensure minimum width for horizontal scroll */}
           <DataGrid
             rows={flats}
             columns={columns}
             pageSize={isMobile ? 3 : 5}
             rowsPerPageOptions={[3, 5, 10]}
             checkboxSelection
-            disableColumnMenu={isMobile} // Simplify UI for mobile users
+            disableColumnMenu={isMobile} // Disable column menu on mobile
           />
         </div>
       </div>
 
+      {/* Modal for messaging */}
       <Modal
         open={openMessageBar}
         onClose={handleCloseMessageBar}

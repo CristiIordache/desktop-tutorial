@@ -4,43 +4,47 @@ import { db, auth } from "../../services/firebase";
 import { DataGrid } from '@mui/x-data-grid';
 
 const FavoriteFlats = () => {
+  // State to store favorite flats data
   const [favoriteFlats, setFavoriteFlats] = useState([]);
+  // Current authenticated user
   const currentUser = auth.currentUser;
 
   useEffect(() => {
+    // Function to fetch favorite flats for the current user
     const fetchFavorites = async () => {
       try {
-        // Step 1: Fetch all the favorite flat IDs for the current user
+        // Step 1: Fetch all the favorite flat IDs for the current user from 'favorites' collection
         const favoritesQuery = query(
           collection(db, "favorites"),
-          where("userId", "==", currentUser.uid)
+          where("userId", "==", currentUser.uid) // Filter favorites by the current user
         );
         const querySnapshot = await getDocs(favoritesQuery);
 
-        // Step 2: Fetch the apartment data for each favorite flatId
+        // Step 2: For each favorite flat ID, fetch the corresponding apartment data from 'apartments' collection
         const flatsData = await Promise.all(
           querySnapshot.docs.map(async (docSnapshot) => {
-            const { flatId } = docSnapshot.data();
-            const flatDoc = await getDoc(doc(db, "apartments", flatId));
+            const { flatId } = docSnapshot.data(); // Extract the flatId from the favorite document
+            const flatDoc = await getDoc(doc(db, "apartments", flatId)); // Fetch the apartment data using flatId
             if (flatDoc.exists()) {
-              return { id: flatId, ...flatDoc.data() };
+              return { id: flatId, ...flatDoc.data() }; // Combine the flatId with the flat data
             } else {
-              console.error(`No apartment found for flatId: ${flatId}`);
-              return null;
+              console.error(`No apartment found for flatId: ${flatId}`); // Log an error if the flat data doesn't exist
+              return null; // Return null if apartment data is not found
             }
           })
         );
 
-        // Step 3: Filter out any null values (in case of missing data)
+        // Step 3: Filter out any null values (in case some apartments were not found) and update state
         setFavoriteFlats(flatsData.filter((flat) => flat !== null));
       } catch (error) {
-        console.error("Error fetching favorite flats: ", error);
+        console.error("Error fetching favorite flats: ", error); // Log any errors encountered during fetch
       }
     };
 
-    fetchFavorites();
-  }, [currentUser]);
+    fetchFavorites(); // Invoke the fetch function on component mount
+  }, [currentUser]); // Dependency array includes currentUser to refetch data if it changes
 
+  // Define columns for the DataGrid component
   const columns = [
     { field: 'flatName', headerName: 'Flat Name', width: 150 },
     { field: 'city', headerName: 'City', width: 130 },
@@ -56,11 +60,11 @@ const FavoriteFlats = () => {
     <div style={{ height: 400, width: '100%' }}>
       <h1>Your Favorite Flats</h1>
       <DataGrid
-        rows={favoriteFlats}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5, 10]}
-        checkboxSelection
+        rows={favoriteFlats} // Data to display in the grid
+        columns={columns} // Column configuration
+        pageSize={5} // Number of rows per page
+        rowsPerPageOptions={[5, 10]} // Options for number of rows per page
+        checkboxSelection // Enable row selection via checkboxes
       />
     </div>
   );
