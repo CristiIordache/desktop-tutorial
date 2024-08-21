@@ -4,6 +4,7 @@ import { db, auth } from "../../services/firebase";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button, Modal, Box, useMediaQuery } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import MessageBar from "../Messages/MessageBar";
 
 const FlatView = () => {
@@ -12,10 +13,12 @@ const FlatView = () => {
   const [selectedFlat, setSelectedFlat] = useState(null);
   const [openMessageBar, setOpenMessageBar] = useState(false);
   const currentUser = auth.currentUser;
-  
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')); // Phones
   const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md')); // Tablets
+
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     const fetchFlats = async () => {
@@ -149,6 +152,26 @@ const FlatView = () => {
   return (
     <div>
       <h1>All Flats</h1>
+
+      {/* Navigation Buttons */}
+      <div style={{ marginBottom: '20px' }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate('/flats/new')}
+          style={{ marginRight: '10px' }}
+        >
+          Add New Flat
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate('/flats/1/edit')}
+        >
+          Edit Flat
+        </Button>
+      </div>
+
       <div style={{ height: isMobile ? 400 : 500, width: '100%', overflowX: 'auto' }}>
         <div style={{ minWidth: '700px' }}> {/* Set minimum width for horizontal scroll */}
           <DataGrid

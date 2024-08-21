@@ -1,11 +1,11 @@
-// src/components/Flats/NewFlat.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { collection, addDoc } from 'firebase/firestore';
 import { db, auth } from '../../services/firebase';
-import { TextField, Button, Checkbox, FormControlLabel, Grid, Container, Typography } from '@mui/material';
+import { TextField, Button, Checkbox, FormControlLabel, Grid, Container, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify'; // Import toast
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -20,6 +20,7 @@ const validationSchema = yup.object({
 
 const NewFlat = () => {
   const navigate = useNavigate();
+  const [openDialog, setOpenDialog] = useState(false); // State to control dialog open/close
 
   const formik = useFormik({
     initialValues: {
@@ -33,18 +34,34 @@ const NewFlat = () => {
       dateAvailable: '',
     },
     validationSchema,
-    onSubmit: async (values) => {
-      try {
-        await addDoc(collection(db, 'apartments'), {
-          ...values,
-          uid: auth.currentUser.uid,
-        });
-        navigate('/flats');
-      } catch (error) {
-        console.error('Error adding document: ', error);
-      }
+    onSubmit: () => {
+      // Show the confirmation dialog when the form is submitted
+      setOpenDialog(true);
     },
   });
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleConfirmPost = async () => {
+    try {
+      // Add the new flat to Firestore
+      await addDoc(collection(db, 'apartments'), {
+        ...formik.values,
+        uid: auth.currentUser.uid,
+      });
+      // Show success toast
+      toast.success('Apartment posted successfully!');
+      // Close the dialog and navigate to the homepage
+      setOpenDialog(false); // Close the dialog
+      navigate('/'); // Navigate to the homepage
+    } catch (error) {
+      console.error('Error adding document: ', error);
+      // Show error toast
+      toast.error('Failed to post the apartment. Please try again.');
+    }
+  };
 
   return (
     <Container maxWidth="sm">
@@ -153,6 +170,52 @@ const NewFlat = () => {
           </Grid>
         </Grid>
       </form>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>Confirm Posting</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to post this apartment?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose} color="secondary">
+            No
+          </Button>
+          <Button
+            onClick={handleConfirmPost} // Confirm and post the apartment
+            color="primary"
+            autoFocus
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Additional Buttons */}
+      <Grid container spacing={2} style={{ marginTop: '20px' }}>
+        <Grid item xs={6}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate('/flats/1/edit')}
+            fullWidth
+          >
+            Edit Flat
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate('/flats/1')}
+            fullWidth
+          >
+            View Flats
+          </Button>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

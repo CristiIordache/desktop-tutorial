@@ -5,6 +5,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Grid, Typography, Paper } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -22,6 +24,8 @@ const EditFlat = () => {
   const [flats, setFlats] = useState([]);
   const [selectedFlat, setSelectedFlat] = useState(null);
   const [open, setOpen] = useState(false);
+  const [confirmationOpen, setConfirmationOpen] = useState(false); // State for confirmation dialog
+  const navigate = useNavigate(); // Use the navigate hook
 
   useEffect(() => {
     const fetchFlats = async () => {
@@ -41,7 +45,6 @@ const EditFlat = () => {
     fetchFlats();
   }, []);
 
-  // Set formik values when a flat is selected
   useEffect(() => {
     if (selectedFlat) {
       const flat = flats.find(f => f.id === selectedFlat);
@@ -70,27 +73,34 @@ const EditFlat = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      try {
-        const flatDoc = doc(db, 'apartments', selectedFlat);
-        await updateDoc(flatDoc, values);
-        alert('Flat updated successfully');
-        setOpen(false);
-        await fetchFlats(); // Refresh flats list
-      } catch (error) {
-        console.error('Error updating document: ', error);
-      }
+      setConfirmationOpen(true); // Open the confirmation dialog
     },
   });
+
+  const handleConfirmUpdate = async () => {
+    setConfirmationOpen(false); // Close confirmation dialog
+    try {
+      const flatDoc = doc(db, 'apartments', selectedFlat);
+      await updateDoc(flatDoc, formik.values);
+      toast.success('Flat updated successfully'); // Use toast for success message
+      navigate('/'); // Navigate to home page
+      await fetchFlats(); // Refresh flats list
+    } catch (error) {
+      console.error('Error updating document: ', error);
+      
+    }
+  };
 
   const handleDelete = async () => {
     if (!selectedFlat) return;
     try {
       await deleteDoc(doc(db, 'apartments', selectedFlat));
-      alert('Flat deleted successfully');
+      toast.success('Flat deleted successfully'); // Use toast for success message
       setOpen(false);
-      await fetchFlats(); // Refresh flats list
+      navigate('/'); // Navigate to the home page after successful deletion
     } catch (error) {
       console.error('Error deleting document: ', error);
+      toast.error('Error deleting flat'); // Notify user of error
     }
   };
 
@@ -124,6 +134,20 @@ const EditFlat = () => {
       <Typography variant="h4" gutterBottom>
         Manage Flats
       </Typography>
+      
+      <Grid container spacing={2} style={{ marginBottom: '20px' }}>
+        <Grid item>
+          <Button variant="contained" color="primary" onClick={() => navigate('/flats/new')}>
+            Add New Flat
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button variant="contained" color="primary" onClick={() => navigate('/flats/1')}>
+            View Flats
+          </Button>
+        </Grid>
+      </Grid>
+      
       <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
         <div style={{ height: 400, width: '100%' }}>
           <DataGrid rows={flats} columns={columns} pageSize={5} />
@@ -237,6 +261,22 @@ const EditFlat = () => {
           </Button>
           <Button onClick={handleDelete} variant="contained" color="error">
             Delete Flat
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={confirmationOpen} onClose={() => setConfirmationOpen(false)}>
+        <DialogTitle>Confirm Update</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to update this flat?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmationOpen(false)} color="secondary">
+            No
+          </Button>
+          <Button onClick={handleConfirmUpdate} variant="contained" color="primary">
+            Yes
           </Button>
         </DialogActions>
       </Dialog>

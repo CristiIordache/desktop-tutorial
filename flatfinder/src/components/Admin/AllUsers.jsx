@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../services/firebase';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
-import { Table, TableBody, TableCell, TableHead, TableRow, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Container, Paper, Grid, Typography } from '@mui/material';
+import { Table, TableBody, TableCell, TableHead, TableRow, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Container, Paper, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify'; // Import toast
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -18,6 +20,8 @@ const validationSchema = yup.object({
 const AllUsers = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
+  const [confirmationOpen, setConfirmationOpen] = useState(false); // State for confirmation dialog
+  const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -47,17 +51,31 @@ const AllUsers = () => {
     },
     validationSchema,
     enableReinitialize: true,
-    onSubmit: async (values) => {
-      try {
-        const userDoc = doc(db, 'users', editingUser.id);
-        await updateDoc(userDoc, values);
-        setUsers(users.map(user => (user.id === editingUser.id ? values : user)));
-        setEditingUser(null);
-      } catch (error) {
-        console.error('Error updating user:', error);
-      }
+    onSubmit: () => {
+      setConfirmationOpen(true); // Open the confirmation dialog
     },
   });
+
+  const handleConfirmUpdate = async () => {
+    setConfirmationOpen(false); // Close confirmation dialog
+    if (editingUser) {
+      const userDoc = doc(db, 'users', editingUser.id);
+      try {
+        await updateDoc(userDoc, formik.values);
+        setUsers(users.map(user => (user.id === editingUser.id ? { ...user, ...formik.values } : user)));
+        setEditingUser(null);
+        navigate('/admin/users'); // Redirect to users list
+        toast.success('User data has been saved successfully'); // Show success toast
+      } catch (error) {
+        console.error('Error updating user:', error);
+        toast.error('Failed to save user data'); // Show error toast
+      }
+    }
+  };
+
+  const handleCloseConfirmation = () => {
+    setConfirmationOpen(false);
+  };
 
   const handleClose = () => {
     setEditingUser(null);
@@ -172,6 +190,22 @@ const AllUsers = () => {
             </DialogActions>
           </form>
         </DialogContent>
+      </Dialog>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={confirmationOpen} onClose={handleCloseConfirmation}>
+        <DialogTitle>Confirm Changes</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to save these changes?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirmation} color="secondary">
+            No
+          </Button>
+          <Button onClick={handleConfirmUpdate} variant="contained" color="primary">
+            Yes
+          </Button>
+        </DialogActions>
       </Dialog>
     </Container>
   );
