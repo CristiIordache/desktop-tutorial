@@ -7,6 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import MessageBar from "../Messages/MessageBar"; // Component to handle messaging
 
+
 const FlatView = () => {
   // State to store flats and user's favorite flats
   const [flats, setFlats] = useState([]);
@@ -187,7 +188,7 @@ const FlatView = () => {
         </Button>
       </div>
 
-      {/* DataGrid to display flats */}
+      {/* DataGrid to display flats */} 
       <div style={{ height: isMobile ? 400 : 500, width: '100%', overflowX: 'auto' }}>
         <div style={{ minWidth: '700px' }}> {/* Ensure minimum width for horizontal scroll */}
           <DataGrid

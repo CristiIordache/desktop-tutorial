@@ -17,6 +17,7 @@ import PrivateRoute from "./components/Routes/PrivateRoute";
 import LoadingSpinner from "./components/Loading/LoadingSpinner";
 import Header from "../Header";
 import ForgotPassword from "./components/Auth/ForgotPassword";
+import './components/Css/Global.css';
 
 const App = () => {
   const { isLoading } = useAuth(); // Get the loading state from AuthContext

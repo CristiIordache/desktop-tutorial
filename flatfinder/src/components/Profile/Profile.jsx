@@ -48,7 +48,7 @@ const Profile = () => {
   const filteredUserData = Object.entries(userData).filter(([key]) => key !== 'uid');
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="sm" className='custom-container slide-in-left'>
       <Typography variant="h4" gutterBottom>
         Profile
       </Typography>

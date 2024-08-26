@@ -86,7 +86,7 @@ const ProfileUpdate = () => {
   const filteredUserData = Object.keys(userData).filter((key) => key !== 'uid');
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="sm" className='custom-container slide-in-right'>
       <Typography variant="h4" gutterBottom>
         Update Profile
       </Typography>

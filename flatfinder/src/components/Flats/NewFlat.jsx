@@ -69,7 +69,7 @@ const NewFlat = () => {
   };
 
   return (
-    <Container maxWidth="sm"> {/* Container to center and limit form width */}
+    <Container maxWidth="sm" className='custom-container zoom-in'> {/* Container to center and limit form width */}
       <Typography variant="h4" gutterBottom>
         New Flat {/* Page Title */}
       </Typography>

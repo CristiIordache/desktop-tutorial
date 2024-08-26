@@ -8,6 +8,9 @@ import { doc, setDoc } from 'firebase/firestore'; // Import Firestore functions 
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook for programmatic navigation
 import { toast, ToastContainer } from 'react-toastify'; // Import toast for notifications
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify CSS for styling
+import GoogleIcon from '../GoogleIcon/GoogleIcon'; // Import the google icon
+import { Divider } from '@mui/material';
+import TwitterIcon from '@mui/icons-material/Twitter';
 
 // Validation schema for Formik using yup
 const validationSchema = yup.object({
@@ -112,10 +115,10 @@ const Register = () => {
   };
 
   return (
-    <Container maxWidth="sm"> {/* Container with max width "sm" for medium screens */}
+    <Container maxWidth="sm" className='custom-container slide-in-right'> {/* Container with max width "sm" for medium screens */}
       <ToastContainer /> {/* Toast container for displaying notifications */}
-      <Box sx={{ mt: 5 }}> {/* Box component with top margin */}
-        <Typography variant="h4" component="h1" gutterBottom>
+      <Box sx={{ mt: 5, p: 3, boxShadow:3, borderRadius: 2, backgroundColor: 'background.paper'}}> {/* Box component with top margin */}
+        <Typography variant="h4" component="h1" gutterBottom sx={{fontWeight:'bold', textAlign:'center', color:'primary,main'}}>
           Register {/* Heading for the registration form */}
         </Typography>
         <form onSubmit={formik.handleSubmit}> {/* Form with Formik's handleSubmit */}
@@ -178,18 +181,38 @@ const Register = () => {
             margin="normal"
             InputLabelProps={{ shrink: true }} // Ensure the label is always visible for date input
           />
-          <Button color="primary" variant="contained" fullWidth type="submit" sx={{ mt: 2 }}>
-            Register {/* Submit button for registration */}
+          <Button color="primary" variant="contained" fullWidth type="submit" sx={{ mt: 2, backgroundColor:'primary.main', '&:hover': {backgroundColor: 'primary.dark'} }}>
+            Register 
           </Button>
         </form>
+        <Divider sx={{ my: 2 }} />
+        <Typography variant='body2' align='center' color="text.secondary">
+          Or sign in with:
+        </Typography>
         <Button
           color="secondary"
           variant="outlined"
           fullWidth
           onClick={handleGoogleSignIn}
-          sx={{ mt: 2 }}
+          sx={{ mt: 2, display:'flex', alignItems: 'center', justifyContent: 'center' }}
         >
-          Sign in with Google {/* Button for Google sign-in */}
+          <GoogleIcon sx={{mr:1}} />
+          Sign in with Google 
+        </Button>
+        <Divider sx={{ my: 2 }} />
+        <Typography variant='body2' align='center' color="text.secondary">
+          You can also find us on Twitter
+        </Typography>
+        <Button
+          color="primary"
+          variant="outlined"
+          fullWidth
+          href="https://twitter.com/Finder_flat" 
+          target="_blank" // Open link in a new tab
+          sx={{ mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <TwitterIcon sx={{ mr: 1 }} /> 
+          Twitter
         </Button>
       </Box>
     </Container>

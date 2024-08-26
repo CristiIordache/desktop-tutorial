@@ -24,7 +24,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Container maxWidth="xs"> {/* Container to center the form with a max width of "xs" (extra small) */}
+    <Container maxWidth="sm" className='custom-container slide-in-left'> {/* Container to center the form with a max width of "xs" (extra small) */}
       <Box
         sx={{
           mt: 8, // Margin top for spacing

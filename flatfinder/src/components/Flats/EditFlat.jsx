@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs, doc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
 import { db, auth } from '../../services/firebase';
 import { DataGrid } from '@mui/x-data-grid';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Grid, Typography, Paper } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Grid, Typography, Paper, FormControlLabel, Checkbox } from '@mui/material';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -163,9 +163,9 @@ const EditFlat = () => {
       </Paper>
 
       {/* Dialog for editing a flat */}
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" className='zoom-in'>
         <DialogTitle>Edit Flat</DialogTitle>
-        <DialogContent>
+        <DialogContent maxWidth="sm" className='custom-container'>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -250,12 +250,15 @@ const EditFlat = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  name="hasAC"
-                  label="Has AC"
-                  type="checkbox"
+                <FormControlLabel
+                control={
+                  <Checkbox
+                  name='hasAC'
                   checked={formik.values.hasAC}
                   onChange={e => formik.setFieldValue('hasAC', e.target.checked)}
+                  />
+                }
+                label="Has AC"
                 />
               </Grid>
             </Grid>

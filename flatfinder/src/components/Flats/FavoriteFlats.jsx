@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../services/firebase";
 import { DataGrid } from '@mui/x-data-grid';
+import { Container } from "@mui/material";
 
 const FavoriteFlats = () => {
   // State to store favorite flats data
@@ -57,6 +58,7 @@ const FavoriteFlats = () => {
   ];
 
   return (
+    <Container className='custom-container slide-in-right container-more'>
     <div style={{ height: 400, width: '100%' }}>
       <h1>Your Favorite Flats</h1>
       <DataGrid
@@ -67,6 +69,7 @@ const FavoriteFlats = () => {
         checkboxSelection // Enable row selection via checkboxes
       />
     </div>
+    </Container>
   );
 };
 
