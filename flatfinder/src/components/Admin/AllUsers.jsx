@@ -1,3 +1,4 @@
+// src/components/Users/AllUsers.jsx
 import React, { useEffect, useState } from 'react';
 import { db } from '../../services/firebase';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
@@ -6,6 +7,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'; // Import toast for notifications
+
 
 // Validation schema using Yup to validate form inputs
 const validationSchema = yup.object({
@@ -17,53 +19,37 @@ const validationSchema = yup.object({
 });
 
 const AllUsers = () => {
+  // State to hold user data from Firestore
   const [users, setUsers] = useState([]);
+  // State to manage the user currently being edited
   const [editingUser, setEditingUser] = useState(null);
+  // State to control the visibility of the confirmation dialog
   const [confirmationOpen, setConfirmationOpen] = useState(false);
+  // Hook for programmatic navigation
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Function to fetch users from Firestore
     const fetchUsers = async () => {
       try {
         const usersCollection = await getDocs(collection(db, 'users'));
+        // Map the documents to user objects and set them in state
         setUsers(usersCollection.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       } catch (error) {
         console.error('Error fetching users:', error);
       }
     };
     fetchUsers();
-  }, []);
+  }, []); // Empty dependency array means this runs once on component mount
 
+  // Handler for edit button click
   const handleEditClick = (user) => {
     if (!user.isAdmin) {
-      setEditingUser(user);
+      setEditingUser(user); // Set the user to be edited
     }
   };
 
-  const handleBanUser = async (userId) => {
-    try {
-      const userDoc = doc(db, 'users', userId);
-      await updateDoc(userDoc, { isBanned: true });
-      setUsers(users.map(user => (user.id === userId ? { ...user, isBanned: true } : user)));
-      toast.success('User has been banned successfully');
-    } catch (error) {
-      console.error('Error banning user:', error);
-      toast.error('Failed to ban user');
-    }
-  };
-
-  const handleUnbanUser = async (userId) => {
-    try {
-      const userDoc = doc(db, 'users', userId);
-      await updateDoc(userDoc, { isBanned: false });
-      setUsers(users.map(user => (user.id === userId ? { ...user, isBanned: false } : user)));
-      toast.success('User has been unbanned successfully');
-    } catch (error) {
-      console.error('Error unbanning user:', error);
-      toast.error('Failed to unban user');
-    }
-  };
-
+  // Formik setup for form handling
   const formik = useFormik({
     initialValues: editingUser || {
       email: '',
@@ -73,44 +59,49 @@ const AllUsers = () => {
       password: '',
     },
     validationSchema,
-    enableReinitialize: true,
+    enableReinitialize: true, // Reinitialize form if editingUser changes
     onSubmit: () => {
-      setConfirmationOpen(true);
+      setConfirmationOpen(true); // Open confirmation dialog on form submit
     },
   });
 
+  // Confirm update of user data
   const handleConfirmUpdate = async () => {
-    setConfirmationOpen(false);
+    setConfirmationOpen(false); // Close confirmation dialog
     if (editingUser) {
       const userDoc = doc(db, 'users', editingUser.id);
       try {
+        // Update user document in Firestore
         await updateDoc(userDoc, formik.values);
+        // Update user list in state
         setUsers(users.map(user => (user.id === editingUser.id ? { ...user, ...formik.values } : user)));
-        setEditingUser(null);
-        navigate('/admin/users');
-        toast.success('User data has been saved successfully');
+        setEditingUser(null); // Clear editingUser state
+        navigate('/admin/users'); // Redirect to users list
+        toast.success('User data has been saved successfully'); // Success notification
       } catch (error) {
         console.error('Error updating user:', error);
-        toast.error('Failed to save user data');
+        toast.error('Failed to save user data'); // Error notification
       }
     }
   };
 
+  // Close confirmation dialog without saving
   const handleCloseConfirmation = () => {
     setConfirmationOpen(false);
   };
 
+  // Close edit dialog and reset form
   const handleClose = () => {
     setEditingUser(null);
     formik.resetForm();
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" className='bounce-in'>
+      <Paper elevation={3} sx={{ padding: 3 }}>
       <Typography variant="h4" gutterBottom textAlign={"center"}>
         All Users
       </Typography>
-      <Paper elevation={3} sx={{ padding: 3 }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -129,17 +120,12 @@ const AllUsers = () => {
                 <TableCell>{user.firstName}</TableCell>
                 <TableCell>{user.lastName}</TableCell>
                 <TableCell>{user.birthdate}</TableCell>
-                <TableCell>******</TableCell>
+                <TableCell>******</TableCell> {/* Hide password for security reasons */}
                 <TableCell>
-                  {!user.isAdmin && (
-                    <>
-                      <Button onClick={() => handleEditClick(user)}>Edit</Button>
-                      {user.isBanned ? (
-                        <Button onClick={() => handleUnbanUser(user.id)} color="secondary">Unban</Button>
-                      ) : (
-                        <Button onClick={() => handleBanUser(user.id)} color="error">Ban</Button>
-                      )}
-                    </>
+                  {user.isAdmin ? (
+                    <Button disabled>Edit</Button>
+                  ) : (
+                    <Button onClick={() => handleEditClick(user)}>Edit</Button>
                   )}
                 </TableCell>
               </TableRow>
@@ -148,6 +134,7 @@ const AllUsers = () => {
         </Table>
       </Paper>
 
+      {/* Dialog for editing user */}
       <Dialog open={!!editingUser} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>Edit User</DialogTitle>
         <DialogContent>
@@ -220,6 +207,7 @@ const AllUsers = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Confirmation Dialog for saving changes */}
       <Dialog open={confirmationOpen} onClose={handleCloseConfirmation}>
         <DialogTitle>Confirm Changes</DialogTitle>
         <DialogContent>
