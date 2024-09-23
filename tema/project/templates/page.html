@@ -1,0 +1,131 @@
+<!-- 
+Do it yourself 1
+1. Create a folder with 2 directories
+a. data that contain data.json
+[
+{
+"product": "Heart",
+"Description":"Pink Heart",
+"price": "50",
+"image": "💗"
+}
+]
+b. templates - contain page.html - next slides content of page.html
+1. Add to the folder file named server.js
+1
+Add this file to data folder
+142024 © Wawiwa Tech | Confidential2024 © Wawiwa Tech | Confidential
+page.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv ="X-UA-Compatible" content="ie=edge" />
+<title>Products </title>
+<style>
+*
+{
+margin: 0;
+padding: 0;
+box-sizing : inherit;
+}
+html {
+box-sizing : border-box ;
+}
+body {
+background :hsl(110, 100%, 64%);
+}
+.container {
+padding:20px;
+}
+.cards{
+padding: 5px;
+}
+.card{
+border: 5px solid royalblue ;
+width: 25%;
+border-radius : 10px;
+padding: 5px;
+font-size : 20px;
+margin:10px 10px;
+float: left;
+}
+</style>
+</head>
+1
+Add this file to templates folder
+152024 © Wawiwa Tech | Confidential2024 © Wawiwa Tech | Confidential
+page.html continue
+<body>
+<div class="container" >
+<h1>💛 {%PRODUCT%} 💙</h1>
+<div>
+<p>Description : {%DESCRIPTION%} </p>
+<p>Price : {%PRICE%} </p>
+<p>Image : {%IMAGE%} </p>
+</div>
+</div>
+</body>
+</html>
+You can use any sign. (It is not
+mandatory to use the% sign)
+1
+162024 © Wawiwa Tech | Confidential2024 © Wawiwa Tech | Confidential
+Exercise continue
+Create a server that listens to port 3000 and responds with the
+relevant data.json.
+1 -->
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Products</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: inherit;
+    }
+    html {
+      box-sizing: border-box;
+    }
+    body {
+      background: hsl(110, 100%, 64%);
+    }
+    .container {
+      padding: 20px;
+    }
+    .card {
+      border: 5px solid royalblue;
+      width: 25%;
+      border-radius: 10px;
+      padding: 5px;
+      font-size: 20px;
+      margin: 10px;
+      float: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💛 {%PRODUCT%} 💙</h1>
+    <div>
+      <p>Description: {%DESCRIPTION%}</p>
+      <p>Price: {%PRICE%}</p>
+      <p>Image: {%IMAGE%}</p>
+    </div>
+  </div>
+</body>
+</html>
