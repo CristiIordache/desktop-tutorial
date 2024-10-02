@@ -46,19 +46,25 @@ app.post("/cars/:id/:name/:year", function (req, res) {
   const id = req.params.id;
   const id = req.params.name;
   const id = req.params.year;
-    const newCar = { is: is, name: name, year: year };
-    let cars = JSON.parse(fs.readFileSync("./test.json", "utf-8"));
-    fs.writeFile("./test.json", JSON.stringify(cars), function (err, data) {
-        if (err) {
-            res.status(400).send("data not saved")
-        }
-        else {
-            res.status(200).json({ status:"success",data:cars})
-        }
-    })
+  const newCar = { is: is, name: name, year: year };
+  let cars = JSON.parse(fs.readFileSync("./test.json", "utf-8"));
+  fs.writeFile("./test.json", JSON.stringify(cars), function (err, data) {
+    if (err) {
+      res.status(400).send("data not saved");
+    } else {
+      res.status(200).json({ status: "success", data: cars });
+    }
+  });
+});
 
+app.get("/cars/:id", function (req, res) {
+  let id = Number(req.params.id);
+  const result = JSON.parse(fs.readFileSync("./test.json", "utf-8"));
+  let car = result.find(el.id === id);
 
-
+  //sintaxa mai corecte
+  // let car = result.find(el => el.id === id);
+  res.status(200).json(car);
 });
 
 app.listen(port);
