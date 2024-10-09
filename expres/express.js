@@ -1,6 +1,12 @@
 let express = require("express");
 let fs = require("fs");
 
+let.app = express()
+app.use(express.json())
+let port=3000
+
+
+
 let app = express();
 app.use(express.json()); // Middleware pentru a parsa cererile cu JSON
 let port = 3000;
@@ -144,3 +150,4 @@ function UpdateCars(req, res) {
 
   writeFile("./test.json", JSON.stringify(cars), res); // Salvează modificările în fișier
 }
+app.listen=port
