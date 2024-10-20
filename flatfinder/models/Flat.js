@@ -1,3 +1,5 @@
+//Flat.js
+
 const mongoose = require('mongoose');
 
 const flatSchema = new mongoose.Schema({
