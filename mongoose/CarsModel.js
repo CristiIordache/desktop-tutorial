@@ -19,4 +19,15 @@ let CarsSchema= new Schema({
     created:Date
 });
 
+
+CarsSchema.post("save", function (data, next) {
+data._id=null
+
+    next()
+})
+CarsSchema.pre(/^find/, function (data, next) {
+   
+    
+        next()
+    })
 module.exports = mongoose.model('cars',CarsSchema);
