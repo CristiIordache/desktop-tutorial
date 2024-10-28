@@ -1,9 +1,10 @@
+// User Model.js
+
 let mongoose = require("mongoose");
 
 let Schema = mongoose.Schema;
-let utils=require("../utils/utils")
+let utils = require("../utils/utils");
 // let bcrypt=require('bcrypt')
-
 
 let UserSchema = new Schema({
   email: {
@@ -15,9 +16,8 @@ let UserSchema = new Schema({
   },
   password: {
     type: String,
-      required: [true, , "email in use"],
-    minlenght:6
-
+    required: [true, , "email in use"],
+    minlenght: 6,
   },
   firstName: {
     type: String,
@@ -26,22 +26,22 @@ let UserSchema = new Schema({
     type: String,
   },
   create: Date,
-    modified: Date,
-  permissions:{}
+  modified: Date,
+  permissions: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+  },
 });
 
+UserSchema.pre("save", function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  let salt = bcrypt.genSaltSync(12);
 
-UserSchema.pre('save', function (next) {
-    if (!this.isModified('password'))
-    {
-        return next()
-    }
-    let salt = bcrypt.genSaltSync(12)
-
-    this.password = bcrypt.hashSync(this.password, salt)
-    next()
-})
-
-
+  this.password = bcrypt.hashSync(this.password, salt);
+  next();
+});
 
 module.exports = mongoose.model("user", UserSchema);

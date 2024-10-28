@@ -1,4 +1,6 @@
-let bcrypt =require("bcrypt");
+//utils.js
+
+let bcrypt = require("bcrypt");
 let  jwt=require("jsonwebtoken");
 
 exports.auth=function(plainPassword,encrypterPassword){
@@ -16,4 +18,10 @@ exports.singToken = function (userID)
     return token
 
 
+}
+
+exports.decodeTaken = function (token) {
+    let decodeTaken = jwt.decode(token, "cris")
+    utils.decodeTaken(token)
+    return decodeTaken;
 }
