@@ -25,6 +25,7 @@ let UserSchema = new Schema({
   lastName: {
     type: String,
   },
+  passwordChangeToken:String,
   create: Date,
   modified: Date,
   permissions: {
