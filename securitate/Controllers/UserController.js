@@ -1,8 +1,6 @@
-//UserController.js
-
 const UserModel = require("../Models/UserModel");
-const bcrypt = require('bcrypt');
-const utils = require('../utils'); // Assuming a utility file for token handling
+const bcrypt = require('bcrypt'); // Make sure bcrypt is imported at the top
+const utils = require('../utils/utils'); 
 
 // Create a new user
 exports.createUser = function (req, res, next) {
@@ -28,24 +26,23 @@ exports.loginUser = function (req, res, next) {
   UserModel.findOne({ email: loginInfo.email })
     .then((user) => {
       if (!user) {
-        return res.status(404).json({ status: "User not found" });
+        return res.status(404).json({ error: "User not found" });
       }
 
-      if (auth(loginInfo.password, user.password)) {
-        res.json({ status: "Login successful" });
+      // Use the auth method from utils to check the password
+      if (utils.auth(loginInfo.password, user.password)) {
+        // Generate token after successful authentication
+        const token = utils.signToken(user._id); // Use user ID or any unique identifier
+
+        res.json({ token: token }); // Return only the token
       } else {
-        res.status(401).json({ status: "Login failed" });
+        res.status(401).json({ error: "Login failed" }); // Use "error" for consistency
       }
     })
     .catch((err) => {
-      res.status(500).json({ err: err.message });
+      res.status(500).json({ error: err.message }); // Return error message on catch
     });
 };
-
-// Password authentication function
-function auth(plainPassword, encryptedPassword) {
-  return bcrypt.compareSync(plainPassword, encryptedPassword);
-}
 
 // Get user by ID
 exports.getUserbyID = function (req, res, next) {
@@ -83,7 +80,7 @@ exports.verifyToken = function (req, res, next) {
   let token = req.headers.authorization || '';
 
   if (token) {
-    const decodedToken = utils.decodeToken(token); // Assuming a function that decodes the token
+    const decodedToken = utils.decodeToken(token);
     
     if (decodedToken) {
       let userId = decodedToken.id;
@@ -106,13 +103,11 @@ exports.verifyToken = function (req, res, next) {
     next();
   }
 };
-   
 
 exports.isAdmin = function (req, res, next) {
-  if (res.user.permission == 'admin') {
-    next()
+  if (req.user && req.user.permissions === 'admin') {
+    next();
+  } else {
+    res.status(403).json({ error: "Access denied" });
   }
-  else {
-    res.status(400).json({ error: "nu ai aces"})
-  }
-}
+};

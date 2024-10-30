@@ -4,7 +4,7 @@ let mongoose = require("mongoose");
 
 let Schema = mongoose.Schema;
 let utils = require("../utils/utils");
-// let bcrypt=require('bcrypt')
+let bcrypt=require('bcrypt')
 
 let UserSchema = new Schema({
   email: {
@@ -38,6 +38,7 @@ UserSchema.pre("save", function (next) {
   if (!this.isModified("password")) {
     return next();
   }
+
   let salt = bcrypt.genSaltSync(12);
 
   this.password = bcrypt.hashSync(this.password, salt);

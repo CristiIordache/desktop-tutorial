@@ -1,27 +1,22 @@
-//utils.js
-
 let bcrypt = require("bcrypt");
-let  jwt=require("jsonwebtoken");
+let jwt = require("jsonwebtoken");
 
-exports.auth=function(plainPassword,encrypterPassword){
-    let result= bcrypt.compareSync(plainPassword,encrypterPassword);
+exports.auth = function(plainPassword, encryptedPassword) {
+    let result = bcrypt.compareSync(plainPassword, encryptedPassword);
     console.log(result);
     return result;
 }
 
-
-exports.singToken = function (userID)
-{
-    let token = jwt.sign({
-        id: userID
-    }, "cris", { expiresIn: 3600 })
-    return token
-
-
+exports.signToken = function(userID) { // Fixed typo from 'singToken' to 'signToken'
+    let token = jwt.sign(
+        { id: userID },
+        "cris",
+        { expiresIn: 3600 }
+    );
+    return token;
 }
 
-exports.decodeTaken = function (token) {
-    let decodeTaken = jwt.decode(token, "cris")
-    utils.decodeTaken(token)
-    return decodeTaken;
+exports.decodeToken = function(token) { // Fixed typo from 'decodeTaken' to 'decodeToken'
+    let decodedToken = jwt.verify(token, "cris"); // Using verify instead of decode to get the payload
+    return decodedToken;
 }
