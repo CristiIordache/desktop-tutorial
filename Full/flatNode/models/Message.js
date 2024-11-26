@@ -1,4 +1,4 @@
-//Message.js
+//Full\flatNode\models\Message.js
 
 const mongoose = require('mongoose');
 

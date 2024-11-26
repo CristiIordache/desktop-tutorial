@@ -1,4 +1,4 @@
-//flatRoutes.js
+//Full\flatNode\routes\flatRoutes.js
 
 const express = require('express');
 const router = express.Router();
@@ -28,9 +28,8 @@ router.get('/:id', async (req, res) => {
 
 // Add new flat (only owners can add)
 router.post('/', authMiddleware, async (req, res) => {
-    const { city, streetName, streetNumber, areaSize, hasAC, yearBuilt, rentPrice, dateAvailable, ownerId } = req.body;
-    
     try {
+        const { city, streetName, streetNumber, areaSize, hasAC, yearBuilt, rentPrice, dateAvailable } = req.body;
         const newFlat = new Flat({
             city,
             streetName,
@@ -46,7 +45,7 @@ router.post('/', authMiddleware, async (req, res) => {
         await newFlat.save();
         res.status(201).json(newFlat);
     } catch (error) {
-        res.status(500).json({ message: 'Error adding flat.' });
+        res.status(500).json({ message: 'Error adding flat.', error });
     }
 });
 
