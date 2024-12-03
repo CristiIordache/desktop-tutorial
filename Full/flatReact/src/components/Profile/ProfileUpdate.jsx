@@ -1,4 +1,4 @@
-// src/components/Profile/ProfileUpdate.jsx
+// \Full\flatReact\src\components\Profile\ProfileUpdate.jsx
 import React, { useEffect, useState } from 'react';
 import { db, auth } from '../../services/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';

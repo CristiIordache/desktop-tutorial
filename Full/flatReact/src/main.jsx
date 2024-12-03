@@ -1,3 +1,7 @@
+
+//Full\flatReact\src\main.jsx
+
+
 // Importă React, necesar pentru a folosi JSX și pentru a crea componente
 import React from 'react';
 // Importă ReactDOM din pachetul 'react-dom/client' pentru a folosi API-ul `createRoot`

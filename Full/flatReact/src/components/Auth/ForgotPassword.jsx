@@ -1,3 +1,5 @@
+// \Full\flatReact\src\components\Auth\ForgotPassword.jsx
+
 import React, { useState } from 'react'; // Import React and the useState hook for managing component state
 import { sendPasswordResetEmail } from 'firebase/auth'; // Import the function to send a password reset email from Firebase Authentication
 import { auth } from '../../services/firebase'; // Import the Firebase auth instance configured in your service file

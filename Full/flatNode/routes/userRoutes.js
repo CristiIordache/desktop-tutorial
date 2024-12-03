@@ -11,6 +11,9 @@ const authMiddleware = require("../middleware/authMiddleware");
 router.post("/register", async (req, res) => {
   try {
     const { email, password, firstName, lastName, birthDate, isAdmin } = req.body;
+    console.log(req.body);
+    
+
     const newUser = new User({
       email,
       password,

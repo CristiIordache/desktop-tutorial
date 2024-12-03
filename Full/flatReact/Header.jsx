@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+//Full\flatReact\src\Header.jsx
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -13,34 +14,39 @@ import {
   Menu,
   MenuItem,
   useMediaQuery,
-  useTheme
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useAuth } from './src/context/AuthContext';
-import { signOut, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
-import { auth, db } from './src/services/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import styles
-import logo from './src/assets/logo.png';
-import DeleteIcon from '@mui/icons-material/Delete';
+  useTheme,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useAuth } from "./src/context/AuthContext";
+import {
+  signOut,
+  deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+} from "firebase/auth";
+import { auth, db } from "./src/services/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import styles
+import logo from "./src/assets/logo.png";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Header = () => {
   const { currentUser, isAdmin } = useAuth();
-  const [fullName, setFullName] = useState('');
+  const [fullName, setFullName] = useState("");
   const [openConfirmation, setOpenConfirmation] = useState(false);
-  const [password, setPassword] = useState(''); // Add state for password
+  const [password, setPassword] = useState(""); // Add state for password
   const [anchorEl, setAnchorEl] = useState(null); // State for menu anchor
   const openMenu = Boolean(anchorEl);
   const navigate = useNavigate(); // Initialize the useNavigate hook
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (currentUser) {
         try {
-          const userDocRef = doc(db, 'users', currentUser.uid);
+          const userDocRef = doc(db, "users", currentUser.uid);
           const userDoc = await getDoc(userDocRef);
           if (userDoc.exists()) {
             const userData = userDoc.data();
@@ -48,7 +54,7 @@ const Header = () => {
             setFullName(`${firstName} ${lastName}`);
           }
         } catch (error) {
-          console.error('Error fetching user data:', error);
+          console.error("Error fetching user data:", error);
         }
       }
     };
@@ -58,7 +64,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
-    navigate('/login');
+    navigate("/login");
   };
 
   const handleOpenConfirmation = () => {
@@ -72,15 +78,18 @@ const Header = () => {
   const handleReauthenticateAndDelete = async () => {
     try {
       // Create a credential for re-authentication
-      const credential = EmailAuthProvider.credential(currentUser.email, password);
+      const credential = EmailAuthProvider.credential(
+        currentUser.email,
+        password
+      );
       // Re-authenticate the user
       await reauthenticateWithCredential(currentUser, credential);
       // Proceed with account deletion
       await deleteUser(currentUser);
       toast.success("Your account has been deleted.");
-      navigate('/login'); // Redirect to login page after successful deletion
+      navigate("/login"); // Redirect to login page after successful deletion
     } catch (error) {
-      if (error.code === 'auth/requires-recent-login') {
+      if (error.code === "auth/requires-recent-login") {
         toast.error("Please sign in again to delete your account.");
       } else {
         console.error("Error deleting account:", error);
@@ -90,7 +99,7 @@ const Header = () => {
   };
 
   const handleConfirmDelete = () => {
-    toast.info('Delete account process initiated.');
+    toast.info("Delete account process initiated.");
     // Call handleReauthenticateAndDelete after a short delay to ensure the toast is shown
     setTimeout(() => {
       handleReauthenticateAndDelete();
@@ -111,15 +120,15 @@ const Header = () => {
   };
 
   const linkStyle = {
-    textDecoration: 'none',
-    color: 'inherit',
+    textDecoration: "none",
+    color: "inherit",
   };
 
   const activeLinkStyle = {
-    textDecoration: 'none',
-    color: 'inherit',
-    borderBottom: '2px solid #ffeb3b',  // Yellow bar under the active link
-    fontWeight: 'bold',
+    textDecoration: "none",
+    color: "inherit",
+    borderBottom: "2px solid #ffeb3b", // Yellow bar under the active link
+    fontWeight: "bold",
   };
 
   return (
@@ -129,11 +138,18 @@ const Header = () => {
           <img
             src={logo}
             alt="Logo"
-            style={{ height: 50, width: 50, marginRight: '16px', cursor: 'pointer' }}
-            onClick={() => navigate('/')} 
+            style={{
+              height: 50,
+              width: 50,
+              marginRight: "16px",
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/")}
           />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <NavLink to="/" style={linkStyle}>FlatFinder</NavLink>
+            <NavLink to="/" style={linkStyle}>
+              FlatFinder
+            </NavLink>
           </Typography>
           {isSmallScreen ? (
             <>
@@ -150,70 +166,108 @@ const Header = () => {
                 open={openMenu}
                 onClose={handleMenuClose}
               >
-                {currentUser ? (
+                {false ? (
                   <>
-                    <MenuItem onClick={() => handleMenuItemClick('/')}>Home</MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick('/profile')}>My Profile</MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick('/favorites')}>Favorites</MenuItem>
-                    {isAdmin && <MenuItem onClick={() => handleMenuItemClick('/admin/users')}>All Users</MenuItem>}
+                    <MenuItem onClick={() => handleMenuItemClick("/")}>
+                      Home
+                    </MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick("/profile")}>
+                      My Profile
+                    </MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick("/favorites")}>
+                      Favorites
+                    </MenuItem>
+                    {isAdmin && (
+                      <MenuItem
+                        onClick={() => handleMenuItemClick("/admin/users")}
+                      >
+                        All Users
+                      </MenuItem>
+                    )}
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                    <MenuItem onClick={handleOpenConfirmation}>Delete Account</MenuItem>
+                    <MenuItem onClick={handleOpenConfirmation}>
+                      Delete Account
+                    </MenuItem>
                   </>
                 ) : (
                   <>
-                    <MenuItem onClick={() => handleMenuItemClick('/login')}>Login</MenuItem>
-                    <MenuItem onClick={() => handleMenuItemClick('/register')}>Register</MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick("/login")}>
+                      Login
+                    </MenuItem>
+                    <MenuItem onClick={() => handleMenuItemClick("/register")}>
+                      Register
+                    </MenuItem>
                   </>
                 )}
               </Menu>
             </>
           ) : (
             <>
-              {currentUser ? (
+              {true ? (
                 <>
                   <Typography variant="body1" sx={{ marginRight: 2 }}>
-                    Hello, {fullName || 'User'}
+                    Hello, {fullName || "User"}
                   </Typography>
                   <NavLink
                     to="/"
-                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    style={({ isActive }) =>
+                      isActive ? activeLinkStyle : linkStyle
+                    }
                   >
                     <Button color="inherit">Home</Button>
                   </NavLink>
                   <NavLink
                     to="/profile"
-                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    style={({ isActive }) =>
+                      isActive ? activeLinkStyle : linkStyle
+                    }
                   >
                     <Button color="inherit">My Profile</Button>
                   </NavLink>
                   <NavLink
                     to="/favorites"
-                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    style={({ isActive }) =>
+                      isActive ? activeLinkStyle : linkStyle
+                    }
                   >
                     <Button color="inherit">Favorites</Button>
                   </NavLink>
                   {isAdmin && (
                     <NavLink
                       to="/admin/users"
-                      style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                      style={({ isActive }) =>
+                        isActive ? activeLinkStyle : linkStyle
+                      }
                     >
                       <Button color="inherit">All Users</Button>
                     </NavLink>
                   )}
-                  <Button color="inherit" onClick={handleLogout}>Logout</Button>
-                  <Button endIcon={<DeleteIcon />} color="inherit" onClick={handleOpenConfirmation}>Delete Account</Button>
+                  <Button color="inherit" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                  <Button
+                    endIcon={<DeleteIcon />}
+                    color="inherit"
+                    onClick={handleOpenConfirmation}
+                  >
+                    Delete Account
+                  </Button>
                 </>
               ) : (
                 <>
                   <NavLink
                     to="/login"
-                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    style={({ isActive }) =>
+                      isActive ? activeLinkStyle : linkStyle
+                    }
                   >
                     <Button color="inherit">Login</Button>
                   </NavLink>
                   <NavLink
                     to="/register"
-                    style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}
+                    style={({ isActive }) =>
+                      isActive ? activeLinkStyle : linkStyle
+                    }
                   >
                     <Button color="inherit">Register</Button>
                   </NavLink>
@@ -228,7 +282,10 @@ const Header = () => {
       <Dialog open={openConfirmation} onClose={handleCloseConfirmation}>
         <DialogTitle>Confirm Account Deletion</DialogTitle>
         <DialogContent>
-          <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+          <p>
+            Are you sure you want to delete your account? This action cannot be
+            undone.
+          </p>
           <p>Please re-enter your password to confirm.</p>
           <input
             type="password"
@@ -238,7 +295,9 @@ const Header = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseConfirmation} color="primary">Cancel</Button>
+          <Button onClick={handleCloseConfirmation} color="primary">
+            Cancel
+          </Button>
           <Button
             onClick={() => {
               handleCloseConfirmation(); // Close the dialog first

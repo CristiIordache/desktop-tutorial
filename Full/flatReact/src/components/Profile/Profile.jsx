@@ -1,4 +1,4 @@
-// src/components/Profile/Profile.jsx
+// \Full\flatReact\src\components\Profile\Profile.jsx
 
 import React, { useEffect, useState } from 'react';
 import { db, auth } from '../../services/firebase'; // Import Firebase configuration and authentication

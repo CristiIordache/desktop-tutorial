@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const Flat = require('../models/Flat');
+
 const authMiddleware = require('../middleware/authMiddleware');
 
 // Get all flats
@@ -48,6 +49,7 @@ router.post('/', authMiddleware, async (req, res) => {
         res.status(500).json({ message: 'Error adding flat.', error });
     }
 });
+
 
 // Update flat (only the owner can update)
 router.patch('/:id', authMiddleware, async (req, res) => {

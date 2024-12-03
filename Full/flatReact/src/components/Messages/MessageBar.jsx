@@ -1,3 +1,5 @@
+//Full\flatReact\src\components\Messages\MassageBar.jsx
+
 import React, { useState, useEffect } from "react"; // Import React and hooks
 import { collection, addDoc, getDocs, query, where, orderBy } from "firebase/firestore"; // Import Firestore functions
 import { db, auth } from "../../services/firebase"; // Import Firestore database and authentication

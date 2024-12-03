@@ -1,3 +1,5 @@
+//\Full\flatReact\src\components\Flats\FavoriteFlats.jsx
+
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../../services/firebase";

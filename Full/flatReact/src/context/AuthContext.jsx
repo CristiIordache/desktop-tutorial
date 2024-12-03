@@ -41,6 +41,11 @@ export const AuthProvider = ({ children }) => {
 
   const isAuthenticated = !!currentUser;
 
+  // Log pentru debugging
+  useEffect(() => {
+    console.log("Auth State:", { currentUser, isAuthenticated, isLoading });
+  }, [currentUser, isAuthenticated, isLoading]);
+
   return (
     <AuthContext.Provider value={{ currentUser, isAdmin, isAuthenticated, isLoading }}>
       {children}

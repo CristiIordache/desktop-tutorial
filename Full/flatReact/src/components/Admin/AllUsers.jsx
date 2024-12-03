@@ -1,4 +1,4 @@
-// src/components/Users/AllUsers.jsx
+// \Full\flatReact\src\components\AllUsers.jsx
 import React, { useEffect, useState } from 'react';
 import { db } from '../../services/firebase';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
