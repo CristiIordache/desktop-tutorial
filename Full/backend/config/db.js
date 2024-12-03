@@ -1,3 +1,5 @@
+//\Full\backend\config\db.js
+
 const mongoose = require('mongoose');
 const connectionString = process.env.MONGO_URI || 'mongodb+srv://iordachecrysty5:1qaz2wsx@cluster0.bsivr.mongodb.net/Project?retryWrites=true&w=majority&appName=Cluster0';
 

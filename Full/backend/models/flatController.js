@@ -1,3 +1,6 @@
+
+//\Full\backend\models\flatController.js
+
 const Flat = require('../models/Flat');
 
 // Get all flats

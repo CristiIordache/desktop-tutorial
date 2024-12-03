@@ -1,3 +1,6 @@
+
+//\Full\backend\app.js
+
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -8,6 +11,9 @@ const userRoutes = require('./routes/userRoutes'); // ImportÄƒ rutele definite Ã
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const messageRoutes = require("./routes/messageRoutes");
+
+app.use("/api/messages", messageRoutes);
 
 // Middleware-uri
 app.use(bodyParser.json());

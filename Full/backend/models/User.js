@@ -1,3 +1,5 @@
+//\Full\backend\models\User.js
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -8,6 +10,8 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   birthDate: { type: Date, required: true },
   isAdmin: { type: Boolean, default: false },
+  favouriteFlats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Flat' }],
+
 });
 
 // Hash password before saving

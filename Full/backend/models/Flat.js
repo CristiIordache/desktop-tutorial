@@ -1,3 +1,5 @@
+//\Full\backend\models\Flat.js
+
 const mongoose = require('mongoose');
 
 const FlatSchema = new mongoose.Schema({
