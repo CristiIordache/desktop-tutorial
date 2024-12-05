@@ -33,3 +33,26 @@ exports.addMessage = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.replyMessage = async (req, res) => {
+  try {
+    const { id } = req.params; // ID-ul mesajului original
+    const { content } = req.body;
+
+    // Verifică dacă utilizatorul are acces la mesaj
+    const originalMessage = await Message.findById(id);
+    if (!originalMessage) return res.status(404).json({ message: "Original message not found" });
+
+    const newMessage = new Message({
+      content,
+      flatId: originalMessage.flatId,
+      senderId: req.user.id,
+      created: new Date(),
+    });
+
+    await newMessage.save();
+
+    res.status(201).json(newMessage);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

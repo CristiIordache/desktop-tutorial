@@ -14,15 +14,11 @@ exports.registerUser = async (req, res) => {
     if (existingUser)
       return res.status(400).json({ message: "Email already exists" });
 
-    // Generează hash-ul parolei
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Parola hash-uită:", hashedPassword);
-
     const newUser = new User({
       firstName,
       lastName,
       email,
-      password: hashedPassword, // Salvează hash-ul, nu parola brută
+      password, // Trimite parola brută; hashing-ul se face în model
       birthDate,
     });
 
@@ -37,31 +33,30 @@ exports.registerUser = async (req, res) => {
 
 
 
+
 // Log in a user
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Găsește utilizatorul în baza de date
+    // Caută utilizatorul în baza de date
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Compară parola brută cu hash-ul din baza de date
-    console.log("Parola brută:", password);
-    console.log("Hash din baza de date:", user.password);
+    console.log("Utilizator găsit în MongoDB:", user); // Debugging
 
+    // Verifică parola
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log("Rezultatul comparației:", isMatch);
-
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-    // Generează token JWT
+    // Generează token-ul JWT
     const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
+      { id: user._id, isAdmin: user.isAdmin }, // Verifică această proprietate
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "1999999h" }
     );
 
+    console.log("Token generat:", token); // Debugging
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -72,11 +67,15 @@ exports.loginUser = async (req, res) => {
 
 
 
+
 // Get user profile
 exports.getUserProfile = async (req, res) => {
   try {
+    console.log("Utilizator decodat:", req.user); // Debugging
+
     const user = await User.findById(req.user.id).select("-password");
     if (!user) return res.status(404).json({ message: "User not found" });
+
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: error.message });

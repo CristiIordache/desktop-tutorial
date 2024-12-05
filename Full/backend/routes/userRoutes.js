@@ -20,5 +20,5 @@ router.get("/", authMiddleware, adminMiddleware, getAllUsers); // Admin only
 router.get("/:id", authMiddleware, getUserById); // User or Admin
 router.patch("/:id", authMiddleware, updateUser); // Admin or Account Owner
 router.delete("/:id", authMiddleware, deleteUser); // Admin or Account Owner
-
+router.get('/users', authMiddleware, adminMiddleware, getAllUsers);
 module.exports = router;

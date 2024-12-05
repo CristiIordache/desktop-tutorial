@@ -1,5 +1,5 @@
+//Full\backend\app.js
 
-//\Full\backend\app.js
 
 require('dotenv').config();
 const express = require('express');
@@ -7,23 +7,26 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { connect } = require('./config/db');
 
-const userRoutes = require('./routes/userRoutes'); // Importă rutele definite în `userRoutes.js`
+// Importă rutele definite
+const userRoutes = require('./routes/userRoutes');
+const flatRoutes = require('./routes/flatRoutes');
+const messageRoutes = require('./routes/messageRoutes');
 
+// Creează aplicația Express
 const app = express();
 const PORT = process.env.PORT || 5000;
-const messageRoutes = require("./routes/messageRoutes");
-
-app.use("/api/messages", messageRoutes);
 
 // Middleware-uri
 app.use(bodyParser.json());
 app.use(cors());
 
-// Montează rutele
-app.use('/api/users', userRoutes); // Toate rutele din `userRoutes.js` vor avea prefixul `/api/users`
-
 // Conectare la baza de date
 connect();
+
+// Montează rutele
+app.use('/api/users', userRoutes); // Rutele pentru utilizatori
+app.use('/api/flats', flatRoutes); // Rutele pentru flats
+app.use('/api/messages', messageRoutes); // Rutele pentru mesaje
 
 // Pornește serverul
 app.listen(PORT, () => {
