@@ -1,5 +1,3 @@
-//\Full\backend\models\User.js
-
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -10,20 +8,14 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   birthDate: { type: Date, required: true },
   isAdmin: { type: Boolean, default: false },
+  favouriteFlats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Flat' }], // Lista de apartamente favorite
 });
 
-// Middleware-ul `pre` pentru hashing-ul parolei înainte de salvare
+// Middleware pentru hashing-ul parolei
 UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next(); // Evită hashing-ul dacă parola nu a fost modificată
-
-  try {
-    const saltRounds = 10;
-    this.password = await bcrypt.hash(this.password, saltRounds);
-    next();
-  } catch (err) {
-    next(err);
-  }
+  if (!this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
 });
 
 module.exports = mongoose.model("User", UserSchema);
-

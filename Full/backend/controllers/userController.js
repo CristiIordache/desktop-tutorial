@@ -128,3 +128,38 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+
+// Adaugă un apartament la favorite
+exports.addToFavorites = async (req, res) => {
+  try {
+    const { flatId } = req.body; // ID-ul apartamentului de adăugat
+
+    console.log("Flat ID primit:", flatId);
+    console.log("Utilizator autentificat:", req.user);
+
+    // Verifică dacă utilizatorul este conectat
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      console.log("Utilizatorul nu a fost găsit.");
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verifică dacă apartamentul este deja în lista de favorite
+    if (user.favouriteFlats.includes(flatId)) {
+      console.log("Apartamentul este deja în lista de favorite.");
+      return res.status(400).json({ message: "Flat is already in favorites" });
+    }
+
+    // Adaugă apartamentul la lista de favorite
+    user.favouriteFlats.push(flatId);
+    await user.save();
+
+    console.log("Apartamentul a fost adăugat la favorite:", flatId);
+    res.status(200).json({ message: "Flat added to favorites", favouriteFlats: user.favouriteFlats });
+  } catch (error) {
+    console.error("Eroare la adăugarea apartamentului la favorite:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};

@@ -1,6 +1,3 @@
-//Full\backend\app.js
-
-
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -24,9 +21,22 @@ app.use(cors());
 connect();
 
 // Montează rutele
+console.log("Înregistrare rute principale");
 app.use('/api/users', userRoutes); // Rutele pentru utilizatori
 app.use('/api/flats', flatRoutes); // Rutele pentru flats
 app.use('/api/messages', messageRoutes); // Rutele pentru mesaje
+
+
+// Debugging Middleware
+app.use((req, res, next) => {
+  console.log(`Request Received: ${req.method} ${req.url}`);
+  console.log("Headers:", req.headers);
+  console.log("Body:", req.body);
+  next();
+});
+
+
+
 
 // Pornește serverul
 app.listen(PORT, () => {
