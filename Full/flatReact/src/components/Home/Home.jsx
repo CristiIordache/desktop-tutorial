@@ -1,18 +1,12 @@
-// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Home\Home.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Typography, Grid, Box, Container } from '@mui/material';
 import { useAuth } from '../../context/AuthContext';
-import { useEffect } from 'react';
-  
-  
+
 const Home = () => {
   const navigate = useNavigate();
-  // const { currentUser } = useAuth(); // Accesează utilizatorul curent
-  // useEffect(() => {
-  //   console.log(currentUser )
-  // },[]) 
-  
+  const { currentUser } = useAuth(); // Accesează utilizatorul curent
+
   return (
     <Container className="fade-in">
       {/* Hero Section */}
