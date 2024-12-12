@@ -1,39 +1,52 @@
-// \Full\flatReact\src\components\Profile\Profile.jsx
+// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Profile\Profile.jsx
 
-import React, { useEffect, useState } from 'react';
-import { db, auth } from '../../services/firebase'; // Import Firebase configuration and authentication
-import { doc, getDoc } from 'firebase/firestore'; // Import Firestore functions to interact with the database
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Container, Grid } from '@mui/material'; // Import Material UI components for styling
-import { Link } from 'react-router-dom'; // Import Link component for navigation
+import React, { useEffect, useState } from "react";
+import API from "../../services/api";
+import {
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Container,
+  Grid,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null); // State to store user data fetched from Firestore
-  const currentUser = auth.currentUser; // Get the currently authenticated user from Firebase Authentication
+  const [userData, setUserData] = useState(null); // Starea pentru datele utilizatorului
+  const navigate = useNavigate();
 
-  // useEffect hook to fetch user data when the component mounts or when currentUser changes
+  // Fetch datele utilizatorului la montarea componentei
   useEffect(() => {
     const fetchUserData = async () => {
-      if (currentUser) { // Check if there is a current user
-        try {
-          // Get a reference to the user's document in Firestore
-          const userDoc = doc(db, 'users', currentUser.uid); // 'users' is the collection and currentUser.uid is the document ID
-          const docSnap = await getDoc(userDoc); // Fetch the document snapshot
-          if (docSnap.exists()) {
-            // If the document exists, update the state with the user data
-            setUserData(docSnap.data());
-          } else {
-            console.log('No such document!'); // Log if the document does not exist
-          }
-        } catch (error) {
-          console.error('Error fetching user data:', error); // Log any errors that occur during data fetching
-        }
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found, redirecting to login...");
+        navigate("/login"); // Redirectează la login dacă nu există token
+        return;
+      }
+
+      try {
+        const { data } = await API.get("/users/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }); // Apelează API-ul pentru a obține datele utilizatorului
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user data:", error); // Log erorile
+        navigate("/login"); // Redirectează la login în caz de eroare
       }
     };
+    fetchUserData();
+  }, [navigate]);
 
-    fetchUserData(); // Call the function to fetch user data
-  }, [currentUser]); // Dependency array ensures effect runs when currentUser changes
-
-  // Show a loading message while userData is being fetched
+  // Afișează mesajul de încărcare dacă datele nu sunt încă disponibile
   if (!userData) {
     return (
       <Container maxWidth="sm">
@@ -44,13 +57,15 @@ const Profile = () => {
     );
   }
 
-  // Filter out the 'uid' field from userData for display purposes
-  const filteredUserData = Object.entries(userData).filter(([key]) => key !== 'uid');
+  // Filtrează câmpurile sensibile precum `password`
+  const filteredData = Object.entries(userData).filter(
+    ([key]) => key !== "password"
+  );
 
   return (
-    <Container maxWidth="sm" className='custom-container slide-in-left'>
+    <Container maxWidth="sm" className="custom-container slide-in-left">
       <Typography variant="h4" gutterBottom>
-        Profile
+        My Profile
       </Typography>
       <TableContainer component={Paper}>
         <Table>
@@ -61,19 +76,24 @@ const Profile = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* Map over filteredUserData to display each field and its value */}
-            {filteredUserData.map(([key, value]) => (
+            {/* Afișează fiecare câmp și valoarea acestuia */}
+            {filteredData.map(([key, value]) => (
               <TableRow key={key}>
                 <TableCell>{key}</TableCell>
-                <TableCell>{value || 'N/A'}</TableCell> {/* Display 'N/A' if value is empty */}
+                <TableCell>{value || "N/A"}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      {/* Button to navigate to the profile update page */}
+      {/* Buton pentru a naviga la pagina de actualizare a profilului */}
       <Grid container justifyContent="flex-end" sx={{ mt: 2 }}>
-        <Button component={Link} to="/profile/update" variant="contained" color="primary">
+        <Button
+          component={Link}
+          to="/profile/update"
+          variant="contained"
+          color="primary"
+        >
           Edit Profile
         </Button>
       </Grid>

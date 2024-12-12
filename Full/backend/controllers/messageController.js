@@ -33,26 +33,49 @@ exports.addMessage = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 exports.replyMessage = async (req, res) => {
   try {
     const { id } = req.params; // ID-ul mesajului original
-    const { content } = req.body;
+    const { content } = req.body; // Conținutul răspunsului
 
-    // Verifică dacă utilizatorul are acces la mesaj
+    console.log("Mesaj original ID:", id);
+    console.log("Conținut răspuns:", content);
+
+    // Verifică dacă mesajul original există
     const originalMessage = await Message.findById(id);
-    if (!originalMessage) return res.status(404).json({ message: "Original message not found" });
+    if (!originalMessage) {
+      return res.status(404).json({ message: "Original message not found" });
+    }
 
-    const newMessage = new Message({
+    // Creează un nou mesaj ca răspuns
+    const reply = new Message({
       content,
-      flatId: originalMessage.flatId,
-      senderId: req.user.id,
-      created: new Date(),
+      flatId: originalMessage.flatId, // Același flatId ca și mesajul original
+      senderId: req.user.id, // ID-ul utilizatorului care răspunde
     });
 
-    await newMessage.save();
+    await reply.save();
 
-    res.status(201).json(newMessage);
+    console.log("Răspuns creat:", reply);
+    res.status(201).json(reply);
   } catch (error) {
+    console.error("Eroare la crearea răspunsului:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getAllMessages = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log("Flat ID primit pentru mesaje:", id);
+
+    // Obține toate mesajele pentru apartamentul specificat
+    const messages = await Message.find({ flatId: id }).populate("senderId", "firstName lastName");
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error("Eroare la obținerea mesajelor:", error.message);
     res.status(500).json({ error: error.message });
   }
 };

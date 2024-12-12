@@ -1,57 +1,62 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { auth, db } from '../services/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { createContext, useState, useContext, useEffect } from "react";
+import API from "../services/api";
 
-// Creează contextul pentru autentificare
 const AuthContext = createContext();
 
-// Componenta AuthProvider care furnizează contextul de autentificare
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setCurrentUser(user);
-        try {
-          const userDoc = doc(db, 'users', user.uid);
-          const docSnap = await getDoc(userDoc);
-          if (docSnap.exists()) {
-            const userData = docSnap.data();
-            setIsAdmin(userData.isAdmin || false);
-          } else {
-            setIsAdmin(false);
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          setIsAdmin(false);
-        }
-      } else {
-        setCurrentUser(null);
-        setIsAdmin(false);
+    const verifyToken = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false);
-    });
 
-    return () => unsubscribe();
-  }, []);
+      try {
+        const { data } = await API.get("/users/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(data);
+        setCurrentUser(data);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error("Invalid or expired token:", error);
+        localStorage.removeItem("token");
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    const storageToken = localStorage.getItem("token");
+    setToken(storageToken)
+    console.log(token);
+    if (!token) return;
 
-  const isAuthenticated = !!currentUser;
+    verifyToken();
+  }, [token]);
 
-  // Log pentru debugging
-  useEffect(() => {
-    console.log("Auth State:", { currentUser, isAuthenticated, isLoading });
-  }, [currentUser, isAuthenticated, isLoading]);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setCurrentUser(null);
+    setToken(null)
+    setIsAuthenticated(false);
+  };
 
   return (
-    <AuthContext.Provider value={{ currentUser, isAdmin, isAuthenticated, isLoading }}>
+    <AuthContext.Provider
+      value={{ currentUser, isAuthenticated, isLoading, handleLogout }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Hook personalizat pentru a folosi contextul de autentificare în alte componente
 export const useAuth = () => useContext(AuthContext);

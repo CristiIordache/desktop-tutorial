@@ -1,4 +1,6 @@
-import React from 'react';
+//\Full\flatReact\src\components\Routes\PrivateRoute.jsx
+
+
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../Loading/LoadingSpinner'; // Asigură-te că acest fișier există

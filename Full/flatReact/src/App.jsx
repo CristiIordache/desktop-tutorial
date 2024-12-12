@@ -1,32 +1,37 @@
-// Full\flatReact\src\App.jsx
-import React from "react";
-import './components/Css/Global.css';
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import Profile from "./components/Profile/Profile";
+import ProfileUpdate from "./components/Profile/ProfileUpdate";
+import FlatView from "./components/Flats/FlatView";
 import NewFlat from "./components/Flats/NewFlat";
 import EditFlat from "./components/Flats/EditFlat";
-import FlatView from "./components/Flats/FlatView";
+import FavoriteFlats from "./components/Flats/FavoriteFlats";
 import PrivateRoute from "./components/Routes/PrivateRoute";
 import Header from "../Header";
-
-
+import ExampleGrid from "./components/ExampleGrid";
 const App = () => {
   return (
     <>
-      <Header /> {/* Header-ul aplicației */}
+      <Header />
       <Routes>
-        {/* Rute publice */}
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Rute protejate */}
         <Route
-          path="/"
+          path="/profile"
           element={
             <PrivateRoute>
-              <Home />
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile/update"
+          element={
+            <PrivateRoute>
+              <ProfileUpdate />
             </PrivateRoute>
           }
         />
@@ -54,6 +59,16 @@ const App = () => {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/favorites"
+          element={
+            <PrivateRoute>
+              <FavoriteFlats />
+            </PrivateRoute>
+          }
+        />
+        {/* New Route for ExampleGrid */}
+        <Route path="/grid" element={<ExampleGrid />} />
       </Routes>
     </>
   );

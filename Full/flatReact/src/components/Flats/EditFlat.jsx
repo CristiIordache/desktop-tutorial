@@ -1,215 +1,184 @@
-import React, { useState, useEffect } from 'react';
-import { collection, getDocs, doc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
-import { db, auth } from '../../services/firebase';
-import { DataGrid } from '@mui/x-data-grid';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Grid, Typography, Paper, FormControlLabel, Checkbox } from '@mui/material';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Flats\EditFlat.jsx
 
-// Schema de validare pentru formular
-const validationSchema = yup.object({
-  flatName: yup.string().required('Flat name is required'),
-  city: yup.string().required('City is required'),
-  streetName: yup.string().required('Street name is required'),
-  streetNumber: yup.string().required('Street number is required'),
-  yearBuilt: yup.number().required('Year built is required').positive('Year must be positive').integer('Year must be an integer'),
-  rentPrice: yup.number().required('Rent price is required').positive('Price must be positive'),
-  dateAvailable: yup.date().required('Date available is required'),
-  hasAC: yup.boolean(),
-});
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Grid,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import { toast } from "react-toastify";
+import API from "../../services/api";
+import { DataGrid } from "@mui/x-data-grid";
 
 const EditFlat = () => {
-  const [flats, setFlats] = useState([]);
-  const [selectedFlat, setSelectedFlat] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [confirmationOpen, setConfirmationOpen] = useState(false);
-
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [flat, setFlat] = useState(null);
+  const [flats, setFlats] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
 
-  // Funcție pentru a aduce toate apartamentele din Firestore
-  const fetchFlats = async () => {
-    try {
-      if (auth.currentUser) {
-        const q = query(collection(db, 'apartments'), where('uid', '==', auth.currentUser.uid));
-        const flatsCollection = await getDocs(q);
-        const flatsList = flatsCollection.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setFlats(flatsList);
-      }
-    } catch (error) {
-      console.error('Error fetching flats: ', error);
-    }
-  };
-
+  // Fetch all flats
   useEffect(() => {
+    const fetchFlats = async () => {
+      try {
+        const { data } = await API.get("/flats");
+        setFlats(data);
+      } catch (error) {
+        console.error("Error fetching flats:", error);
+      }
+    };
     fetchFlats();
   }, []);
 
+  // Fetch single flat for editing
   useEffect(() => {
-    if (selectedFlat) {
-      const flat = flats.find((f) => f.id === selectedFlat);
-      if (flat) {
-        formik.setValues(flat);
+    const fetchFlat = async () => {
+      if (!id) return;
+      try {
+        const { data } = await API.get(`/flats/${id}`);
+        setFlat(data);
+      } catch (error) {
+        console.error("Error fetching flat:", error);
       }
-    }
-  }, [selectedFlat, flats]);
+    };
+    fetchFlat();
+  }, [id]);
 
-  const formik = useFormik({
-    initialValues: {
-      flatName: '',
-      city: '',
-      streetName: '',
-      streetNumber: '',
-      hasAC: false,
-      yearBuilt: '',
-      rentPrice: '',
-      dateAvailable: '',
-    },
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: async () => {
-      setConfirmationOpen(true);
-    },
-  });
+  const handleEdit = (flatId) => {
+    navigate(`/flats/${flatId}/edit`);
+  };
 
-  const handleConfirmUpdate = async () => {
-    setConfirmationOpen(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const flatDoc = doc(db, 'apartments', selectedFlat);
-      await updateDoc(flatDoc, formik.values);
-      toast.success('Flat updated successfully!');
-      fetchFlats();
-      setOpen(false);
+      await API.put(`/flats/${id}`, flat);
+      toast.success("Flat updated successfully!");
+      navigate("/flats");
     } catch (error) {
-      console.error('Error updating document: ', error);
-      toast.error('Error updating flat.');
+      console.error("Error updating flat:", error);
+      toast.error("Failed to update flat.");
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (flatId) => {
     try {
-      if (!selectedFlat) return;
-      const flatDoc = doc(db, 'apartments', selectedFlat);
-      await deleteDoc(flatDoc);
-      toast.success('Flat deleted successfully!');
-      setOpen(false);
-      fetchFlats();
+      await API.delete(`/flats/${flatId}`);
+      toast.success("Flat deleted successfully!");
+      setFlats(flats.filter((f) => f.id !== flatId));
     } catch (error) {
-      console.error('Error deleting document: ', error);
-      toast.error('Error deleting flat.');
+      console.error("Error deleting flat:", error);
+      toast.error("Failed to delete flat.");
     }
   };
 
-  const handleFlatSelect = (flat) => {
-    setSelectedFlat(flat.id);
-    setOpen(true);
+  const handleDialogClose = () => {
+    setOpenDialog(false);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    formik.resetForm();
-  };
+  if (!flat && id) return <Typography>Loading...</Typography>;
 
   const columns = [
-    { field: 'flatName', headerName: 'Flat Name', width: 150 },
-    { field: 'city', headerName: 'City', width: 100 },
-    { field: 'streetName', headerName: 'Street Name', width: 150 },
-    { field: 'streetNumber', headerName: 'Street Number', width: 130 },
-    { field: 'yearBuilt', headerName: 'Year Built', width: 120 },
-    { field: 'rentPrice', headerName: 'Rent Price', width: 120 },
-    { field: 'dateAvailable', headerName: 'Date Available', width: 150 },
+    { field: "flatName", headerName: "Flat Name", width: 150 },
+    { field: "city", headerName: "City", width: 100 },
+    { field: "rentPrice", headerName: "Rent Price", width: 120 },
     {
-      field: 'edit',
-      headerName: 'Edit',
-      width: 100,
+      field: "actions",
+      headerName: "Actions",
+      width: 150,
       renderCell: (params) => (
-        <Button variant="contained" color="primary" onClick={() => handleFlatSelect(params.row)}>
-          Edit
-        </Button>
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleEdit(params.row.id)}
+            size="small"
+            style={{ marginRight: "10px" }}
+          >
+            Edit
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => handleDelete(params.row.id)}
+            size="small"
+          >
+            Delete
+          </Button>
+        </>
       ),
     },
   ];
 
   return (
-    <div>
-      <Grid container spacing={2} style={{ marginBottom: '20px', marginTop: '20px' }}>
-        <Grid item>
-          <Button variant="contained" color="primary" onClick={() => navigate('/flats/new')}>
-            Add New Flat
-          </Button>
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary" onClick={() => navigate('/flats/1')}>
-            View Flats
-          </Button>
-        </Grid>
-      </Grid>
+    <Container maxWidth="md">
+      <Typography variant="h4" gutterBottom>
+        Manage Flats
+      </Typography>
+      <div style={{ height: 400, width: "100%", marginBottom: "20px" }}>
+        <DataGrid rows={flats} columns={columns} pageSize={5} />
+      </div>
 
-      <Paper elevation={3} style={{ padding: '20px', marginBottom: '20px' }}>
-        <Typography variant="h4" gutterBottom textAlign="center">
-          Manage Flats
-        </Typography>
-        <div style={{ height: 400, width: '100%' }}>
-          <DataGrid rows={flats} columns={columns} pageSize={5} />
-        </div>
-      </Paper>
-
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <DialogTitle>Edit Flat</DialogTitle>
-        <DialogContent>
-          <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="flatName"
-                  label="Flat Name"
-                  fullWidth
-                  value={formik.values.flatName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.flatName && Boolean(formik.errors.flatName)}
-                  helperText={formik.touched.flatName && formik.errors.flatName}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="city"
-                  label="City"
-                  fullWidth
-                  value={formik.values.city}
-                  onChange={formik.handleChange}
-                  error={formik.touched.city && Boolean(formik.errors.city)}
-                  helperText={formik.touched.city && formik.errors.city}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="hasAC"
-                      checked={formik.values.hasAC}
-                      onChange={(e) => formik.setFieldValue('hasAC', e.target.checked)}
-                    />
-                  }
-                  label="Has AC"
-                />
-              </Grid>
+      {id && flat && (
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Flat Name"
+                value={flat.flatName}
+                onChange={(e) => setFlat({ ...flat, flatName: e.target.value })}
+              />
             </Grid>
-          </form>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="City"
+                value={flat.city}
+                onChange={(e) => setFlat({ ...flat, city: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Rent Price"
+                type="number"
+                value={flat.rentPrice}
+                onChange={(e) => setFlat({ ...flat, rentPrice: e.target.value })}
+              />
+            </Grid>
+          </Grid>
+          <Button type="submit" variant="contained" color="primary" style={{ marginTop: "20px" }}>
+            Save Changes
+          </Button>
+        </form>
+      )}
+
+      <Dialog open={openDialog} onClose={handleDialogClose}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to delete this flat?</Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="secondary">
+          <Button onClick={handleDialogClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={formik.handleSubmit} variant="contained" color="primary">
-            Update Flat
-          </Button>
-          <Button onClick={handleDelete} variant="contained" color="error">
-            Delete Flat
+          <Button
+            onClick={() => handleDelete(selectedFlat)}
+            variant="contained"
+            color="error"
+          >
+            Delete
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </Container>
   );
 };
 

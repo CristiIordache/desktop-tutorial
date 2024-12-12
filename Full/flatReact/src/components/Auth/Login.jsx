@@ -1,8 +1,8 @@
-//Full\flatReact\src\components\Auth\Login.jsx
+// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Auth\Login.jsx
 
-import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../services/firebase";
+import { useState } from "react";
+import API from "../../services/api"; // Serviciul API
+import { useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -11,12 +11,8 @@ import {
   Box,
   Link,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast from react-toastify
-import "react-toastify/dist/ReactToastify.css"; // Import the toastify CSS
-import axiosInstance from "../../services/axiosInstance";
-
-import API from "../../services/api";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -26,33 +22,25 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post("/users/login", { email, password });
-      localStorage.setItem("token", data.token); // Salvează token-ul
-      navigate("/home"); // Redirecționează după autentificare
+      const { data } = await API.post("/users/login", { email, password }); // Login API
+      console.log(data.token)
+      localStorage.setItem("token", data.token); // Salvează token-ul în LocalStorage
+      navigate("/"); // Navighează la pagina principală după login
+      // window.location.reload(); // Reîncarcă pagina
     } catch (error) {
       console.error("Login failed:", error);
-      toast.error(error.response?.data?.message || "Login failed.");
+      toast.error(error.response?.data?.message || "Login failed."); // Mesaj de eroare
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await signInWithEmailAndPassword(auth, email, password);
-  //     navigate('/');
-  //   } catch (err) {
-  //     toast.error('Incorrect email or password. Please try again.'); // Display error toast
-  //   }
-  // };
+  
 
   const handleForgotPassword = () => {
-    navigate("/forgot-password");
+    navigate("/forgot-password"); // Navighează la pagina de resetare parolă
   };
 
   return (
     <Container maxWidth="sm" className="custom-container slide-in-left">
-      <ToastContainer />{" "}
-      {/* Add the ToastContainer for displaying toast notifications */}
+      <ToastContainer /> {/* Notificări toast */}
       <Box
         sx={{
           mt: 8,

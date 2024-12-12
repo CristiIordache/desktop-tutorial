@@ -1,14 +1,14 @@
-import React, { useState } from 'react'; 
-import { useFormik } from 'formik'; 
-import * as yup from 'yup'; 
-import { collection, addDoc } from 'firebase/firestore'; 
-import { db, auth } from '../../services/firebase'; 
-import { TextField, Button, Checkbox, FormControlLabel, Grid, Container, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'; 
-import { useNavigate } from 'react-router-dom'; 
-import { toast } from 'react-toastify'; 
-import API from '../../services/api';
+// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Flats\NewFlat.jsx
 
-// Validation schema using Yup
+import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { TextField, Button, Grid, Container, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import API from '../../services/api'; // API pentru cereri backend
+
+// Schema de validare cu Yup
 const validationSchema = yup.object({
   flatName: yup.string().required('Flat Name is required'),
   city: yup.string().required('City is required'),
@@ -23,49 +23,42 @@ const NewFlat = () => {
   const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
 
-  // Formik setup
   const formik = useFormik({
     initialValues: {
       flatName: '',
       city: '',
       streetName: '',
       streetNumber: '',
-      hasAC: false,
       yearBuilt: '',
       rentPrice: '',
       dateAvailable: '',
     },
     validationSchema,
-    onSubmit: () => {
-      setOpenDialog(true); // Open confirmation dialog
+    onSubmit: async (values) => {
+      setOpenDialog(true); // Afișează dialogul de confirmare înainte de a trimite datele
     },
   });
 
-  // Close confirmation dialog
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
 
-  // Confirm and post flat data
   const handleConfirmPost = async () => {
     try {
-      await addDoc(collection(db, 'apartments'), {
-        ...formik.values,
-        uid: auth.currentUser.uid,
-      });
-      toast.success('Apartment posted successfully!');
+      await API.post('/flats', formik.values); // Trimite datele la backend
+      toast.success('Flat added successfully!');
       setOpenDialog(false);
-      navigate('/'); // Redirect to homepage
+      navigate('/flats'); // Navighează la lista de apartamente
     } catch (error) {
-      console.error('Error adding document:', error);
-      toast.error('Failed to post the apartment. Please try again.');
+      console.error('Error adding flat:', error);
+      toast.error('Failed to add flat.');
     }
   };
 
   return (
     <Container maxWidth="sm" className="custom-container zoom-in">
       <Typography variant="h4" gutterBottom>
-        New Flat
+        Add New Flat
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={2}>
@@ -114,18 +107,6 @@ const NewFlat = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="hasAC"
-                  checked={formik.values.hasAC}
-                  onChange={formik.handleChange}
-                />
-              }
-              label="Has AC"
-            />
-          </Grid>
-          <Grid item xs={12}>
             <TextField
               fullWidth
               name="yearBuilt"
@@ -170,7 +151,7 @@ const NewFlat = () => {
         </Grid>
       </form>
 
-      {/* Confirmation Dialog */}
+      {/* Dialog de confirmare */}
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <DialogTitle>Confirm Posting</DialogTitle>
         <DialogContent>
@@ -187,20 +168,6 @@ const NewFlat = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* Navigation Buttons */}
-      <Grid container spacing={2} style={{ marginTop: '20px' }}>
-        <Grid item xs={6}>
-          <Button variant="contained" color="primary" onClick={() => navigate('/flats/1/edit')} fullWidth>
-            Edit Flat
-          </Button>
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="contained" color="primary" onClick={() => navigate('/flats/1')} fullWidth>
-            View Flats
-          </Button>
-        </Grid>
-      </Grid>
     </Container>
   );
 };

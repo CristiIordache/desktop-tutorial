@@ -1,3 +1,5 @@
+//Full\backend\routes\flatRoutes.js
+
 const express = require('express');
 const { getFlats, createFlat, updateFlat, deleteFlat, getFlatById } = require('../controllers/flatController');
 const authMiddleware = require('../middlewares/authMiddleware');
