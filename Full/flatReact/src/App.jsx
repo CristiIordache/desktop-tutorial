@@ -11,6 +11,7 @@ import FavoriteFlats from "./components/Flats/FavoriteFlats";
 import PrivateRoute from "./components/Routes/PrivateRoute";
 import Header from "../Header";
 import ExampleGrid from "./components/ExampleGrid";
+
 const App = () => {
   return (
     <>
@@ -67,8 +68,6 @@ const App = () => {
             </PrivateRoute>
           }
         />
-        {/* New Route for ExampleGrid */}
-        <Route path="/grid" element={<ExampleGrid />} />
       </Routes>
     </>
   );

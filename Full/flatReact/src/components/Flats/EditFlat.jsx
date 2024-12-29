@@ -1,5 +1,3 @@
-// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Flats\EditFlat.jsx
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -12,10 +10,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@mui/material";
 import { toast } from "react-toastify";
 import API from "../../services/api";
-import { DataGrid } from "@mui/x-data-grid";
 
 const EditFlat = () => {
   const { id } = useParams();
@@ -23,13 +27,18 @@ const EditFlat = () => {
   const [flat, setFlat] = useState(null);
   const [flats, setFlats] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
+  const [selectedFlatId, setSelectedFlatId] = useState(null);
 
   // Fetch all flats
   useEffect(() => {
     const fetchFlats = async () => {
       try {
         const { data } = await API.get("/flats");
-        setFlats(data);
+        const flatsWithIds = data.map((flat, index) => ({
+          ...flat,
+          id: flat._id || `generated-id-${index}`, // Ensure each row has a unique ID
+        }));
+        setFlats(flatsWithIds);
       } catch (error) {
         console.error("Error fetching flats:", error);
       }
@@ -51,10 +60,6 @@ const EditFlat = () => {
     fetchFlat();
   }, [id]);
 
-  const handleEdit = (flatId) => {
-    navigate(`/flats/${flatId}/edit`);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -67,63 +72,74 @@ const EditFlat = () => {
     }
   };
 
-  const handleDelete = async (flatId) => {
+  const handleDelete = async () => {
     try {
-      await API.delete(`/flats/${flatId}`);
+      await API.delete(`/flats/${selectedFlatId}`);
+      setFlats(flats.filter((f) => f.id !== selectedFlatId));
       toast.success("Flat deleted successfully!");
-      setFlats(flats.filter((f) => f.id !== flatId));
+      setOpenDialog(false);
     } catch (error) {
       console.error("Error deleting flat:", error);
       toast.error("Failed to delete flat.");
     }
   };
 
+  const handleDialogOpen = (flatId) => {
+    setSelectedFlatId(flatId);
+    setOpenDialog(true);
+  };
+
   const handleDialogClose = () => {
     setOpenDialog(false);
+    setSelectedFlatId(null);
   };
 
   if (!flat && id) return <Typography>Loading...</Typography>;
-
-  const columns = [
-    { field: "flatName", headerName: "Flat Name", width: 150 },
-    { field: "city", headerName: "City", width: 100 },
-    { field: "rentPrice", headerName: "Rent Price", width: 120 },
-    {
-      field: "actions",
-      headerName: "Actions",
-      width: 150,
-      renderCell: (params) => (
-        <>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handleEdit(params.row.id)}
-            size="small"
-            style={{ marginRight: "10px" }}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => handleDelete(params.row.id)}
-            size="small"
-          >
-            Delete
-          </Button>
-        </>
-      ),
-    },
-  ];
 
   return (
     <Container maxWidth="md">
       <Typography variant="h4" gutterBottom>
         Manage Flats
       </Typography>
-      <div style={{ height: 400, width: "100%", marginBottom: "20px" }}>
-        <DataGrid rows={flats} columns={columns} pageSize={5} />
-      </div>
+      <TableContainer component={Paper} style={{ marginBottom: "20px" }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Flat Name</TableCell>
+            
+              <TableCell>City</TableCell>
+              <TableCell>Rent Price</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {flats.map((flat) => (
+              <TableRow key={flat.id}>
+                <TableCell>{flat.flatName}</TableCell>
+                <TableCell>{flat.city}</TableCell>
+                <TableCell>${flat.rentPrice}</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate(`/flats/${flat.id}/edit`)}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleDialogOpen(flat.id)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       {id && flat && (
         <form onSubmit={handleSubmit}>
@@ -169,11 +185,7 @@ const EditFlat = () => {
           <Button onClick={handleDialogClose} color="secondary">
             Cancel
           </Button>
-          <Button
-            onClick={() => handleDelete(selectedFlat)}
-            variant="contained"
-            color="error"
-          >
+          <Button onClick={handleDelete} variant="contained" color="error">
             Delete
           </Button>
         </DialogActions>

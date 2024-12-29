@@ -5,12 +5,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from './src/context/AuthContext';
 
 const Header = () => {
-  const { currentUser, isAuthenticated, handleLogout } = useAuth();
+  const { currentUser, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
   const navigate = useNavigate();
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,16 +25,11 @@ const Header = () => {
     handleMenuClose();
   };
 
-  const linkStyle = {
-    textDecoration: "none",
-    color: "inherit",
-  };
-
+  const linkStyle = { textDecoration: 'none', color: 'inherit' };
   const activeLinkStyle = {
-    textDecoration: "none",
-    color: "inherit",
-    borderBottom: "2px solid #ffeb3b",
-    fontWeight: "bold",
+    ...linkStyle,
+    borderBottom: '2px solid #ffeb3b',
+    fontWeight: 'bold',
   };
 
   return (
@@ -47,52 +42,116 @@ const Header = () => {
         </Typography>
         {isSmallScreen ? (
           <>
-            <IconButton edge="end" color="inherit" aria-label="menu" onClick={handleMenuOpen}>
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenuOpen}
+            >
               <MenuIcon />
             </IconButton>
             <Menu anchorEl={anchorEl} open={openMenu} onClose={handleMenuClose}>
-              {isAuthenticated ? (
-                <>
-                  <MenuItem onClick={() => handleMenuItemClick("/")}>Home</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick("/profile")}>Profile</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick("/flats")}>Flats</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick("/favorites")}>Favorites</MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </>
+              {currentUser ? (
+                [
+                  <MenuItem key="home" onClick={() => handleMenuItemClick('/')}>
+                    Home
+                  </MenuItem>,
+                  <MenuItem
+                    key="profile"
+                    onClick={() => handleMenuItemClick('/profile')}
+                  >
+                    Profile
+                  </MenuItem>,
+                  <MenuItem
+                    key="flats"
+                    onClick={() => handleMenuItemClick('/flats')}
+                  >
+                    Flats
+                  </MenuItem>,
+                  <MenuItem
+                    key="favorites"
+                    onClick={() => handleMenuItemClick('/favorites')}
+                  >
+                    Favorites
+                  </MenuItem>,
+                  <MenuItem key="logout" onClick={logout}>
+                    Logout
+                  </MenuItem>,
+                ]
               ) : (
-                <>
-                  <MenuItem onClick={() => handleMenuItemClick("/login")}>Login</MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick("/register")}>Register</MenuItem>
-                </>
+                [
+                  <MenuItem
+                    key="login"
+                    onClick={() => handleMenuItemClick('/login')}
+                  >
+                    Login
+                  </MenuItem>,
+                  <MenuItem
+                    key="register"
+                    onClick={() => handleMenuItemClick('/register')}
+                  >
+                    Register
+                  </MenuItem>,
+                ]
               )}
             </Menu>
           </>
         ) : (
           <>
-            {isAuthenticated ? (
+            {currentUser ? (
               <>
-                <NavLink to="/" style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}>
+                <NavLink
+                  to="/"
+                  style={({ isActive }) =>
+                    isActive ? activeLinkStyle : linkStyle
+                  }
+                >
                   <Button color="inherit">Home</Button>
                 </NavLink>
-                <NavLink to="/profile" style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}>
+                <NavLink
+                  to="/profile"
+                  style={({ isActive }) =>
+                    isActive ? activeLinkStyle : linkStyle
+                  }
+                >
                   <Button color="inherit">Profile</Button>
                 </NavLink>
-                <NavLink to="/flats" style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}>
+                <NavLink
+                  to="/flats"
+                  style={({ isActive }) =>
+                    isActive ? activeLinkStyle : linkStyle
+                  }
+                >
                   <Button color="inherit">Flats</Button>
                 </NavLink>
-                <NavLink to="/favorites" style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}>
+                <NavLink
+                  to="/favorites"
+                  style={({ isActive }) =>
+                    isActive ? activeLinkStyle : linkStyle
+                  }
+                >
                   <Button color="inherit">Favorites</Button>
                 </NavLink>
-                <Button color="inherit" onClick={handleLogout}>
+                <Button color="inherit" onClick={logout}>
                   Logout
                 </Button>
               </>
             ) : (
               <>
-                <NavLink to="/login" style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}>
+                <NavLink
+                  to="/login"
+                  style={({ isActive }) =>
+                    isActive ? activeLinkStyle : linkStyle
+                  }
+                >
                   <Button color="inherit">Login</Button>
                 </NavLink>
-                <NavLink to="/register" style={({ isActive }) => (isActive ? activeLinkStyle : linkStyle)}>
+                <NavLink
+                  to="/register"
+                  style={({ isActive }) =>
+                    isActive ? activeLinkStyle : linkStyle
+                  }
+                >
                   <Button color="inherit">Register</Button>
                 </NavLink>
               </>

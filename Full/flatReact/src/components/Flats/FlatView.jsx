@@ -1,22 +1,24 @@
+// FlatView.jsx
 import React, { useState, useEffect } from "react";
-import API from "../../services/api";
 import {
-  Checkbox,
-  Modal,
-  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Button,
+  Paper,
   Typography,
   Container,
+  Checkbox,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid"; // Corectat
-import { FavoriteBorder, Favorite, BookmarkBorder, Bookmark } from "@mui/icons-material";
+import API from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const FlatView = () => {
   const [flats, setFlats] = useState([]);
-  const [selectedFlat, setSelectedFlat] = useState(null);
-  const [openMessageBar, setOpenMessageBar] = useState(false);
   const [favorites, setFavorites] = useState(new Set());
   const navigate = useNavigate();
 
@@ -56,100 +58,64 @@ const FlatView = () => {
     });
   };
 
-  const handleSelectFlat = (flat) => {
-    setSelectedFlat(flat);
-    setOpenMessageBar(true);
-  };
-
-  const handleCloseMessageBar = () => {
-    setOpenMessageBar(false);
-    setSelectedFlat(null);
-  };
-
-  const columns = [
-    { field: "flatName", headerName: "Flat Name", flex: 1 },
-    { field: "city", headerName: "City", flex: 1 },
-    { field: "rentPrice", headerName: "Rent Price", flex: 1 },
-    {
-      field: "actions",
-      headerName: "Actions",
-      flex: 1,
-      renderCell: (params) => (
-        <>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate(`/flats/${params.row._id}/edit`)}
-            size="small"
-            style={{ marginRight: "10px" }}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => handleDelete(params.row._id)}
-            size="small"
-          >
-            Delete
-          </Button>
-        </>
-      ),
-    },
-    {
-      field: "favorite",
-      headerName: "Favorite",
-      flex: 1,
-      renderCell: (params) => (
-        <Checkbox
-          icon={<FavoriteBorder />}
-          checkedIcon={<Favorite />}
-          checked={favorites.has(params.row._id)}
-          onClick={() => handleToggleFavorite(params.row._id)}
-        />
-      ),
-    },
-  ];
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
-
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
         All Flats
       </Typography>
-      <div style={{ marginBottom: "20px" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate("/flats/new")}
-          style={{ marginRight: "10px" }}
-        >
-          Add New Flat
-        </Button>
-      </div>
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid rows={flats} columns={columns} pageSize={5} />
-      </div>
-      <Modal open={openMessageBar} onClose={handleCloseMessageBar}>
-        <Box sx={style}>
-          {selectedFlat && (
-            <Typography>
-              Messaging feature will go here for flat: {selectedFlat.flatName}
-            </Typography>
-          )}
-        </Box>
-      </Modal>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => navigate("/flats/new")}
+        style={{ marginBottom: "20px" }}
+      >
+        Add New Flat
+      </Button>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Flat Name</TableCell>
+              <TableCell>City</TableCell>
+              <TableCell>Rent Price</TableCell>
+              <TableCell>Favorite</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {flats.map((flat) => (
+              <TableRow key={flat._id}>
+                <TableCell>{flat.flatName}</TableCell>
+                <TableCell>{flat.city}</TableCell>
+                <TableCell>{flat.rentPrice}</TableCell>
+                <TableCell>
+                  <Checkbox
+                    checked={favorites.has(flat._id)}
+                    onChange={() => handleToggleFavorite(flat._id)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate(`/flats/${flat._id}/edit`)}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleDelete(flat._id)}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Container>
   );
 };

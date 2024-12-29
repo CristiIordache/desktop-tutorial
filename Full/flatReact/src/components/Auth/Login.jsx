@@ -1,6 +1,4 @@
-// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Auth\Login.jsx
-
-import { useState } from "react";
+import React, { useState } from "react";
 import API from "../../services/api"; // Serviciul API
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,24 +21,24 @@ const Login = () => {
     e.preventDefault();
     try {
       const { data } = await API.post("/users/login", { email, password }); // Login API
-      console.log(data.token)
-      localStorage.setItem("token", data.token); // Salvează token-ul în LocalStorage
-      navigate("/"); // Navighează la pagina principală după login
-      // window.location.reload(); // Reîncarcă pagina
+      console.log("Token received:", data.token);
+      localStorage.setItem("token", data.token); // Save the token to LocalStorage
+
+      // Optionally, you can fetch user details and set them in context
+      navigate("/"); // Navigate to the homepage after login
     } catch (error) {
       console.error("Login failed:", error);
-      toast.error(error.response?.data?.message || "Login failed."); // Mesaj de eroare
+      toast.error(error.response?.data?.message || "Login failed."); // Display error message
     }
   };
-  
 
   const handleForgotPassword = () => {
-    navigate("/forgot-password"); // Navighează la pagina de resetare parolă
+    navigate("/forgot-password"); // Navigate to the password reset page
   };
 
   return (
     <Container maxWidth="sm" className="custom-container slide-in-left">
-      <ToastContainer /> {/* Notificări toast */}
+      <ToastContainer /> {/* Notification container */}
       <Box
         sx={{
           mt: 8,

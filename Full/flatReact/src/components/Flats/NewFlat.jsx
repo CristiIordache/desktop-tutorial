@@ -1,14 +1,11 @@
-// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Flats\NewFlat.jsx
-
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { TextField, Button, Grid, Container, Typography, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import API from '../../services/api'; // API pentru cereri backend
+import API from '../../services/api';
 
-// Schema de validare cu Yup
 const validationSchema = yup.object({
   flatName: yup.string().required('Flat Name is required'),
   city: yup.string().required('City is required'),
@@ -35,7 +32,7 @@ const NewFlat = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      setOpenDialog(true); // Afișează dialogul de confirmare înainte de a trimite datele
+      setOpenDialog(true);
     },
   });
 
@@ -45,10 +42,10 @@ const NewFlat = () => {
 
   const handleConfirmPost = async () => {
     try {
-      await API.post('/flats', formik.values); // Trimite datele la backend
+      await API.post('/flats', formik.values);
       toast.success('Flat added successfully!');
       setOpenDialog(false);
-      navigate('/flats'); // Navighează la lista de apartamente
+      navigate('/flats');
     } catch (error) {
       console.error('Error adding flat:', error);
       toast.error('Failed to add flat.');
@@ -151,7 +148,6 @@ const NewFlat = () => {
         </Grid>
       </form>
 
-      {/* Dialog de confirmare */}
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <DialogTitle>Confirm Posting</DialogTitle>
         <DialogContent>

@@ -6,13 +6,10 @@ import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../Loading/LoadingSpinner'; // Asigură-te că acest fișier există
 
 const PrivateRoute = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth(); // Context pentru autentificare
-
-  if (isLoading) {
-    return <LoadingSpinner />; // Spinner de încărcare
-  }
-
-  return isAuthenticated ? children : <Navigate to="/login" />; // Navighează la "/login" dacă utilizatorul nu e autentificat
+  const { currentUser } = useAuth();
+  
+  // If the user is logged in, render the children components
+  return currentUser ? children : <Navigate to="/login" />;
 };
 
 export default PrivateRoute;
