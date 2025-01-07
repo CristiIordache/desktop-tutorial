@@ -19,6 +19,7 @@ import {
   IconButton,
 } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
+import SendIcon from "@mui/icons-material/Send";
 import API from "../../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +60,6 @@ const FlatView = () => {
       toast.error("Failed to fetch messages.");
     }
   };
-  
 
   const handleDelete = async (id) => {
     try {
@@ -99,7 +99,6 @@ const FlatView = () => {
       toast.error("Failed to send message.");
     }
   };
-  
 
   const handleReplyMessage = async (messageId) => {
     const replyContent = prompt("Enter your reply:");
@@ -150,17 +149,26 @@ const FlatView = () => {
                 <TableCell>{new Date(flat.dateAvailable).toISOString().split("T")[0]}</TableCell>
                 <TableCell>{flat.rentPrice}</TableCell>
                 <TableCell>
-                  <IconButton
-                    color="primary"
-                    onClick={() => handleOpenDialog(flat)}
-                  >
-                    <Badge
-                      badgeContent={unreadMessages.has(flat._id) ? "!" : null}
-                      color="secondary"
+                  {flat.ownerId === currentUser?._id ? (
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleOpenDialog(flat)}
                     >
-                      <MailIcon />
-                    </Badge>
-                  </IconButton>
+                      <Badge
+                        badgeContent={unreadMessages.has(flat._id) ? "!" : null}
+                        color="secondary"
+                      >
+                        <MailIcon />
+                      </Badge>
+                    </IconButton>
+                  ) : (
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleOpenDialog(flat)}
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  )}
                 </TableCell>
                 <TableCell>
                   <IconButton

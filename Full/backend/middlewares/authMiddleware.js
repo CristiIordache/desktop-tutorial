@@ -1,3 +1,5 @@
+//C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\backend\middlewares\authMiddleware.js
+
 const jwt = require('jsonwebtoken');
 const User = require('../models/User'); // Importă modelul User
 
