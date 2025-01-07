@@ -52,38 +52,50 @@ exports.getFlatById = async (req, res) => {
   }
 };
 
+
+
+
 // Actualizare flat
+
+
 exports.updateFlat = async (req, res) => {
   try {
-    console.log("Cerere pentru actualizarea flat-ului cu ID:", req.params.id);
-    console.log("Date pentru actualizare:", req.body);
+    const flat = await Flat.findById(req.params.id);
+
+    if (!flat) {
+      return res.status(404).json({ message: "Flat not found" });
+    }
+
+    // Verifică permisiunile utilizatorului
+    if (!req.user.isAdmin && flat.ownerId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "You do not have permission to update this flat." });
+    }
 
     const updatedFlat = await Flat.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedFlat) {
-      console.log("Flat nu a fost găsit pentru actualizare cu ID-ul:", req.params.id);
-      return res.status(404).json({ message: "Flat not found" });
-    }
-    console.log("Flat actualizat cu succes:", updatedFlat);
     res.status(200).json(updatedFlat);
   } catch (error) {
-    console.error("Eroare la actualizarea flat-ului:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
 
-// Ștergere flat
 exports.deleteFlat = async (req, res) => {
   try {
-    console.log("Cerere pentru ștergerea flat-ului cu ID:", req.params.id);
-    const deletedFlat = await Flat.findByIdAndDelete(req.params.id);
-    if (!deletedFlat) {
-      console.log("Flat nu a fost găsit pentru ștergere cu ID-ul:", req.params.id);
+    const flat = await Flat.findById(req.params.id);
+
+    if (!flat) {
       return res.status(404).json({ message: "Flat not found" });
     }
-    console.log("Flat șters cu succes:", deletedFlat);
-    res.status(200).json({ message: "Flat deleted successfully" });
+
+    // Verifică permisiunile utilizatorului
+    if (!req.user.isAdmin && flat.ownerId.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: "You do not have permission to delete this flat." });
+    }
+
+    await flat.deleteOne();
+    res.status(200).json({ message: "Flat deleted successfully." });
   } catch (error) {
-    console.error("Eroare la ștergerea flat-ului:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
+
+

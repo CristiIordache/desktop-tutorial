@@ -24,6 +24,7 @@ const Login = () => {
       console.log("Token received:", data.token);
       localStorage.setItem("token", data.token); // Save the token to LocalStorage
 
+      window.location.reload();
       // Optionally, you can fetch user details and set them in context
       navigate("/"); // Navigate to the homepage after login
     } catch (error) {

@@ -1,5 +1,3 @@
-// C:\Users\Cristian Iordache\Desktop\Teme.html\githab\desktop-tutorial\Full\flatReact\src\components\Profile\Profile.jsx
-
 import React, { useEffect, useState } from "react";
 import API from "../../services/api";
 import {
@@ -18,16 +16,15 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null); // Starea pentru datele utilizatorului
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
 
-  // Fetch datele utilizatorului la montarea componentei
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
         console.error("No token found, redirecting to login...");
-        navigate("/login"); // Redirectează la login dacă nu există token
+        navigate("/login");
         return;
       }
 
@@ -36,17 +33,25 @@ const Profile = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }); // Apelează API-ul pentru a obține datele utilizatorului
-        setUserData(data);
+        });
+
+        // Exclude sensitive fields
+        const sanitizedData = Object.keys(data).reduce((acc, key) => {
+          if (!["_id", "favouriteFlats", "__v"].includes(key)) {
+            acc[key] = data[key];
+          }
+          return acc;
+        }, {});
+
+        setUserData(sanitizedData);
       } catch (error) {
-        console.error("Error fetching user data:", error); // Log erorile
-        navigate("/login"); // Redirectează la login în caz de eroare
+        console.error("Error fetching user data:", error);
+        navigate("/login");
       }
     };
     fetchUserData();
   }, [navigate]);
 
-  // Afișează mesajul de încărcare dacă datele nu sunt încă disponibile
   if (!userData) {
     return (
       <Container maxWidth="sm">
@@ -56,11 +61,6 @@ const Profile = () => {
       </Container>
     );
   }
-
-  // Filtrează câmpurile sensibile precum `password`
-  const filteredData = Object.entries(userData).filter(
-    ([key]) => key !== "password"
-  );
 
   return (
     <Container maxWidth="sm" className="custom-container slide-in-left">
@@ -76,8 +76,7 @@ const Profile = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* Afișează fiecare câmp și valoarea acestuia */}
-            {filteredData.map(([key, value]) => (
+            {Object.entries(userData).map(([key, value]) => (
               <TableRow key={key}>
                 <TableCell>{key}</TableCell>
                 <TableCell>{value || "N/A"}</TableCell>
@@ -86,7 +85,6 @@ const Profile = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* Buton pentru a naviga la pagina de actualizare a profilului */}
       <Grid container justifyContent="flex-end" sx={{ mt: 2 }}>
         <Button
           component={Link}

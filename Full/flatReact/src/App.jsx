@@ -10,7 +10,7 @@ import EditFlat from "./components/Flats/EditFlat";
 import FavoriteFlats from "./components/Flats/FavoriteFlats";
 import PrivateRoute from "./components/Routes/PrivateRoute";
 import Header from "../Header";
-import ExampleGrid from "./components/ExampleGrid";
+import AllUsers from "./components/Admin/AllUsers";
 
 const App = () => {
   return (
@@ -68,7 +68,16 @@ const App = () => {
             </PrivateRoute>
           }
         />
-      </Routes>
+        <Route
+    path="/admin/users"
+    element={
+      <PrivateRoute>
+        <AllUsers />
+      </PrivateRoute>
+    }
+  />
+</Routes>
+ 
     </>
   );
 };

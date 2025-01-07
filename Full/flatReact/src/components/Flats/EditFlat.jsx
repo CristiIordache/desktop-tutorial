@@ -29,16 +29,22 @@ const EditFlat = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedFlatId, setSelectedFlatId] = useState(null);
 
+  // Format date from ISO to yyyy-MM-dd
+  const formatDate = (isoString) => {
+    if (!isoString) return "";
+    const date = new Date(isoString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   // Fetch all flats
   useEffect(() => {
     const fetchFlats = async () => {
       try {
         const { data } = await API.get("/flats");
-        const flatsWithIds = data.map((flat, index) => ({
-          ...flat,
-          id: flat._id || `generated-id-${index}`, // Ensure each row has a unique ID
-        }));
-        setFlats(flatsWithIds);
+        setFlats(data);
       } catch (error) {
         console.error("Error fetching flats:", error);
       }
@@ -52,7 +58,10 @@ const EditFlat = () => {
       if (!id) return;
       try {
         const { data } = await API.get(`/flats/${id}`);
-        setFlat(data);
+        setFlat({
+          ...data,
+          dateAvailable: formatDate(data.dateAvailable), // Format the date
+        });
       } catch (error) {
         console.error("Error fetching flat:", error);
       }
@@ -75,7 +84,7 @@ const EditFlat = () => {
   const handleDelete = async () => {
     try {
       await API.delete(`/flats/${selectedFlatId}`);
-      setFlats(flats.filter((f) => f.id !== selectedFlatId));
+      setFlats(flats.filter((f) => f._id !== selectedFlatId));
       toast.success("Flat deleted successfully!");
       setOpenDialog(false);
     } catch (error) {
@@ -106,23 +115,30 @@ const EditFlat = () => {
           <TableHead>
             <TableRow>
               <TableCell>Flat Name</TableCell>
-            
               <TableCell>City</TableCell>
+              <TableCell>Street Name</TableCell>
+              <TableCell>Street Number</TableCell>
+              <TableCell>Year Built</TableCell>
+              <TableCell>Date Available</TableCell>
               <TableCell>Rent Price</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {flats.map((flat) => (
-              <TableRow key={flat.id}>
+              <TableRow key={flat._id}>
                 <TableCell>{flat.flatName}</TableCell>
                 <TableCell>{flat.city}</TableCell>
-                <TableCell>${flat.rentPrice}</TableCell>
+                <TableCell>{flat.streetName}</TableCell>
+                <TableCell>{flat.streetNumber}</TableCell>
+                <TableCell>{flat.yearBuilt}</TableCell>
+                <TableCell>{formatDate(flat.dateAvailable)}</TableCell>
+                <TableCell>{flat.rentPrice}</TableCell>
                 <TableCell>
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => navigate(`/flats/${flat.id}/edit`)}
+                    onClick={() => navigate(`/flats/${flat._id}/edit`)}
                     style={{ marginRight: "10px" }}
                   >
                     Edit
@@ -130,7 +146,7 @@ const EditFlat = () => {
                   <Button
                     variant="contained"
                     color="error"
-                    onClick={() => handleDialogOpen(flat.id)}
+                    onClick={() => handleDialogOpen(flat._id)}
                   >
                     Delete
                   </Button>
@@ -163,8 +179,41 @@ const EditFlat = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
+                label="Street Name"
+                value={flat.streetName}
+                onChange={(e) => setFlat({ ...flat, streetName: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Street Number"
+                value={flat.streetNumber}
+                onChange={(e) => setFlat({ ...flat, streetNumber: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Year Built"
+                value={flat.yearBuilt}
+                onChange={(e) => setFlat({ ...flat, yearBuilt: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Date Available"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                value={flat.dateAvailable}
+                onChange={(e) => setFlat({ ...flat, dateAvailable: e.target.value })}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
                 label="Rent Price"
-                type="number"
                 value={flat.rentPrice}
                 onChange={(e) => setFlat({ ...flat, rentPrice: e.target.value })}
               />

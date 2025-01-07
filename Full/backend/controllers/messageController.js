@@ -2,15 +2,19 @@
 
 const Message = require("../models/Message");
 
-exports.getAllMessages = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const messages = await Message.find({ flatId: id }).populate("senderId", "firstName lastName");
-    res.status(200).json(messages);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+
+const Flat = require("../models/Flat");
+
+// const getAllMessages = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const messages = await Message.find({ flatId: id }).populate("senderId", "firstName lastName");
+//     res.status(200).json(messages);
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
+
 
 exports.getUserMessages = async (req, res) => {
   try {
@@ -44,9 +48,19 @@ exports.replyMessage = async (req, res) => {
     console.log("Conținut răspuns:", content);
 
     // Verifică dacă mesajul original există
-    const originalMessage = await Message.findById(id);
+    const originalMessage = await Message.findById(id).populate("flatId");
     if (!originalMessage) {
       return res.status(404).json({ message: "Original message not found" });
+    }
+
+    // Verifică dacă utilizatorul are permisiunea de a răspunde
+    const flat = await Flat.findById(originalMessage.flatId);
+    if (!flat) {
+      return res.status(404).json({ message: "Flat not found" });
+    }
+
+    if (flat.ownerId.toString() !== req.user._id.toString() && !req.user.isAdmin) {
+      return res.status(403).json({ message: "You do not have permission to reply to this message." });
     }
 
     // Creează un nou mesaj ca răspuns
@@ -68,14 +82,13 @@ exports.replyMessage = async (req, res) => {
 
 exports.getAllMessages = async (req, res) => {
   try {
-    const { id } = req.params;
-    console.log("Flat ID primit pentru mesaje:", id);
-
-    // Obține toate mesajele pentru apartamentul specificat
-    const messages = await Message.find({ flatId: id }).populate("senderId", "firstName lastName");
+    console.log("Request Params:", req.params);
+    console.log("Fetching messages for flat ID:", req.params.id);
+    const messages = await Message.find({ flatId: req.params.id });
     res.status(200).json(messages);
   } catch (error) {
-    console.error("Eroare la obținerea mesajelor:", error.message);
+    console.error("Error fetching messages:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
+

@@ -1,4 +1,3 @@
-// FavoriteFlats.jsx
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -7,7 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Button,
+  IconButton,
   Paper,
   Typography,
   Container,
@@ -22,20 +21,23 @@ const FavoriteFlats = () => {
     const fetchFavorites = async () => {
       try {
         const { data } = await API.get("/users/favorites");
+        console.log("Favorite Flats Data:", data); // Verifică datele primite de la backend
         setFavoriteFlats(data);
       } catch (error) {
-        console.error("Error fetching favorites:", error.response?.data || error.message);
-        toast.error(error.response?.data?.message || "Failed to load favorite flats.");
+        console.error("Error fetching favorites:", error);
+        toast.error("Failed to load favorite flats.");
       }
     };
+  
     fetchFavorites();
   }, []);
+  
   
 
   const handleRemoveFavorite = async (flatId) => {
     try {
       await API.post("/users/favorites/remove", { flatId });
-      setFavoriteFlats(favoriteFlats.filter((flat) => flat._id !== flatId));
+      setFavoriteFlats((prev) => prev.filter((flat) => flat._id !== flatId));
       toast.success("Flat removed from favorites.");
     } catch (error) {
       console.error("Error removing favorite:", error);
@@ -65,13 +67,12 @@ const FavoriteFlats = () => {
                 <TableCell>{flat.city}</TableCell>
                 <TableCell>{flat.rentPrice}</TableCell>
                 <TableCell>
-                  <Button
-                    variant="contained"
-                    color="secondary"
+                  <IconButton
+                    color="error"
                     onClick={() => handleRemoveFavorite(flat._id)}
                   >
-                    Remove
-                  </Button>
+                    🗑️
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}

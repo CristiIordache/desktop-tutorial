@@ -5,6 +5,102 @@ const User = require("../models/User"); // MongoDB User model
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+
+
+
+exports.addToFavorites = async (req, res) => {
+  try {
+    const { flatId } = req.body;
+
+    if (!flatId) {
+      return res.status(400).json({ message: "Flat ID is required" });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Convert all IDs to strings for comparison
+    const isAlreadyFavorite = user.favouriteFlats.some((id) => id.toString() === flatId);
+
+    if (isAlreadyFavorite) {
+      return res.status(400).json({ message: "Flat is already in favorites" });
+    }
+
+    user.favouriteFlats.unshift(flatId); // Adaugă la începutul listei
+    await user.save();
+
+    res.status(200).json({ message: "Flat added to favorites", favouriteFlats: user.favouriteFlats });
+  } catch (error) {
+    console.error("Error adding to favorites:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+  console.log("Request body in addToFavorites:", req.body);
+console.log("User favorite flats before adding:", user.favouriteFlats);
+
+};
+
+
+
+exports.removeFromFavorites = async (req, res) => {
+  try {
+    const { flatId } = req.body;
+    if (!flatId) {
+      return res.status(400).json({ message: "Flat ID is required" });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Filter out the `flatId` after converting both to strings
+    user.favouriteFlats = user.favouriteFlats.filter((id) => id.toString() !== flatId);
+    await user.save();
+
+    res.status(200).json({ message: "Flat removed from favorites", favouriteFlats: user.favouriteFlats });
+  } catch (error) {
+    console.error("Error removing from favorites:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+exports.getFavorites = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate("favouriteFlats");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user.favouriteFlats);
+  } catch (error) {
+    console.error("Error fetching favorites:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Register a new user
 exports.registerUser = async (req, res) => {
   try {
@@ -109,14 +205,26 @@ exports.getUserById = async (req, res) => {
 // Update user (Admin or Account Owner)
 exports.updateUser = async (req, res) => {
   try {
-    const { id } = req.params;
+    console.log("Request body:", req.body);
+    console.log("Authenticated user ID:", req.user.id);
+
+    const userId = req.user.id;
     const updates = req.body;
-    const updatedUser = await User.findByIdAndUpdate(id, updates, { new: true }).select("-password");
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true }).select('-password');
+    if (!updatedUser) {
+      console.log("User not found with ID:", userId);
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    console.log("Updated user:", updatedUser);
     res.status(200).json(updatedUser);
   } catch (error) {
+    console.error("Error updating user:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Delete user (Admin or Account Owner)
 exports.deleteUser = async (req, res) => {

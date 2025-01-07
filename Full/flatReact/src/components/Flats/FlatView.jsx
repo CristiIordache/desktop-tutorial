@@ -1,4 +1,3 @@
-// FlatView.jsx
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -11,17 +10,32 @@ import {
   Paper,
   Typography,
   Container,
-  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Badge,
+  IconButton,
 } from "@mui/material";
+import MailIcon from "@mui/icons-material/Mail";
 import API from "../../services/api";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext"; // Import useAuth
 
 const FlatView = () => {
   const [flats, setFlats] = useState([]);
-  const [favorites, setFavorites] = useState(new Set());
+  const [selectedFlat, setSelectedFlat] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [unreadMessages, setUnreadMessages] = useState(new Set());
   const navigate = useNavigate();
 
+  const { currentUser } = useAuth(); // Access currentUser from AuthContext
+
+  // Fetch flats on load
   useEffect(() => {
     const fetchFlats = async () => {
       try {
@@ -35,6 +49,18 @@ const FlatView = () => {
     fetchFlats();
   }, []);
 
+  // Fetch messages for a flat
+  const fetchMessages = async (flatId) => {
+    try {
+      const { data } = await API.get(`/flats/${flatId}/messages`);
+      setMessages(data);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      toast.error("Failed to fetch messages.");
+    }
+  };
+  
+
   const handleDelete = async (id) => {
     try {
       await API.delete(`/flats/${id}`);
@@ -46,16 +72,51 @@ const FlatView = () => {
     }
   };
 
-  const handleToggleFavorite = (flatId) => {
-    setFavorites((prevFavorites) => {
-      const updatedFavorites = new Set(prevFavorites);
-      if (updatedFavorites.has(flatId)) {
-        updatedFavorites.delete(flatId);
-      } else {
-        updatedFavorites.add(flatId);
-      }
-      return updatedFavorites;
-    });
+  const handleOpenDialog = (flat) => {
+    setSelectedFlat(flat);
+    fetchMessages(flat._id);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedFlat(null);
+    setMessages([]);
+  };
+
+  const handleSendMessage = async () => {
+    if (!newMessage.trim()) {
+      toast.error("Message cannot be empty.");
+      return;
+    }
+    try {
+      await API.post(`/flats/${selectedFlat._id}/messages`, { content: newMessage });
+      toast.success("Message sent successfully!");
+      setNewMessage("");
+      fetchMessages(selectedFlat._id); // Refresh the messages
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message.");
+    }
+  };
+  
+
+  const handleReplyMessage = async (messageId) => {
+    const replyContent = prompt("Enter your reply:");
+
+    if (!replyContent || !replyContent.trim()) {
+      toast.error("Reply cannot be empty.");
+      return;
+    }
+
+    try {
+      await API.post(`/messages/reply/${messageId}`, { content: replyContent });
+      toast.success("Reply sent successfully!");
+      fetchMessages(selectedFlat._id);
+    } catch (error) {
+      console.error("Error replying to message:", error);
+      toast.error("Failed to send reply.");
+    }
   };
 
   return (
@@ -63,22 +124,18 @@ const FlatView = () => {
       <Typography variant="h4" gutterBottom>
         All Flats
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => navigate("/flats/new")}
-        style={{ marginBottom: "20px" }}
-      >
-        Add New Flat
-      </Button>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>Flat Name</TableCell>
               <TableCell>City</TableCell>
+              <TableCell>Street Name</TableCell>
+              <TableCell>Street Number</TableCell>
+              <TableCell>Year Built</TableCell>
+              <TableCell>Date Available</TableCell>
               <TableCell>Rent Price</TableCell>
-              <TableCell>Favorite</TableCell>
+              <TableCell>Messages</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -87,35 +144,89 @@ const FlatView = () => {
               <TableRow key={flat._id}>
                 <TableCell>{flat.flatName}</TableCell>
                 <TableCell>{flat.city}</TableCell>
+                <TableCell>{flat.streetName}</TableCell>
+                <TableCell>{flat.streetNumber}</TableCell>
+                <TableCell>{flat.yearBuilt}</TableCell>
+                <TableCell>{new Date(flat.dateAvailable).toISOString().split("T")[0]}</TableCell>
                 <TableCell>{flat.rentPrice}</TableCell>
                 <TableCell>
-                  <Checkbox
-                    checked={favorites.has(flat._id)}
-                    onChange={() => handleToggleFavorite(flat._id)}
-                  />
+                  <IconButton
+                    color="primary"
+                    onClick={() => handleOpenDialog(flat)}
+                  >
+                    <Badge
+                      badgeContent={unreadMessages.has(flat._id) ? "!" : null}
+                      color="secondary"
+                    >
+                      <MailIcon />
+                    </Badge>
+                  </IconButton>
                 </TableCell>
                 <TableCell>
-                  <Button
-                    variant="contained"
+                  <IconButton
                     color="primary"
                     onClick={() => navigate(`/flats/${flat._id}/edit`)}
-                    style={{ marginRight: "10px" }}
                   >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
+                    🖉
+                  </IconButton>
+                  <IconButton
+                    color="error"
                     onClick={() => handleDelete(flat._id)}
                   >
-                    Delete
-                  </Button>
+                    🗑️
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Dialog for messages */}
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <DialogTitle>Messages for {selectedFlat?.flatName}</DialogTitle>
+        <DialogContent>
+          <Typography variant="h6">Messages:</Typography>
+          {messages.map((msg) => (
+            <Paper key={msg._id} style={{ padding: "10px", margin: "10px 0" }}>
+              <Typography>
+                <b>From:</b> {msg.senderId?.firstName} {msg.senderId?.lastName}
+              </Typography>
+              <Typography>{msg.content}</Typography>
+              {selectedFlat?.ownerId === currentUser?._id && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => handleReplyMessage(msg._id)}
+                >
+                  Reply
+                </Button>
+              )}
+            </Paper>
+          ))}
+          {selectedFlat?.ownerId !== currentUser?._id && (
+            <TextField
+              fullWidth
+              label="New Message"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              style={{ marginTop: "10px" }}
+            />
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="secondary">
+            Close
+          </Button>
+          <Button
+            onClick={handleSendMessage}
+            color="primary"
+            disabled={selectedFlat?.ownerId === currentUser?._id}
+          >
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

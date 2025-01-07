@@ -10,7 +10,7 @@ const Header = () => {
   const openMenu = Boolean(anchorEl);
   const navigate = useNavigate();
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,11 +25,11 @@ const Header = () => {
     handleMenuClose();
   };
 
-  const linkStyle = { textDecoration: 'none', color: 'inherit' };
+  const linkStyle = { textDecoration: "none", color: "inherit" };
   const activeLinkStyle = {
     ...linkStyle,
-    borderBottom: '2px solid #ffeb3b',
-    fontWeight: 'bold',
+    borderBottom: "2px solid #ffeb3b",
+    fontWeight: "bold",
   };
 
   return (
@@ -53,27 +53,32 @@ const Header = () => {
             <Menu anchorEl={anchorEl} open={openMenu} onClose={handleMenuClose}>
               {currentUser ? (
                 [
-                  <MenuItem key="home" onClick={() => handleMenuItemClick('/')}>
+                  <MenuItem
+                    key="home"
+                    onClick={() => handleMenuItemClick("/")}
+                  >
                     Home
                   </MenuItem>,
                   <MenuItem
                     key="profile"
-                    onClick={() => handleMenuItemClick('/profile')}
+                    onClick={() => handleMenuItemClick("/profile")}
                   >
                     Profile
                   </MenuItem>,
                   <MenuItem
                     key="flats"
-                    onClick={() => handleMenuItemClick('/flats')}
+                    onClick={() => handleMenuItemClick("/flats")}
                   >
                     Flats
                   </MenuItem>,
-                  <MenuItem
-                    key="favorites"
-                    onClick={() => handleMenuItemClick('/favorites')}
-                  >
-                    Favorites
-                  </MenuItem>,
+                  currentUser.isAdmin && (
+                    <MenuItem
+                      key="all-users"
+                      onClick={() => handleMenuItemClick("/admin/users")}
+                    >
+                      All Users
+                    </MenuItem>
+                  ),
                   <MenuItem key="logout" onClick={logout}>
                     Logout
                   </MenuItem>,
@@ -82,13 +87,13 @@ const Header = () => {
                 [
                   <MenuItem
                     key="login"
-                    onClick={() => handleMenuItemClick('/login')}
+                    onClick={() => handleMenuItemClick("/login")}
                   >
                     Login
                   </MenuItem>,
                   <MenuItem
                     key="register"
-                    onClick={() => handleMenuItemClick('/register')}
+                    onClick={() => handleMenuItemClick("/register")}
                   >
                     Register
                   </MenuItem>,
@@ -124,14 +129,16 @@ const Header = () => {
                 >
                   <Button color="inherit">Flats</Button>
                 </NavLink>
-                <NavLink
-                  to="/favorites"
-                  style={({ isActive }) =>
-                    isActive ? activeLinkStyle : linkStyle
-                  }
-                >
-                  <Button color="inherit">Favorites</Button>
-                </NavLink>
+                {currentUser.isAdmin && (
+                  <NavLink
+                    to="/admin/users"
+                    style={({ isActive }) =>
+                      isActive ? activeLinkStyle : linkStyle
+                    }
+                  >
+                    <Button color="inherit">All Users</Button>
+                  </NavLink>
+                )}
                 <Button color="inherit" onClick={logout}>
                   Logout
                 </Button>
