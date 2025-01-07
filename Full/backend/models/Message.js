@@ -1,13 +1,10 @@
-
-//\Full\backend\models\Message.js
-
 const mongoose = require("mongoose");
 
-const MessageSchema = new mongoose.Schema({
-  content: { type: String, required: true },
-  flatId: { type: mongoose.Schema.Types.ObjectId, ref: "Flat", required: true },
-  senderId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  created: { type: Date, default: Date.now },
+const messageSchema = new mongoose.Schema({
+  content: String,
+  senderId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  flatId: { type: mongoose.Schema.Types.ObjectId, ref: "Flat" },
+  replyTo: { type: mongoose.Schema.Types.ObjectId, ref: "Message", default: null },
 });
 
-module.exports = mongoose.model("Message", MessageSchema);
+module.exports = mongoose.model("Message", messageSchema);

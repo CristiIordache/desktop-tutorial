@@ -23,7 +23,7 @@ import SendIcon from "@mui/icons-material/Send";
 import API from "../../services/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext"; // Import useAuth
+import { useAuth } from "../../context/AuthContext";
 
 const FlatView = () => {
   const [flats, setFlats] = useState([]);
@@ -34,7 +34,7 @@ const FlatView = () => {
   const [unreadMessages, setUnreadMessages] = useState(new Set());
   const navigate = useNavigate();
 
-  const { currentUser } = useAuth(); // Access currentUser from AuthContext
+  const { currentUser } = useAuth();
 
   // Fetch flats on load
   useEffect(() => {
@@ -54,6 +54,7 @@ const FlatView = () => {
   const fetchMessages = async (flatId) => {
     try {
       const { data } = await API.get(`/flats/${flatId}/messages`);
+      console.log("Messages fetched:", data);
       setMessages(data);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -93,7 +94,7 @@ const FlatView = () => {
       await API.post(`/flats/${selectedFlat._id}/messages`, { content: newMessage });
       toast.success("Message sent successfully!");
       setNewMessage("");
-      fetchMessages(selectedFlat._id); // Refresh the messages
+      fetchMessages(selectedFlat._id);
     } catch (error) {
       console.error("Error sending message:", error);
       toast.error("Failed to send message.");
@@ -102,21 +103,24 @@ const FlatView = () => {
 
   const handleReplyMessage = async (messageId) => {
     const replyContent = prompt("Enter your reply:");
-
+  
     if (!replyContent || !replyContent.trim()) {
       toast.error("Reply cannot be empty.");
       return;
     }
-
+  
     try {
-      await API.post(`/messages/reply/${messageId}`, { content: replyContent });
+      const response = await API.post(`/replies/${messageId}`, { content: replyContent });
+      console.log("Reply API Response:", response.data);
       toast.success("Reply sent successfully!");
-      fetchMessages(selectedFlat._id);
+      fetchMessages(selectedFlat._id); // Reîmprospătează mesajele
     } catch (error) {
-      console.error("Error replying to message:", error);
+      console.error("Error replying to message:", error.response || error.message);
       toast.error("Failed to send reply.");
     }
   };
+  
+
 
   return (
     <Container>
@@ -195,32 +199,35 @@ const FlatView = () => {
         <DialogTitle>Messages for {selectedFlat?.flatName}</DialogTitle>
         <DialogContent>
           <Typography variant="h6">Messages:</Typography>
-          {messages.map((msg) => (
-            <Paper key={msg._id} style={{ padding: "10px", margin: "10px 0" }}>
-              <Typography>
-                <b>From:</b> {msg.senderId?.firstName} {msg.senderId?.lastName}
-              </Typography>
-              <Typography>{msg.content}</Typography>
-              {selectedFlat?.ownerId === currentUser?._id && (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => handleReplyMessage(msg._id)}
-                >
-                  Reply
-                </Button>
-              )}
-            </Paper>
-          ))}
-          {selectedFlat?.ownerId !== currentUser?._id && (
-            <TextField
-              fullWidth
-              label="New Message"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              style={{ marginTop: "10px" }}
-            />
+          {Array.isArray(messages) && messages.length > 0 ? (
+            messages.map((msg) => (
+              <Paper key={msg._id} style={{ padding: "10px", margin: "10px 0" }}>
+                <Typography>
+                  <b>From:</b> {msg.senderId?.firstName || "Anonymous"} {msg.senderId?.lastName || ""}
+                </Typography>
+                <Typography>{msg.content}</Typography>
+                {selectedFlat?.ownerId === currentUser?._id && (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleReplyMessage(msg._id)}
+                  >
+                    Reply
+                  </Button>
+                )}
+              </Paper>
+            ))
+          ) : (
+            <Typography>No messages available.</Typography>
           )}
+          {/* Afișează câmpul de text pentru trimiterea mesajelor pentru toți utilizatorii */}
+          <TextField
+            fullWidth
+            label="New Message"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            style={{ marginTop: "10px" }}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="secondary">
